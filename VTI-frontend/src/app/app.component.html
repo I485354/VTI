@@ -1,0 +1,8 @@
+<div class="app-container" [class.collapsed]="collapsed">
+  <app-sidebar (collapsedChange)="onToggleSidebar($event)"></app-sidebar>
+
+  <div class="main-content">
+    <router-outlet></router-outlet> <!-- Hier wordt de pagina-inhoud geladen -->
+  </div>
+</div>
+

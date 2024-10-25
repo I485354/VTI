@@ -1,0 +1,15 @@
+.app-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* Main content moet zich aanpassen aan de status van de sidebar */
+.main-content {
+  margin-left: 250px;
+  padding: 20px;
+  transition: margin-left 0.3s ease;
+}
+
+.app-container.collapsed .main-content {
+  margin-left: 80px; /* Als de sidebar collapsed is, past de main-content zich aan */
+}

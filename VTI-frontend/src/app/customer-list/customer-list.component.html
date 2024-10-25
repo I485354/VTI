@@ -1,0 +1,30 @@
+<div class="customer-list-container">
+  <h2 class="title">Klantenlijst</h2>
+
+  <div *ngIf="customers.length > 0; else noData">
+    <table class="customer-table">
+      <thead>
+      <tr>
+        <th>Klant ID</th>
+        <th>Naam</th>
+        <th>Email</th>
+        <th>Bedrijf</th>
+        <th>Telefoonnummer</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let customer of customers">
+        <td>{{ customer.id }}</td>
+        <td>{{ customer.name }}</td>
+        <td>{{ customer.email }}</td>
+        <td>{{ customer.company || 'N/A' }}</td>
+        <td>{{ customer.phone || 'N/A' }}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <ng-template #noData>
+    <p class="no-data">Geen klanten gevonden</p>
+  </ng-template>
+</div>

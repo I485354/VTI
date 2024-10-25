@@ -1,0 +1,44 @@
+<div class="new-invoice-container">
+  <h2>Nieuwe Factuur</h2>
+
+
+  <form (ngSubmit)="onSubmit()" #invoiceForm="ngForm">
+
+
+    <div class="form-group">
+      <label for="customerId">Klant</label>
+      <select id="customerId" required [(ngModel)]="invoice.customer_id" name="customerId" class="form-control">
+        <option *ngFor="let customer of customers" [value]="customer.id">{{ customer.name }}</option>
+      </select>
+    </div>
+
+    <!-- Factuurdatum -->
+    <div class="form-group">
+      <label for="invoiceDate">Factuurdatum</label>
+      <input type="date" id="invoiceDate" required [(ngModel)]="invoice.invoice_date" name="invoiceDate" class="form-control">
+    </div>
+
+    <!-- Vervaldatum -->
+    <div class="form-group">
+      <label for="dueDate">Vervaldatum</label>
+      <input type="date" id="dueDate" required [(ngModel)]="invoice.due_date" name="dueDate" class="form-control">
+    </div>
+
+    <!-- Totaalbedrag -->
+    <div class="form-group">
+      <label for="totalAmount">Totaalbedrag</label>
+      <input type="number" id="totalAmount" required [(ngModel)]="invoice.total_amount" name="totalAmount" class="form-control">
+    </div>
+
+    <!-- Dropdown voor status -->
+    <div class="form-group">
+      <label for="status">Status</label>
+      <select id="status" required [(ngModel)]="invoice.status" name="status" class="form-control">
+        <option value="Paid">Paid</option>
+        <option value="Unpaid">Unpaid</option>
+      </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Factuur aanmaken</button>
+  </form>
+</div>

@@ -1,0 +1,74 @@
+# .github/workflows/ci.yml
+name: CI Workflow
+
+on:
+  push:
+    paths:
+      - 'VTI-frontend/**'
+      - 'VTI-backend/**'
+  pull_request:
+    paths:
+      - 'VTI-frontend/**'
+      - 'VTI-backend/**'
+
+jobs:
+  frontend:
+    name: Frontend CI
+    runs-on: ubuntu-latest
+    if: contains(github.event.head_commit.message, 'frontend') || github.event_name == 'pull_request'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+
+      - name: Install dependencies
+        working-directory: VTI-frontend
+        run: npm install
+
+      - name: Run lint
+        working-directory: VTI-frontend
+        run: npm run lint
+
+      - name: Run tests
+        working-directory: VTI-frontend
+        run: npm test -- --watch=false --no-progress --browsers=ChromeHeadless
+
+      - name: Build project
+        working-directory: VTI-frontend
+        run: npm run build -- --prod
+
+  backend:
+    name: Backend CI
+    runs-on: ubuntu-latest
+    if: contains(github.event.head_commit.message, 'backend') || github.event_name == 'pull_request'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up JDK
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt'
+          java-version: '11'
+
+      - name: Cache Maven packages
+        uses: actions/cache@v2
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven
+
+      - name: Build with Maven
+        working-directory: VTI-backend
+        run: mvn clean install
+
+      - name: Run tests
+        working-directory: VTI-backend
+        run: mvn test

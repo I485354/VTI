@@ -12,7 +12,7 @@ import { SidebarComponent } from './sidebar/sidebar.component';
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'Vti-Frontend2';
+  title = 'VTI-frontend';
 
   collapsed = false;
 

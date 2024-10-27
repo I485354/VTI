@@ -5,25 +5,27 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
+import java.text.DecimalFormat;
 import java.util.Date;
 
 @Entity
 public class Invoices {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long invoice_id;
+    private long invoice_id;
     private long customer_id;
     private Date invoice_date;
     private Date due_date;
-    private Double total_amount;
+    private double total_amount;
+    private double total_btw;
     private String status;
 
     // Getters en Setters
-    public Long getId() {
+    public long getId() {
         return invoice_id;
     }
 
-    public void setId(Long invoice_id) {
+    public void setId(long invoice_id) {
         this.invoice_id = invoice_id;
     }
 
@@ -47,11 +49,17 @@ public class Invoices {
     public void setDue_date(Date due_date) {
         this.due_date = due_date;
     }
-    public Double getTotal_amount() {
+    public double getTotal_amount() {
         return total_amount;
     }
     public void setTotal_amount(Double total_amount) {
         this.total_amount = total_amount;
+    }
+    public double getTotal_btw() {
+        return total_btw;
+    }
+    public void setTotal_btw(Double total_btw) {
+        this.total_btw = total_btw;
     }
     public String getStatus() {
         return status;

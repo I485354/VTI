@@ -1,44 +1,84 @@
 <div class="new-invoice-container">
   <h2>Nieuwe Factuur</h2>
 
-
+  <!-- Voeg een form tag toe om het formulier te omsluiten en ngSubmit toe te passen -->
   <form (ngSubmit)="onSubmit()" #invoiceForm="ngForm">
 
-
+    <!-- Klant Selectie -->
     <div class="form-group">
       <label for="customerId">Klant</label>
-      <select id="customerId" required [(ngModel)]="invoice.customer_id" name="customerId" class="form-control">
+      <select id="customerId" required [(ngModel)]="selectedCustomerId" name="customerId" (change)="onCustomerChange()" class="form-control">
         <option *ngFor="let customer of customers" [value]="customer.id">{{ customer.name }}</option>
       </select>
     </div>
 
-    <!-- Factuurdatum -->
-    <div class="form-group">
-      <label for="invoiceDate">Factuurdatum</label>
-      <input type="date" id="invoiceDate" required [(ngModel)]="invoice.invoice_date" name="invoiceDate" class="form-control">
+    <!-- Klant Gegevens -->
+    <div *ngIf="selectedCustomer">
+      <h3>Klantgegevens</h3>
+      <p><strong>Naam:</strong> {{ selectedCustomer.name }}</p>
+      <p><strong>Bedrijf:</strong> {{ selectedCustomer.company }}</p>
+      <p><strong>Adres:</strong> {{ selectedCustomer.address }}</p>
+      <p><strong>Email:</strong> {{ selectedCustomer.email }}</p>
+      <p><strong>Telefoon:</strong> {{ selectedCustomer.phone }}</p>
     </div>
 
-    <!-- Vervaldatum -->
-    <div class="form-group">
-      <label for="dueDate">Vervaldatum</label>
-      <input type="date" id="dueDate" required [(ngModel)]="invoice.due_date" name="dueDate" class="form-control">
+    <!-- Diensten/Producten -->
+    <section class="invoice-items">
+      <h3>Diensten/Producten</h3>
+      <div *ngFor="let item of invoiceItems; let i = index" class="item">
+        <!-- Productgegevens en BTW -->
+        <div class="item-field">
+          <label>Product ID:</label>
+          <input type="number" [(ngModel)]="item.product_id" name="productId{{i}}" />
+        </div>
+        <div class="item-field">
+          <label>Aantal:</label>
+          <input type="number" [(ngModel)]="item.quantity" name="quantity{{i}}" (input)="calculateTotals()" />
+        </div>
+        <div class="item-field">
+          <label>BTW:</label>
+          <select [(ngModel)]="item.btw" name="btw{{i}}" (change)="calculateTotals()">
+            <option value="0">0%</option>
+            <option value="9">9%</option>
+            <option value="21">21%</option>
+          </select>
+        </div>
+        <div class="item-field">
+          <label>Eenheidsprijs (€):</label>
+          <input type="number" [(ngModel)]="item.unit_price" name="unitPrice{{i}}" (input)="calculateTotals()" />
+        </div>
+        <div class="item-field">
+          <label>Totaal (€):</label>
+          <span>{{ item.quantity * item.unit_price * (1 + item.btw / 100) | currency:'EUR' }}</span>
+        </div>
+        <button type="button" (click)="removeItem(i)">Verwijder</button>
+      </div>
+      <button type="button" (click)="addItem()">Voeg Item Toe</button>
+    </section>
+
+    <!-- BTW Totaal -->
+    <div *ngIf="totalBtwAmount > 0">
+      <h3>BTW Bedrag</h3>
+      <p>Totaal BTW: {{ totalBtwAmount | currency:'EUR' }}</p>
     </div>
 
     <!-- Totaalbedrag -->
     <div class="form-group">
       <label for="totalAmount">Totaalbedrag</label>
-      <input type="number" id="totalAmount" required [(ngModel)]="invoice.total_amount" name="totalAmount" class="form-control">
+      <input type="number" id="totalAmount" [(ngModel)]="invoice.total_amount" name="totalAmount" class="form-control" readonly>
     </div>
 
-    <!-- Dropdown voor status -->
+    <!-- Status -->
     <div class="form-group">
       <label for="status">Status</label>
       <select id="status" required [(ngModel)]="invoice.status" name="status" class="form-control">
-        <option value="Paid">Paid</option>
-        <option value="Unpaid">Unpaid</option>
+        <option value="Paid">Betaald</option>
+        <option value="Unpaid">Niet Betaald</option>
       </select>
     </div>
 
+    <!-- Verzendknop -->
     <button type="submit" class="btn btn-primary">Factuur aanmaken</button>
-  </form>
+
+  </form> <!-- Sluit het form element af -->
 </div>

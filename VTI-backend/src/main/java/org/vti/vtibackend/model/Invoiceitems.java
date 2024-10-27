@@ -5,6 +5,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
+import java.text.DecimalFormat;
+
 @Entity
 public class Invoiceitems {
     @Id
@@ -14,6 +16,7 @@ public class Invoiceitems {
     private int product_id;
     private int quantity;
     private double unit_price;
+    private double btw;
     private double total;
 
     public long getInvoice_item_id() {
@@ -45,6 +48,12 @@ public class Invoiceitems {
     }
     public void setUnit_price(double unit_price) {
         this.unit_price = unit_price;
+    }
+    public double getBtw() {
+        return btw;
+    }
+    public void setBtw(double btw) {
+        this.btw = btw;
     }
     public double getTotal() {
         return total;

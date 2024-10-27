@@ -21,8 +21,8 @@ export class LoginComponent {
     console.log('Wachtwoord:', this.password);
     // Verwerk inloggegevens of stuur naar een backend API
   }*/
-  username: string = '';
-  password: string = '';
+  username = '';
+  password = '';
 
   constructor(private router: Router) {}
 

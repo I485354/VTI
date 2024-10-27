@@ -16,6 +16,7 @@ export const routes: Routes = [
   { path: 'customer-list', component: CustomerListComponent },
   { path: 'payments', component: PaymentsComponent },
   { path: 'settings', component: SettingsComponent },
+  { path: 'login', component: LoginComponent },
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
   { path: '', redirectTo: '/login', pathMatch: 'full' }// De route naar je klantenlijst
 ];

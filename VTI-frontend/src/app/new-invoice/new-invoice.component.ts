@@ -13,7 +13,7 @@ import {FormsModule} from '@angular/forms';
   templateUrl: './new-invoice.component.html',
   styleUrl: './new-invoice.component.css'
 })
-export class NewInvoiceComponent {
+export class NewInvoiceComponent implements OnInit {
   invoice: Invoice = {
     id: 0,
     customer_id: 0,

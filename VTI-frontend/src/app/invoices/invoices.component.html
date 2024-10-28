@@ -1,9 +1,23 @@
 <div class="invoice-list-container">
   <h2 class="title">Facturen</h2>
 
-  <button class="btn-add" (click)="createNewInvoice()">Nieuwe Factuur</button> <!-- Knop om nieuwe factuur aan te maken -->
+  <!-- Knop om nieuwe factuur aan te maken -->
+  <button class="btn-add" (click)="createNewInvoice()">Nieuwe Factuur</button>
 
-  <div *ngIf="invoices.length > 0; else noData">
+  <!-- Zoek- en Filtersectie -->
+  <div class="filter-section">
+    <input type="text" placeholder="Zoek op Factuur ID" [(ngModel)]="searchId" (input)="applyFilters()" />
+    <input type="text" placeholder="Zoek op Klant ID" [(ngModel)]="searchCustomerId" (input)="applyFilters()" />
+    <select [(ngModel)]="statusFilter" (change)="applyFilters()">
+      <option value="">Alle Statussen</option>
+      <option value="Paid">Betaald</option>
+      <option value="Unpaid">Niet Betaald</option>
+    </select>
+    <input type="date" [(ngModel)]="dateFilter" (change)="applyFilters()" placeholder="Zoek op Factuurdatum" />
+  </div>
+
+  <!-- Factuuroverzicht Tabel -->
+  <div *ngIf="filteredInvoices.length > 0; else noData">
     <table class="invoice-table">
       <thead>
       <tr>
@@ -16,11 +30,12 @@
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let invoice of invoices">
-        <td>{{ invoice.id}}</td>
+      <tr *ngFor="let invoice of filteredInvoices"
+          [ngClass]="{'paid': invoice.status === 'Paid', 'unpaid': invoice.status === 'Unpaid'}">
+        <td>{{ invoice.id }}</td>
         <td>{{ invoice.customer_id }}</td>
-        <td>{{ invoice.invoice_date | date }}</td>
-        <td>{{ invoice.due_date | date }}</td>
+        <td>{{ invoice.invoice_date | date:'dd-MM-yyyy' }}</td>
+        <td>{{ invoice.due_date | date:'dd-MM-yyyy' }}</td>
         <td>{{ invoice.total_amount | currency:'EUR' }}</td>
         <td>{{ invoice.status }}</td>
       </tr>
@@ -32,3 +47,4 @@
     <p class="no-data">Geen facturen gevonden</p>
   </ng-template>
 </div>
+

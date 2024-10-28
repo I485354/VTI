@@ -26,9 +26,11 @@ export class NewInvoiceComponent implements OnInit {
 
   customers: Customers[] = []; // Lijst van klanten
   invoiceItems: InvoiceItem[] = []; // Lijst van Factuuritems
-  selectedCustomerId: number | null = null;
-  selectedCustomer: Customers | null = null;
-  totalBtwAmount: number = 0;
+  selectedCustomerId= 0; // Start met 0 in plaats van null
+  selectedCustomer: Customers = { id: 0, name: '', company: '', address: '', email: '', phone: '' };
+  totalBtwAmount = 0;
+
+  // Lege klant als standaardwaarde
 
   constructor(private apiService: ApiService, private router: Router) {
   }
@@ -57,12 +59,11 @@ export class NewInvoiceComponent implements OnInit {
   }
 
   onCustomerChange() {
-    this.selectedCustomer = this.customers.find(customer => customer.id === this.selectedCustomerId) || null;
-
-    if (this.selectedCustomer) {
-      console.log(`Geselecteerde klant: ${this.selectedCustomer!.name}`);
-    }
+    this.selectedCustomer = this.customers.find(customer => customer.id === +this.selectedCustomerId) ||
+      { id: 0, name: '', company: '', address: '', email: '', phone: '' };
+    this.invoice.customer_id = this.selectedCustomer.id;
   }
+
 
 
 
@@ -110,6 +111,10 @@ export class NewInvoiceComponent implements OnInit {
       ...this.invoice,
       items: this.invoiceItems // Voeg de factuuritems toe aan de factuur
     };
+    console.log(this.invoice);
+    console.log(invoiceToSend);
+
+    console.log('Verzonden factuur:', invoiceToSend); // Voeg deze log toe om de payload te controleren
 
     this.apiService.addInvoice(invoiceToSend).subscribe(
       response => {

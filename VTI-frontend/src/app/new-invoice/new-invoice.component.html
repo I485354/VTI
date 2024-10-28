@@ -28,28 +28,28 @@
       <div *ngFor="let item of invoiceItems; let i = index" class="item">
         <!-- Productgegevens en BTW -->
         <div class="item-field">
-          <label>Product ID:</label>
-          <input type="number" [(ngModel)]="item.product_id" name="productId{{i}}" />
+          <label for="productId" >Product ID:</label>
+          <input id="productId" type="number" [(ngModel)]="item.product_id" name="productId{{i}}" />
         </div>
         <div class="item-field">
-          <label>Aantal:</label>
-          <input type="number" [(ngModel)]="item.quantity" name="quantity{{i}}" (input)="calculateTotals()" />
+          <label for="quantity">Aantal:</label>
+          <input id="quantity" type="number" [(ngModel)]="item.quantity" name="quantity{{i}}" (input)="calculateTotals()" />
         </div>
         <div class="item-field">
-          <label>BTW:</label>
-          <select [(ngModel)]="item.btw" name="btw{{i}}" (change)="calculateTotals()">
+          <label for="btw">BTW:</label>
+          <select id="btw"  [(ngModel)]="item.btw" name="btw{{i}}" (change)="calculateTotals()">
             <option value="0">0%</option>
             <option value="9">9%</option>
             <option value="21">21%</option>
           </select>
         </div>
         <div class="item-field">
-          <label>Eenheidsprijs (€):</label>
-          <input type="number" [(ngModel)]="item.unit_price" name="unitPrice{{i}}" (input)="calculateTotals()" />
+          <label for="unitPrice">Eenheidsprijs (€):</label>
+          <input id="unitPrice" type="number" [(ngModel)]="item.unit_price" name="unitPrice{{i}}" (input)="calculateTotals()" />
         </div>
         <div class="item-field">
-          <label>Totaal (€):</label>
-          <span>{{ item.quantity * item.unit_price * (1 + item.btw / 100) | currency:'EUR' }}</span>
+          <label for="totals">Totaal (€):</label>
+          <span id="totals">{{ item.quantity * item.unit_price * (1 + item.btw / 100) | currency:'EUR' }}</span>
         </div>
         <button type="button" (click)="removeItem(i)">Verwijder</button>
       </div>

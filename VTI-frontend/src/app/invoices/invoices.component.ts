@@ -28,6 +28,19 @@ export class InvoicesComponent implements OnInit {
       this.filteredInvoices = data; // Standaard alle facturen weergeven
     });
   }
+  updateStatus(invoice: Invoice) {
+    const newStatus = invoice.status === 'Unpaid' ? 'Paid' : 'Unpaid';
+
+    this.apiService.updateInvoiceStatus(invoice.id, newStatus).subscribe(
+      updatedInvoice => {
+        invoice.status = updatedInvoice.status;
+        console.log(`Factuurstatus bijgewerkt naar: ${invoice.status}`);
+      },
+      error => {
+        console.error('Fout bij het bijwerken van de status:', error);
+      }
+    );
+  }
 
   createNewInvoice() {
     this.router.navigate(['/new-invoice']).then(

@@ -25,6 +25,8 @@ export class ApiService {
   addInvoice(invoice: Invoice): Observable<Invoice> {
     return this.http.post<Invoice>(`${this.apiUrl}/invoices`, invoice);
   }
-
+  updateInvoiceStatus(invoiceId: number, status: string): Observable<Invoice> {
+    return this.http.put<Invoice>(`${this.apiUrl}/invoices/${invoiceId}/status`, { status });
+  }
   // API voor andere data zoals betalingen, offertes, etc.
 }

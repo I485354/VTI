@@ -80,3 +80,12 @@
   margin-top: 20px;
   font-style: italic;
 }
+.paid {
+  background-color: #e6ffed; /* Groen voor betaalde facturen */
+  color: #2e7d32; /* Donkergroen voor tekst */
+}
+
+.unpaid {
+  background-color: #ffe6e6; /* Rood voor niet-betaalde facturen */
+  color: #c62828; /* Donkerrood voor tekst */
+}

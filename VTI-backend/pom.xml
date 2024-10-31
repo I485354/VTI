@@ -49,11 +49,18 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
+        <!-- Lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <scope>provided</scope>
-            <optional>true</optional>
+            <version>1.18.34</version> <!-- Zorg ervoor dat deze versie actueel is -->
+        </dependency>
+
+        <!-- MapStruct -->
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+            <version>1.5.5.Final</version> <!-- Dit is een stabiele versie voor Java 17 -->
         </dependency>
 
 
@@ -85,11 +92,6 @@
             <scope>runtime</scope>
         </dependency>
 
-        <dependency>
-            <groupId>org.mapstruct</groupId>
-            <artifactId>mapstruct</artifactId>
-            <version>1.5.5.Final</version>
-        </dependency>
 
         <!-- Testing Dependencies -->
         <dependency>
@@ -121,7 +123,7 @@
                         <path>
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
-                            <version>1.18.24</version>
+                            <version>1.18.34</version>
                         </path>
                     </annotationProcessorPaths>
                 </configuration>

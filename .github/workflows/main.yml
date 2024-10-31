@@ -61,7 +61,6 @@ jobs:
           --health-interval=10s
           --health-timeout=5s
           --health-retries=3
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -71,6 +70,7 @@ jobs:
         with:
           distribution: 'adopt'
           java-version: '17'
+
       - name: Wait for MySQL
         run: |
           while ! mysqladmin ping -h"127.0.0.1" --silent; do
@@ -84,15 +84,9 @@ jobs:
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-maven
-            
+
       - name: Build and Test with Maven
         working-directory: VTI-backend
-        run: mvn test -Dspring.profiles.active=test
-
-      #- name: Build with Maven
-      #  working-directory: VTI-backend
-      #  run: mvn clean install
-
-     # - name: Run tests
-     #   working-directory: VTI-backend
-     #   run: mvn test
+        run: |
+          mvn clean install -Dmaven.compiler.source=17 -Dmaven.compiler.target=17 -DskipTests
+          mvn test -Dspring.profiles.active=test

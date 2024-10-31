@@ -8,10 +8,8 @@ import org.vti.vtibackend.model.CustomerDTO;
 @Mapper(componentModel = "spring")
 public interface CustomerMapper {
     @Mapping(source = "customer_id", target = "customer_id")
-    @Mapping(source = "phone", target = "phone")
     CustomerDTO ToDTO(Customer customer);
 
     @Mapping(source = "customer_id", target = "customer_id")
-    @Mapping(source = "phone", target = "phone")
     Customer ToEntity(CustomerDTO customerDTO);
 }

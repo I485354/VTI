@@ -9,10 +9,8 @@ import org.vti.vtibackend.model.InvoiceDTO;
 @Mapper(componentModel = "spring")
 public interface InvoiceMapper {
     @Mapping(source = "invoice_id", target = "invoice_id")
-    @Mapping(source = "customer_id", target = "customer_id") // Als customerId uit een embedded customer-object komt
     InvoiceDTO toDTO(Invoice invoice);
 
     @Mapping(source = "invoice_id", target = "invoice_id")
-    @Mapping(source = "customer_id", target = "customer_id")
     Invoice toEntity(InvoiceDTO invoiceDTO);
 }

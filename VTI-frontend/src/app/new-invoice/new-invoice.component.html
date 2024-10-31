@@ -8,7 +8,7 @@
     <div class="form-group">
       <label for="customerId">Klant</label>
       <select id="customerId" required [(ngModel)]="selectedCustomerId" name="customerId" (change)="onCustomerChange()" class="form-control">
-        <option *ngFor="let customer of customers" [value]="customer.id">{{ customer.name }}</option>
+        <option *ngFor="let customer of customers" [value]="customer.customer_id">{{ customer.name }}</option>
       </select>
     </div>
 

@@ -33,7 +33,7 @@
       <tbody>
       <tr *ngFor="let invoice of filteredInvoices"
           [ngClass]="{'paid': invoice.status === 'Paid', 'unpaid': invoice.status === 'Unpaid'}">
-        <td>{{ invoice.id }}</td>
+        <td>{{ invoice.invoice_id }}</td>
         <td>{{ invoice.customer_id }}</td>
         <td>{{ invoice.invoice_date | date:'dd-MM-yyyy' }}</td>
         <td>{{ invoice.due_date | date:'dd-MM-yyyy' }}</td>

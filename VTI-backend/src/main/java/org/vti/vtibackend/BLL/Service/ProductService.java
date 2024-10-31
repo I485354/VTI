@@ -2,21 +2,34 @@ package org.vti.vtibackend.BLL.Service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.vti.vtibackend.DAL.Repository.Product;
-import org.vti.vtibackend.model.Products;
+import org.vti.vtibackend.BLL.Mapper.ProductMapper;
+import org.vti.vtibackend.DAL.Entity.Product;
+import org.vti.vtibackend.DAL.Repository.ProductRepo;
+import org.vti.vtibackend.model.ProductDTO;
 
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductService {
+    private final ProductRepo productRepository;
+    private final ProductMapper productMapper;
     @Autowired
-    private Product productRepository;
-
-    public List<Products> getAllProducts() {
-        return productRepository.findAll();
+    public ProductService(ProductRepo productRepository, ProductMapper productMapper) {
+        this.productRepository = productRepository;
+        this.productMapper = productMapper;
+    }
+    public List<ProductDTO> getAllProducts() {
+          List<Product> products = productRepository.findAll();
+          return products.stream()
+                  .map(productMapper::ToDTO)
+                    .collect(Collectors.toList());
     }
 
-    public Products createProduct(Products product) {
-        return productRepository.save(product);
+    public ProductDTO createProduct(ProductDTO product) {
+        Product products = productMapper.ToEntity(product);
+        Product savedProduct = productRepository.save(products);
+        return productMapper.ToDTO(savedProduct);
     }
 }

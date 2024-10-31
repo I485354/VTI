@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { Invoice } from '../model/invoices.model';
-import { Customers } from '../model/customers.model';
+import { Customers } from '../model/customer.model';
 import { InvoiceItem } from '../model/invoiceitems.model';
 import { ApiService } from '../api.service';
 import { FormsModule } from '@angular/forms';
@@ -16,10 +16,11 @@ import { FormsModule } from '@angular/forms';
 })
 export class NewInvoiceComponent implements OnInit {
   invoice: Invoice = {
-    id: 0,
+    invoice_id: 0,
     customer_id: 0,
     invoice_date: new Date(),
     due_date: new Date(),
+    total_btw: 0,
     total_amount: 0,
     status: ''
   };
@@ -27,7 +28,7 @@ export class NewInvoiceComponent implements OnInit {
   customers: Customers[] = []; // Lijst van klanten
   invoiceItems: InvoiceItem[] = []; // Lijst van Factuuritems
   selectedCustomerId= 0; // Start met 0 in plaats van null
-  selectedCustomer: Customers = { id: 0, name: '', company: '', address: '', email: '', phone: '' };
+  selectedCustomer: Customers = { customer_id: 0, name: '', company: '', address: '', email: '', phone: '' };
   totalBtwAmount = 0;
 
   // Lege klant als standaardwaarde
@@ -59,9 +60,9 @@ export class NewInvoiceComponent implements OnInit {
   }
 
   onCustomerChange() {
-    this.selectedCustomer = this.customers.find(customer => customer.id === +this.selectedCustomerId) ||
-      { id: 0, name: '', company: '', address: '', email: '', phone: '' };
-    this.invoice.customer_id = this.selectedCustomer.id;
+    this.selectedCustomer = this.customers.find(customer => customer.customer_id === +this.selectedCustomerId) ||
+      { customer_id: 0, name: '', company: '', address: '', email: '', phone: '' };
+    this.invoice.customer_id = this.selectedCustomer.customer_id;
   }
 
 
@@ -70,7 +71,7 @@ export class NewInvoiceComponent implements OnInit {
   addItem() {
     this.invoiceItems.push({
       invoice_item_id: 0,
-      invoice_id: this.invoice.id,
+      invoice_id: this.invoice.invoice_id,
       product_id: 0,
       quantity: 1,
       unit_price: 0,
@@ -97,6 +98,8 @@ export class NewInvoiceComponent implements OnInit {
       // Update totaalbedragen
       this.invoice.total_amount += item.total;
       this.totalBtwAmount += itemBtwAmount;
+      this.invoice.total_btw = itemBtwAmount;
+
     });
   }
 

@@ -31,7 +31,7 @@ export class InvoicesComponent implements OnInit {
   updateStatus(invoice: Invoice) {
     const newStatus = invoice.status === 'Unpaid' ? 'Paid' : 'Unpaid';
 
-    this.apiService.updateInvoiceStatus(invoice.id, newStatus).subscribe(
+    this.apiService.updateInvoiceStatus(invoice.invoice_id, newStatus).subscribe(
       updatedInvoice => {
         invoice.status = updatedInvoice.status;
         console.log(`Factuurstatus bijgewerkt naar: ${invoice.status}`);
@@ -56,7 +56,7 @@ export class InvoicesComponent implements OnInit {
   // Functie om filters toe te passen op de factuurlijst
   applyFilters() {
     this.filteredInvoices = this.invoices.filter(invoice => {
-      const matchesId = this.searchId ? invoice.id.toString().includes(this.searchId) : true;
+      const matchesId = this.searchId ? invoice.invoice_id.toString().includes(this.searchId) : true;
       const matchesCustomerId = this.searchCustomerId ? invoice.customer_id.toString().includes(this.searchCustomerId) : true;
       const matchesStatus = this.statusFilter ? invoice.status === this.statusFilter : true;
       const matchesDate = this.dateFilter ?

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Customers } from './model/customers.model';
+import { Customers } from './model/customer.model';
 import {Invoice} from './model/invoices.model';
 
 @Injectable({
@@ -15,18 +15,18 @@ export class ApiService {
 
 
   getCustomers(): Observable<Customers[]> {
-    return this.http.get<Customers[]>(`${this.apiUrl}/customers`);
+    return this.http.get<Customers[]>(`${this.apiUrl}/customer`);
   }
 
   // API om facturen op te halen
   getInvoices(): Observable<Invoice[]> {
-    return this.http.get<Invoice[]>(`${this.apiUrl}/invoices`);
+    return this.http.get<Invoice[]>(`${this.apiUrl}/invoice`);
   }
   addInvoice(invoice: Invoice): Observable<Invoice> {
-    return this.http.post<Invoice>(`${this.apiUrl}/invoices`, invoice);
+    return this.http.post<Invoice>(`${this.apiUrl}/invoice`, invoice);
   }
   updateInvoiceStatus(invoiceId: number, status: string): Observable<Invoice> {
-    return this.http.put<Invoice>(`${this.apiUrl}/invoices/${invoiceId}/status`, { status });
+    return this.http.put<Invoice>(`${this.apiUrl}/invoice/${invoiceId}/status`, { status });
   }
   // API voor andere data zoals betalingen, offertes, etc.
 }

@@ -36,8 +36,8 @@ describe('InvoicesComponent', () => {
 
   it('should fetch invoices on init', () => {
     const mockInvoices = [
-      { id: 1, customer_id: 101, invoice_date: new Date(), due_date: new Date(), total_amount: 100, status: 'Paid' },
-      { id: 2, customer_id: 102, invoice_date: new Date(), due_date: new Date(), total_amount: 200, status: 'Unpaid' }
+      { invoice_id: 1, customer_id: 101, invoice_date: new Date(), due_date: new Date(), total_btw: 21, total_amount: 100, status: 'Paid' },
+      { invoice_id: 2, customer_id: 102, invoice_date: new Date(), due_date: new Date(), total_btw: 42, total_amount: 200, status: 'Unpaid' }
     ];
 
     spyOn(apiService, 'getInvoices').and.returnValue(of(mockInvoices));
@@ -60,21 +60,21 @@ describe('InvoicesComponent', () => {
 
   it('should filter invoices by ID', () => {
     component.invoices = [
-      { id: 1, customer_id: 101, invoice_date: new Date(), due_date: new Date(), total_amount: 100, status: 'Paid' },
-      { id: 2, customer_id: 102, invoice_date: new Date(), due_date: new Date(), total_amount: 200, status: 'Unpaid' }
+      { invoice_id: 1, customer_id: 101, invoice_date: new Date(), due_date: new Date(), total_btw: 11 , total_amount: 100, status: 'Paid' },
+      { invoice_id: 2, customer_id: 102, invoice_date: new Date(), due_date: new Date(), total_btw: 22 ,total_amount: 200, status: 'Unpaid' }
     ];
 
     component.searchId = '1';
     component.applyFilters();
 
     expect(component.filteredInvoices.length).toBe(1);
-    expect(component.filteredInvoices[0].id).toBe(1);
+    expect(component.filteredInvoices[0].invoice_id).toBe(1);
   });
 
   it('should filter invoices by customer ID', () => {
     component.invoices = [
-      { id: 1, customer_id: 101, invoice_date: new Date(), due_date: new Date(), total_amount: 100, status: 'Paid' },
-      { id: 2, customer_id: 102, invoice_date: new Date(), due_date: new Date(), total_amount: 200, status: 'Unpaid' }
+      { invoice_id: 1, customer_id: 101, invoice_date: new Date(), due_date: new Date(), total_btw: 11 , total_amount: 100, status: 'Paid' },
+      { invoice_id: 2, customer_id: 102, invoice_date: new Date(), due_date: new Date(), total_btw: 22 , total_amount: 200, status: 'Unpaid' }
     ];
 
     component.searchCustomerId = '102';
@@ -86,8 +86,8 @@ describe('InvoicesComponent', () => {
 
   it('should filter invoices by status', () => {
     component.invoices = [
-      { id: 1, customer_id: 101, invoice_date: new Date(), due_date: new Date(), total_amount: 100, status: 'Paid' },
-      { id: 2, customer_id: 102, invoice_date: new Date(), due_date: new Date(), total_amount: 200, status: 'Unpaid' }
+      { invoice_id: 1, customer_id: 101, invoice_date: new Date(), due_date: new Date(), total_btw: 11 , total_amount: 100, status: 'Paid' },
+      { invoice_id: 2, customer_id: 102, invoice_date: new Date(), due_date: new Date(), total_btw: 22 , total_amount: 200, status: 'Unpaid' }
     ];
 
     component.statusFilter = 'Paid';
@@ -103,11 +103,11 @@ describe('InvoicesComponent', () => {
     otherDate.setDate(today.getDate() - 1);
 
     component.invoices = [
-      { id: 1, customer_id: 101, invoice_date: today, due_date: new Date(), total_amount: 100, status: 'Paid' },
-      { id: 2, customer_id: 102, invoice_date: otherDate, due_date: new Date(), total_amount: 200, status: 'Unpaid' }
+      { invoice_id: 1, customer_id: 101, invoice_date: today, due_date: new Date(), total_btw: 11 , total_amount: 100, status: 'Paid' },
+      { invoice_id: 2, customer_id: 102, invoice_date: otherDate, due_date: new Date(), total_btw: 22 , total_amount: 200, status: 'Unpaid' }
     ];
 
-    component.dateFilter = today.toISOString().split('T')[0];
+    component.dateFilter = today.toISOString();
     component.applyFilters();
 
     expect(component.filteredInvoices.length).toBe(1);

@@ -14,6 +14,7 @@
           <th>Email</th>
           <th>Bedrijf</th>
           <th>Telefoonnummer</th>
+          <th>Adres</th>
         </tr>
         </thead>
         <tbody>
@@ -23,6 +24,7 @@
           <td>{{ customer.email }}</td>
           <td>{{ customer.company || 'N/A' }}</td>
           <td>{{ customer.phone || 'N/A' }}</td>
+          <td>{{ customer.address }} </td>
           <td>
             <button (click)="onEditCustomer(customer)" class="edit-button">Bewerken</button>
           </td>

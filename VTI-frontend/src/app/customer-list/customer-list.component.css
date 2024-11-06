@@ -1,5 +1,5 @@
 /* Algemene layout */
-.customer-list-container {
+/*.customer-list-container {
   padding: 20px;
   margin: auto;
   max-width: 1200px;
@@ -14,7 +14,7 @@
   margin-bottom: 20px;
 }
 
-/* Tabelstijl */
+!* Tabelstijl *!
 .customer-table {
   width: 100%;
   border-collapse: collapse;
@@ -45,9 +45,99 @@
   cursor: pointer;
 }
 
-/* Geen data melding */
+!* Geen data melding *!
 .no-data {
   text-align: center;
   font-size: 18px;
   color: #777;
+}*/
+
+.customer-list-container {
+  max-width: 95%;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
+
+.title {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.customer-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 16px;
+}
+
+.customer-table th {
+  background-color: #1E90FF; /* Primary blue color */
+  color: #ffffff;
+  padding: 12px;
+  text-align: left;
+  font-weight: normal;
+  font-family: Arial, sans-serif;
+  text-transform: uppercase;
+}
+
+.customer-table td {
+  padding: 10px;
+  border-bottom: 1px solid #dddddd;
+  color: #555;
+  font-family: Arial, sans-serif;
+}
+
+.customer-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.customer-table tr:hover {
+  background-color: #f1f1f1;
+}
+
+.add-button {
+  display: inline-block;
+  padding: 8px 16px;
+  font-size: 14px;
+  background-color: #1E90FF;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-bottom: 15px;
+}
+
+.add-button:hover {
+  background-color: #4682B4; /* Slightly darker blue for hover */
+}
+
+.edit-button {
+  padding: 6px 12px;
+  font-size: 14px;
+  background-color: #1E90FF;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.edit-button:hover {
+  background-color: #4682B4;
+}
+
+.no-data {
+  color: #888;
+  font-size: 16px;
+  text-align: center;
+  margin-top: 20px;
+  font-family: Arial, sans-serif;
+}
+
+
+

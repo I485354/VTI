@@ -6,6 +6,7 @@ import org.vti.vtibackend.DAL.Entity.Customer;
 import org.vti.vtibackend.DAL.Interface.ICustomerDAL;
 import org.vti.vtibackend.DAL.Repository.CustomerRepo;
 
+
 import java.util.List;
 import java.util.Optional;
 
@@ -39,8 +40,4 @@ public class CustomerDAL implements ICustomerDAL {
         customerRepo.deleteById(id);
     }
 
-    @Override
-    public boolean existsById(int id) {
-        return customerRepo.existsById(id);
-    }
 }

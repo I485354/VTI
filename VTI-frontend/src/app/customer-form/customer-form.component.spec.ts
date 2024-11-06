@@ -19,5 +19,5 @@ describe('CustomerFormComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
+  }); 
 });

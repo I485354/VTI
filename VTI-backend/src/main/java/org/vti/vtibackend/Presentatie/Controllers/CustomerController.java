@@ -28,4 +28,13 @@ public class CustomerController {
     public CustomerDTO createCustomer(@RequestBody CustomerDTO customers) {
         return customerService.createCustomer(customers);
     }
+    @PutMapping("/{id}")
+    public CustomerDTO updateCustomer(@PathVariable int id, @RequestBody CustomerDTO customerDTO) {
+        return customerService.updateCustomer(id, customerDTO);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteCustomer(@PathVariable int id) {
+        customerService.deleteCustomer(id);
+    }
 }

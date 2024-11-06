@@ -15,7 +15,7 @@ import { CustomerFormComponent } from '../customer-form/customer-form.component'
 export class CustomerListComponent implements OnInit {
 
   customers: Customers[] = [];
-  selectedCustomer: Customers | null = null;
+  selectedCustomer: Customers = { customer_id: 0, name: '', address: '', phone: '', email: '', company: ''};
   isFormVisible = false;
 
 

@@ -12,6 +12,7 @@ import { FormsModule } from '@angular/forms';
 })
 
 export class CustomerFormComponent {
+  //@Input() customer: Customers | null = null;
   @Input() customer: Customers = { customer_id: 0, name: '', address: '', phone: '', email: '', company: ''};
   @Output() save = new EventEmitter<Customers>();
   @Output() cancel = new EventEmitter<void>();

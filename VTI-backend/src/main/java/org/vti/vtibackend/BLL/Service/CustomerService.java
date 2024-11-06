@@ -35,4 +35,27 @@ public class CustomerService implements ICustomerService {
         Customer savedCustomer= customerDAL.save(customer);
         return customerMapper.ToDTO(savedCustomer);
     }
+    @Override
+    public CustomerDTO updateCustomer(int id, CustomerDTO customerDTO) {
+        Customer existingCustomer = customerDAL.findById(id)
+                .orElseThrow(() -> new RuntimeException("Customer not found"));
+
+        // Map de velden van customerDTO naar de bestaande Customer-entiteit
+        existingCustomer.setName(customerDTO.getName());
+        existingCustomer.setEmail(customerDTO.getEmail());
+        existingCustomer.setCompany(customerDTO.getCompany());
+        existingCustomer.setPhone(customerDTO.getPhone());
+        existingCustomer.setAddress(customerDTO.getAddress());
+
+        // Sla de wijzigingen op met save()
+        Customer updatedCustomer = customerDAL.save(existingCustomer);
+
+        // Map de bijgewerkte entiteit terug naar een DTO
+        return customerMapper.ToDTO(updatedCustomer);
+    }
+
+    @Override
+    public void deleteCustomer(int id) {
+        customerDAL.deleteById(id);
+    }
 }

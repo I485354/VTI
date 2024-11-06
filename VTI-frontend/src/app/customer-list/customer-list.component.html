@@ -38,8 +38,8 @@
   <app-customer-form
     *ngIf="isFormVisible"
     [customer]="selectedCustomer"
-    (save)="onSaveCustomer($event)"
-    (cancel)="onCancel()">
+    (customerSave)="onSaveCustomer($event)"
+    (customerCancel)="onCancel()">
   </app-customer-form>
 
   <ng-template #noData>

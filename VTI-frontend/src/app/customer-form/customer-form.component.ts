@@ -14,14 +14,14 @@ import { FormsModule } from '@angular/forms';
 export class CustomerFormComponent {
   //@Input() customer: Customers | null = null;
   @Input() customer: Customers = { customer_id: 0, name: '', address: '', phone: '', email: '', company: ''};
-  @Output() save = new EventEmitter<Customers>();
-  @Output() cancel = new EventEmitter<void>();
+  @Output() customerSave = new EventEmitter<Customers>();
+  @Output() customerCancel = new EventEmitter<void>();
 
-  onSave(): void {
-    this.save.emit(this.customer);
+  saveCustomer(): void {
+    this.customerSave.emit(this.customer);
   }
 
-  onCancel(): void {
-    this.cancel.emit();
+  cancelCustomer(): void {
+    this.customerCancel.emit();
   }
 }

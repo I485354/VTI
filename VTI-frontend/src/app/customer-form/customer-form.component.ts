@@ -1,13 +1,16 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Customers } from '../model/customer.model'; 
+import { Customers } from '../model/customer.model';
+import { FormsModule } from '@angular/forms';
+
 @Component({
   selector: 'app-customer-form',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './customer-form.component.html',
   styleUrl: './customer-form.component.css'
 })
+
 export class CustomerFormComponent {
   @Input() customer: Customers = { customer_id: 0, name: '', address: '', phone: '', email: '', company: ''};
   @Output() save = new EventEmitter<Customers>();

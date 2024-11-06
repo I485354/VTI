@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ApiService } from '../api.service';
 import { Customers } from '../model/customer.model';
+import { CustomerFormComponent } from '../customer-form/customer-form.component';
 
 @Component({
   selector: 'app-customer-list',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, CustomerFormComponent],
   templateUrl: './customer-list.component.html',
   styleUrl: './customer-list.component.css'
 })

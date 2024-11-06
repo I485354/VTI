@@ -3,6 +3,7 @@ package org.vti.vtibackend.Presentatie.Controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.vti.vtibackend.BLL.Interface.IInvoiceService;
 import org.vti.vtibackend.BLL.Service.InvoiceService;
 import org.vti.vtibackend.DAL.Entity.Invoice;
 import org.vti.vtibackend.model.InvoiceDTO;
@@ -14,8 +15,13 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/invoice")
 public class InvoiceController {
+
+    private final IInvoiceService invoiceService;
+
     @Autowired
-    private InvoiceService invoiceService;
+    public InvoiceController(IInvoiceService invoiceService) {
+        this.invoiceService = invoiceService;
+    }
 
     @GetMapping
     public List<InvoiceDTO> getAllInvoices() {

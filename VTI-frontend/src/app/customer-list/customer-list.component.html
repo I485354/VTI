@@ -1,28 +1,44 @@
 <div class="customer-list-container">
   <h2 class="title">Klantenlijst</h2>
 
-  <div *ngIf="customers.length > 0; else noData">
-    <table class="customer-table">
-      <thead>
-      <tr>
-        <th>Klant ID</th>
-        <th>Naam</th>
-        <th>Email</th>
-        <th>Bedrijf</th>
-        <th>Telefoonnummer</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr *ngFor="let customer of customers">
-        <td>{{ customer.customer_id }}</td>
-        <td>{{ customer.name }}</td>
-        <td>{{ customer.email }}</td>
-        <td>{{ customer.company || 'N/A' }}</td>
-        <td>{{ customer.phone || 'N/A' }}</td>
-      </tr>
-      </tbody>
-    </table>
+  <div *ngIf="!isFormVisible">
+    <div class="actions">
+      <button (click)="onAddCustomer()" class="add-button">Klant Toevoegen</button>
+    </div>
+    <div *ngIf="customers.length > 0; else noData">
+      <table class="customer-table">
+        <thead>
+        <tr>
+          <th>Klant ID</th>
+          <th>Naam</th>
+          <th>Email</th>
+          <th>Bedrijf</th>
+          <th>Telefoonnummer</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let customer of customers">
+          <td>{{ customer.customer_id }}</td>
+          <td>{{ customer.name }}</td>
+          <td>{{ customer.email }}</td>
+          <td>{{ customer.company || 'N/A' }}</td>
+          <td>{{ customer.phone || 'N/A' }}</td>
+          <td>
+            <button (click)="onEditCustomer(customer)" class="edit-button">Bewerken</button>
+          </td>
+        </tr>
+
+        </tbody>
+      </table>
+    </div>
   </div>
+
+  <app-customer-form
+    *ngIf="isFormVisible"
+    [customer]="selectedCustomer"
+    (save)="onSaveCustomer($event)"
+    (cancel)="onCancel()">
+  </app-customer-form>
 
   <ng-template #noData>
     <p class="no-data">Geen klanten gevonden</p>

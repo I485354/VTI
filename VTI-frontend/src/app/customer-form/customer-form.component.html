@@ -1,0 +1,18 @@
+<div class="customer-form">
+  <h2>{{ customer.customer_id ? 'Klant Bewerken' : 'Nieuwe Klant Toevoegen' }}</h2>
+
+  <label>Naam:</label>
+  <input [(ngModel)]="customer.name" type="text" />
+
+  <label>Email:</label>
+  <input [(ngModel)]="customer.email" type="email" />
+
+  <label>Bedrijf:</label>
+  <input [(ngModel)]="customer.company" type="text" />
+
+  <label>Telefoonnummer:</label>
+  <input [(ngModel)]="customer.phone" type="text" />
+
+  <button (click)="onSave()">Opslaan</button>
+  <button (click)="onCancel()">Annuleren</button>
+</div>

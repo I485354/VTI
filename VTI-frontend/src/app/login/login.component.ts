@@ -15,7 +15,7 @@ export class LoginComponent {
   password: string = '';
 
   constructor() {}
-
+ 
   onSubmit(): void {
     console.log('E-mail:', this.email);
     console.log('Wachtwoord:', this.password);

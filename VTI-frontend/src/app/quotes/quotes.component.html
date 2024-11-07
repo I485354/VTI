@@ -1,1 +1,56 @@
-<p>quotes works!</p>
+<div class="quotes-container">
+  <h2>Offertepagina</h2>
+
+  <div class="products-list">
+    <h3>Beschikbare Producten</h3>
+    <table>
+      <thead>
+      <tr>
+        <th>Productnaam</th>
+        <th>Beschrijving</th>
+        <th>Prijs</th>
+        <th>Actie</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let product of products">
+        <td>{{ product.name }}</td>
+        <td>{{ product.description }}</td>
+        <td>&euro;{{ product.price | number: '1.2-2' }}</td>
+        <td><button (click)="addToQuote(product)">Toevoegen aan offerte</button></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="quote-summary">
+    <h3>Offerte Overzicht</h3>
+    <table *ngIf="quoteItems.length > 0; else noQuoteItems">
+      <thead>
+      <tr>
+        <th>Productnaam</th>
+        <th>Aantal</th>
+        <th>Prijs</th>
+        <th>Totaal</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let item of quoteItems">
+        <td>{{ item.name }}</td>
+        <td>{{ item.quantity }}</td>
+        <td>&euro;{{ item.price | number: '1.2-2' }}</td>
+        <td>&euro;{{ (item.price * item.quantity) | number: '1.2-2' }}</td>
+      </tr>
+      </tbody>
+      <tfoot>
+      <tr>
+        <td colspan="3">Totaal</td>
+        <td>&euro;{{ calculateTotal() | number: '1.2-2' }}</td>
+      </tr>
+      </tfoot>
+    </table>
+    <ng-template #noQuoteItems>
+      <p>Geen producten toegevoegd aan de offerte.</p>
+    </ng-template>
+  </div>
+</div>

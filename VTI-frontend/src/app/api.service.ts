@@ -36,4 +36,4 @@ export class ApiService {
     return this.http.put<Customers>(`${this.apiUrl}/customer/${customer.customer_id}`, customer);
   }
   // API voor andere data zoals betalingen, offertes, etc.
-}
+} 

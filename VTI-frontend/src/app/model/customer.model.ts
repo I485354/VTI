@@ -6,3 +6,4 @@ export interface Customers {
   email: string;
   company: string;
 }
+ 

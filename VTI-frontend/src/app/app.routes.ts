@@ -14,7 +14,7 @@ export const routes: Routes = [
   { path: 'new-invoice', component: NewInvoiceComponent },
   { path: 'quotes', component: QuotesComponent },
   { path: 'customer-list', component: CustomerListComponent },
-  { path: 'payments', component: PaymentsComponent },
+  { path: 'payments', component: PaymentsComponent }, 
   { path: 'settings', component: SettingsComponent },
   { path: 'login', component: LoginComponent },
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },

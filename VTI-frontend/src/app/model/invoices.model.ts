@@ -7,3 +7,4 @@ export interface Invoice {
   total_amount: number;
   status: string;
 }
+ 

@@ -65,7 +65,7 @@ export class NewInvoiceComponent implements OnInit {
     this.invoice.customer_id = this.selectedCustomer.customer_id;
   }
 
-
+ 
 
 
   addItem() {

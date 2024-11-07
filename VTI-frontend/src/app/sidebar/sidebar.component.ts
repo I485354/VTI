@@ -14,8 +14,7 @@ import {FormsModule} from '@angular/forms';
 })
 export class SidebarComponent {
   collapsed = false;
-
-  faTachometerAlt = faTachometerAlt;
+  faTachometerAlt = faTachometerAlt; 
   faFileInvoice = faFileInvoice;
   faFileAlt = faFileAlt;
   faUsers = faUsers;

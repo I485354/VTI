@@ -13,7 +13,7 @@ describe('NewInvoiceComponent', () => {
       providers: [ApiService]  // Zorg dat ApiService beschikbaar is
     }).compileComponents();
   });
-  
+   
   beforeEach(() => {
     fixture = TestBed.createComponent(NewInvoiceComponent);
     component = fixture.componentInstance;

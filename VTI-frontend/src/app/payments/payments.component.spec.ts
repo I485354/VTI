@@ -20,4 +20,4 @@ describe('PaymentsComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-});
+}); 

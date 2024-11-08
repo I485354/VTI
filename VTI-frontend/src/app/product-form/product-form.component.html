@@ -1,1 +1,31 @@
-<p>product-form works!</p>
+<div class="add-product-container">
+  <h3>Nieuw Product Toevoegen</h3>
+  <form (ngSubmit)="addProduct()">
+    <div>
+      <label>Naam:</label>
+      <input [(ngModel)]="newProduct.name" name="name" required />
+    </div>
+    <div>
+      <label>Beschrijving:</label>
+      <input [(ngModel)]="newProduct.description" name="description" required />
+    </div>
+    <div>
+      <label>Prijs (€):</label>
+      <input type="number" [(ngModel)]="newProduct.price" name="price" required />
+    </div>
+    <div>
+      <label>BTW (%):</label>
+      <select class="BTW-selection" [(ngModel)]="newProduct.btw" name="btw" required>
+        <option value="0" >0</option>
+        <option value="9" >9</option>
+        <option value="21" >21</option>
+      </select>
+      <!--<input type="number" [(ngModel)]="newProduct.btw" name="btw" required />-->
+    </div>
+    <div>
+      <label>Aantal:</label>
+      <input type="number" [(ngModel)]="newProduct.quantity" name="quantity" required />
+    </div>
+    <button type="submit">Product Toevoegen</button>
+  </form>
+</div>

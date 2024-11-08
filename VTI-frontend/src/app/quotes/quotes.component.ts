@@ -2,13 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { Products } from '../model/products.model'
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { RouterModule, Router } from '@angular/router';
 import { ApiService } from '../api.service';
 
 
 @Component({
   selector: 'app-quotes',
   standalone: true,
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule, RouterModule],
   templateUrl: './quotes.component.html',
   styleUrls: ['./quotes.component.css']
 })
@@ -16,7 +17,7 @@ export class QuotesComponent implements OnInit {
   products: Products[] = [];
   quoteItems: Products[] = [];
 
-  constructor(private apiService: ApiService) { }
+  constructor(private apiService: ApiService, private routes: Router) { }
 
   ngOnInit(): void {
     this.apiService.getProducts().subscribe((data: Products[]) => {

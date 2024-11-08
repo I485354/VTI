@@ -37,3 +37,17 @@ button:hover {
 p {
   font-style: italic;
 }
+.add-product-button {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+.add-product-button:hover {
+  background-color: #218838;
+}
+

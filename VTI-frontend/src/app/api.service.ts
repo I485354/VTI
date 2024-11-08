@@ -37,5 +37,8 @@ export class ApiService {
   getProducts(): Observable<Products[]> {
   return this.http.get<Products[]>(`${this.apiUrl}/product`);   
 }
+  addProduct(product: Products): Observable<Products> {
+    return this.http.post<Products>(`${this.apiUrl}/product`, product );
+  }
   // API voor andere data zoals betalingen, offertes, etc.
 } 

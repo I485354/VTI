@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+
 import { Invoice } from '../model/invoices.model';
 import { Customers } from '../model/customer.model';
 import { InvoiceItem } from '../model/invoiceitems.model';
+import { Products } from '../model/products.model';
+
 import { ApiService } from '../api.service';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-new-invoice',
@@ -25,14 +28,15 @@ export class NewInvoiceComponent implements OnInit {
     status: ''
   };
 
-  customers: Customers[] = []; // Lijst van klanten
-  invoiceItems: InvoiceItem[] = []; // Lijst van Factuuritems
-  selectedCustomerId= 0; // Start met 0 in plaats van null
+  customers: Customers[] = [];
+  products: Products[] = [];
+  invoiceItems: InvoiceItem[] = [];
+
+  selectedCustomerId= 0;
   selectedCustomer: Customers = { customer_id: 0, name: '', company: '', address: '', email: '', phone: '' };
   totalBtwAmount = 0;
 
   // Lege klant als standaardwaarde
-
   constructor(private apiService: ApiService, private router: Router) {
   }
 
@@ -46,6 +50,9 @@ export class NewInvoiceComponent implements OnInit {
 
     this.apiService.getCustomers().subscribe((data: Customers[]) => {
       this.customers = data;
+    });
+    this.apiService.getProducts().subscribe((data: Products[]) => {
+      this.products = data;
     });
 
     // Voeg een eerste leeg factuuritem toe
@@ -65,9 +72,6 @@ export class NewInvoiceComponent implements OnInit {
     this.invoice.customer_id = this.selectedCustomer.customer_id;
   }
 
- 
-
-
   addItem() {
     this.invoiceItems.push({
       invoice_item_id: 0,
@@ -84,6 +88,26 @@ export class NewInvoiceComponent implements OnInit {
     this.calculateTotals();
   }
 
+  onProductChange(item: InvoiceItem) {
+    // Forceer product_id vergelijking als nummers om inconsistentie te vermijden
+    const selectedProduct = this.products.find(p => +p.product_id === +item.product_id);
+
+    // Log de `product_id` waarden en `selectedProduct` voor verdere controle
+    console.log('Producten array:', this.products); // Log alle producten nogmaals voor duidelijkheid
+    console.log('Zoek product met product_id:', item.product_id);
+    console.log('Gevonden product:', selectedProduct);
+
+    if (selectedProduct) {
+      item.unit_price = selectedProduct.price;
+      item.btw = selectedProduct.btw; // Pas de BTW aan indien nodig
+      this.calculateTotals();
+    } else {
+      console.warn('Product niet gevonden voor product_id:', item.product_id);
+    }
+  }
+
+
+
   calculateTotals() {
     this.invoice.total_amount = 0;
     this.totalBtwAmount = 0;
@@ -91,7 +115,6 @@ export class NewInvoiceComponent implements OnInit {
     this.invoiceItems.forEach(item => {
       const itemTotal = item.quantity * item.unit_price;
       const itemBtwAmount = itemTotal * (item.btw / 100);
-
       // Totaal per item inclusief BTW
       item.total = itemTotal + itemBtwAmount;
 
@@ -104,20 +127,13 @@ export class NewInvoiceComponent implements OnInit {
   }
 
   onSubmit() {
-    // Update de totaalprijs per item en bereken de totale factuurprijs
-    this.invoiceItems.forEach(item => {
-      item.total = item.quantity * item.unit_price;
-    });
+    // Bereken de totalen nogmaals voor de zekerheid
     this.calculateTotals();
 
     const invoiceToSend = {
       ...this.invoice,
       items: this.invoiceItems // Voeg de factuuritems toe aan de factuur
     };
-    console.log(this.invoice);
-    console.log(invoiceToSend);
-
-    console.log('Verzonden factuur:', invoiceToSend); // Voeg deze log toe om de payload te controleren
 
     this.apiService.addInvoice(invoiceToSend).subscribe(
       response => {
@@ -125,7 +141,7 @@ export class NewInvoiceComponent implements OnInit {
         this.router.navigate(['/invoices']);
       },
       error => {
-        console.error('Er is een fout opgetreden:', error);
+        console.error('Er is een fout opgetreden:', error); // Fout afvangen
       }
     );
   }

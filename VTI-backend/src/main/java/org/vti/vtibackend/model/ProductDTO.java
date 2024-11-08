@@ -16,6 +16,8 @@ public class ProductDTO {
     private String name;
     private String description;
     private double price;
+    private int quantity;
+    private int btw;
 
     @java.lang.SuppressWarnings("all")
     @lombok.Generated
@@ -42,6 +44,16 @@ public class ProductDTO {
     }
 
     @java.lang.SuppressWarnings("all")
+    public int getQuantity() {
+        return this.quantity;
+    }
+    @java.lang.SuppressWarnings("all")
+    public int getBtw() {
+        return this.btw;
+    }
+
+
+    @java.lang.SuppressWarnings("all")
     @lombok.Generated
     public void setProduct_id(final int product_id) {
         this.product_id = product_id;
@@ -63,6 +75,16 @@ public class ProductDTO {
     @lombok.Generated
     public void setPrice(final double price) {
         this.price = price;
+    }
+
+    @java.lang.SuppressWarnings("all")
+    @lombok.Generated
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+    @java.lang.SuppressWarnings("all")
+    public void setBtw(final int btw) {
+        this.btw = btw;
     }
 
 }

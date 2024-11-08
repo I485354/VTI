@@ -1,93 +1,204 @@
 .new-invoice-container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
-  font-family: Arial, sans-serif;
+  width: 925px;
+  margin: auto;
   background-color: #f9f9f9;
   border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  font-family: Arial, sans-serif;
 }
 
 .new-invoice-container h2 {
   text-align: center;
-  font-size: 24px;
   color: #333;
   margin-bottom: 20px;
 }
 
-.form-group, .item {
+.form-group {
   margin-bottom: 15px;
 }
 
 label {
-  display: block;
   font-weight: bold;
-  color: #555;
+  display: block;
+  margin-bottom: 5px;
 }
 
-input, select {
+input[type="number"], input[type="text"], select, .form-control {
   width: 100%;
   padding: 8px;
   margin-top: 5px;
-  border: 1px solid #ddd;
+  border: 1px solid #ccc;
   border-radius: 4px;
 }
 
+/*.invoice-items {
+  background-color: #fff;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+
+.invoice-items .item {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.item-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.item-field label {
+  font-size: 12px;
+  font-weight: normal;
+}
+
+button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+*/
+.invoice-items {
+  margin-top: 20px;
+  padding: 10px;
+  border: 1px solid #e0e0e0;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
 .invoice-items h3 {
-  font-size: 18px;
-  color: #333;
-  border-bottom: 2px solid #ddd;
-  padding-bottom: 5px;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
 }
 
 .item {
   display: flex;
+  flex-wrap: wrap;
+  gap: 10px; /* Ruimte tussen de velden */
   align-items: center;
-  justify-content: space-between;
-  background-color: #fff;
-  padding: 10px;
-  margin-bottom: 10px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+  margin-bottom: 15px;
 }
 
 .item-field {
-  width: 18%;
+  flex: 1 1 150px; /* Zorgt ervoor dat elk veld minimaal 150px breed is */
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
 }
 
 .item-field label {
-  font-weight: normal;
-  color: #444;
+  font-weight: bold;
+  margin-bottom: 5px;
 }
 
-.btn-primary {
-  display: block;
-  width: 100%;
-  padding: 10px;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
+.item-field input,
+.item-field select {
+  padding: 8px;
+  border: 1px solid #ced4da;
   border-radius: 4px;
-  cursor: pointer;
-  font-size: 16px;
-  text-align: center;
-  margin-top: 20px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-.btn-primary:hover {
-  background-color: #0056b3;
+.totals {
+  font-weight: bold;
+  color: #333;
+  margin-top: 5px;
 }
 
-button[type="button"] {
-  padding: 5px 10px;
-  background-color: #ff4d4d;
+button {
+  background-color: #007bff;
   color: white;
   border: none;
-  border-radius: 4px;
+  padding: 10px 15px;
+  border-radius: 5px;
   cursor: pointer;
+  font-weight: bold;
+  margin-top: 10px;
 }
 
-button[type="button"]:hover {
-  background-color: #cc0000;
+button:hover {
+  background-color: #0056b3;
 }
+.button-danger {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 20px;
+  align-self: flex-start; /* Zorgt ervoor dat de knop links blijft */
+}
+
+.button-danger:hover {
+  background-color: #c82333;
+}
+
+
+
+
+button[type="submit"] {
+  display: block;
+  width: 60%;
+  margin: 20px auto;
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+button[type="submit"]:hover {
+  background-color: #044a9a; /* Hover-effect */
+}
+
+
+.total-section {
+  text-align: right;
+  font-weight: bold;
+  margin-top: 20px;
+  padding-top: 10px;
+  border-top: 1px solid #ddd;
+  color: #333;
+}
+
+.select-item, .select-item .form-control {
+  width: 100%;
+  padding: 10px;
+}
+
+#totals {
+  font-weight: bold;
+  color: #333;
+  margin: 15px;
+}
+
+.status {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+@media screen and (max-width: 600px) {
+  .invoice-items .item {
+    grid-template-columns: 1fr;
+  }
+}
+

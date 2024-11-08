@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Customers } from './model/customer.model';
-import {Invoice} from './model/invoices.model';
+import { Invoice } from './model/invoices.model';
+import { Products } from './model/products.model';
 
 @Injectable({
   providedIn: 'root'
@@ -17,8 +18,6 @@ export class ApiService {
   getCustomers(): Observable<Customers[]> {
     return this.http.get<Customers[]>(`${this.apiUrl}/customer`);
   }
-
-  // API om facturen op te halen
   getInvoices(): Observable<Invoice[]> {
     return this.http.get<Invoice[]>(`${this.apiUrl}/invoice`);
   }
@@ -35,5 +34,8 @@ export class ApiService {
   updateCustomer(customer: Customers): Observable<Customers> {
     return this.http.put<Customers>(`${this.apiUrl}/customer/${customer.customer_id}`, customer);
   }
+  getProducts(): Observable<Products[]> {
+  return this.http.get<Products[]>(`${this.apiUrl}/product`);   
+}
   // API voor andere data zoals betalingen, offertes, etc.
 } 

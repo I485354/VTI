@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { QuotesComponent } from './quotes.component';
 
 describe('QuotesComponent', () => {
@@ -8,7 +8,7 @@ describe('QuotesComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [QuotesComponent]
+      imports: [HttpClientTestingModule ,QuotesComponent]
     })
     .compileComponents();
 

@@ -28,8 +28,11 @@
       <div *ngFor="let item of invoiceItems; let i = index" class="item">
         <!-- Productgegevens en BTW -->
         <div class="item-field">
-          <label for="productId" >Product ID:</label>
-          <input id="productId" type="number" [(ngModel)]="item.product_id" name="productId{{i}}" />
+          <label for="productSelect{{i}}">Product:</label>
+          <select id="product" [(ngModel)]="item.product_id" name="product{{i}}" (change)="onProductChange(item)">
+            <option value="" disabled selected>Kies een product</option>
+            <option *ngFor="let product of products" [value]="product.product_id">{{ product.name }}</option>
+          </select>
         </div>
         <div class="item-field">
           <label for="quantity">Aantal:</label>
@@ -37,21 +40,17 @@
         </div>
         <div class="item-field">
           <label for="btw">BTW:</label>
-          <select id="btw"  [(ngModel)]="item.btw" name="btw{{i}}" (change)="calculateTotals()">
-            <option value="0">0%</option>
-            <option value="9">9%</option>
-            <option value="21">21%</option>
-          </select>
+          <input id="btw" type="text" [(ngModel)]="item.btw" name="btw{{i}}" readonly />
         </div>
         <div class="item-field">
           <label for="unitPrice">Eenheidsprijs (€):</label>
-          <input id="unitPrice" type="number" [(ngModel)]="item.unit_price" name="unitPrice{{i}}" (input)="calculateTotals()" />
+          <input id="unitPrice" type="number" [(ngModel)]="item.unit_price" name="unitPrice{{i}}" readonly />
         </div>
         <div class="item-field">
-          <label for="totals">Totaal (€):</label>
-          <span id="totals">{{ item.quantity * item.unit_price * (1 + item.btw / 100) | currency:'EUR' }}</span>
+          <label class="totals" for="totals">Totaal (€):</label>
+          <span class="totals" id="totals">{{ item.total | currency:'EUR' }}</span>
         </div>
-        <button type="button" (click)="removeItem(i)">Verwijder</button>
+        <button type="button" (click)="removeItem(i)" class="button-danger">Verwijder</button>
       </div>
       <button type="button" (click)="addItem()">Voeg Item Toe</button>
     </section>

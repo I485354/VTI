@@ -4,8 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.vti.vtibackend.BLL.Interface.IInvoiceService;
-import org.vti.vtibackend.BLL.Service.InvoiceService;
-import org.vti.vtibackend.DAL.Entity.Invoice;
 import org.vti.vtibackend.model.InvoiceDTO;
 
 

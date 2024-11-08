@@ -3,7 +3,6 @@ package org.vti.vtibackend.Presentatie.Controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.vti.vtibackend.BLL.Interface.IUserService;
-import org.vti.vtibackend.BLL.Service.UserService;
 import org.vti.vtibackend.model.UserDTO;
 
 import java.util.List;

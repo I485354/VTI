@@ -2,29 +2,28 @@
   <h3>Nieuw Product Toevoegen</h3>
   <form (ngSubmit)="addProduct()">
     <div>
-      <label>Naam:</label>
-      <input [(ngModel)]="newProduct.name" name="name" required />
+      <label for="name">Naam:</label>
+      <input id="name" [(ngModel)]="newProduct.name" name="name" required />
     </div>
     <div>
-      <label>Beschrijving:</label>
-      <input [(ngModel)]="newProduct.description" name="description" required />
+      <label for="description">Beschrijving:</label>
+      <input id="description" [(ngModel)]="newProduct.description" name="description" required />
     </div>
     <div>
-      <label>Prijs (€):</label>
-      <input type="number" [(ngModel)]="newProduct.price" name="price" required />
+      <label for="price">Prijs (€):</label>
+      <input id="price" type="number" [(ngModel)]="newProduct.price" name="price" required />
     </div>
     <div>
-      <label>BTW (%):</label>
-      <select class="BTW-selection" [(ngModel)]="newProduct.btw" name="btw" required>
-        <option value="0" >0</option>
-        <option value="9" >9</option>
-        <option value="21" >21</option>
+      <label for="btw">BTW (%):</label>
+      <select id="btw" class="BTW-selection" [(ngModel)]="newProduct.btw" name="btw" required>
+        <option value="0">0</option>
+        <option value="9">9</option>
+        <option value="21">21</option>
       </select>
-      <!--<input type="number" [(ngModel)]="newProduct.btw" name="btw" required />-->
     </div>
     <div>
-      <label>Aantal:</label>
-      <input type="number" [(ngModel)]="newProduct.quantity" name="quantity" required />
+      <label for="quantity">Aantal:</label>
+      <input id="quantity" type="number" [(ngModel)]="newProduct.quantity" name="quantity" required />
     </div>
     <button type="submit">Product Toevoegen</button>
   </form>

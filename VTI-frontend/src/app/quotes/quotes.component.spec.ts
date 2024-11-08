@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 import { QuotesComponent } from './quotes.component';
 
 describe('QuotesComponent', () => {
@@ -8,7 +9,10 @@ describe('QuotesComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule ,QuotesComponent]
+      imports: [
+          RouterTestingModule
+          ,HttpClientTestingModule
+          ,QuotesComponent]
     })
     .compileComponents();
 
@@ -16,7 +20,7 @@ describe('QuotesComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
- 
+
   it('should create', () => {
     expect(component).toBeTruthy();
   });

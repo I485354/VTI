@@ -7,7 +7,6 @@ import org.vti.vtibackend.BLL.Mapper.AccountingEntryMapper;
 import org.vti.vtibackend.DAL.Entity.AccountingEntry;
 import org.vti.vtibackend.DAL.Interface.IAccountingEntryDAL;
 import org.vti.vtibackend.model.AccountingentryDTO;
-import org.vti.vtibackend.DAL.Repository.AccountingEntryRepo;
 
 
 import java.util.List;

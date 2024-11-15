@@ -37,12 +37,12 @@ public class CustomerServiceTest {
     @Test
     void testGetAllCustomers() {
         // Arrange
-        Customer customer1 = new Customer(1, "John Doe", "john@example.com", "Doe Enterprises", "123-456", "123 Main St");
-        Customer customer2 = new Customer(2, "Jane Smith", "jane@example.com", "Smith Solutions", "234-567", "456 Oak Ave");
+        Customer customer1 = new Customer(1, "John Doe", "Doe Enterprises", "123 Main St", "john@example.com", "123-456");
+        Customer customer2 = new Customer(2, "Jane Smith", "Smith Solutions", "456 Oak Ave", "jane@example.com", "234-567");
 
         when(customerDAL.findAll()).thenReturn(Arrays.asList(customer1, customer2));
-        when(customerMapper.ToDTO(customer1)).thenReturn(new CustomerDTO(1, "John Doe", "john@example.com", "Doe Enterprises", "123-456", "123 Main St"));
-        when(customerMapper.ToDTO(customer2)).thenReturn(new CustomerDTO(2, "Jane Smith", "jane@example.com", "Smith Solutions", "234-567", "456 Oak Ave"));
+        when(customerMapper.ToDTO(customer1)).thenReturn(new CustomerDTO(1, "John Doe", "Doe Enterprises", "123 Main St", "john@example.com", "123-456"));
+        when(customerMapper.ToDTO(customer2)).thenReturn(new CustomerDTO(2, "Jane Smith", "Smith Solutions", "456 Oak Ave", "jane@example.com", "234-567"));
 
         // Act
         List<CustomerDTO> customers = customerService.getAllCustomers();
@@ -58,8 +58,8 @@ public class CustomerServiceTest {
     @Test
     void testCreateCustomer() {
         // Arrange
-        CustomerDTO customerDTO = new CustomerDTO(1, "John Doe", "john@example.com", "Doe Enterprises", "123-456", "123 Main St");
-        Customer customerEntity = new Customer(1, "John Doe", "john@example.com", "Doe Enterprises", "123-456", "123 Main St");
+        CustomerDTO customerDTO = new CustomerDTO(1, "John Doe", "Doe Enterprises", "123 Main St", "john@example.com", "123-456");
+        Customer customerEntity = new Customer(1, "John Doe", "Doe Enterprises", "123 Main St", "john@example.com", "123-456");
 
         when(customerMapper.ToEntity(customerDTO)).thenReturn(customerEntity);
         when(customerDAL.save(customerEntity)).thenReturn(customerEntity);
@@ -77,8 +77,8 @@ public class CustomerServiceTest {
     void testUpdateCustomer() {
         // Arrange
         int customerId = 1;
-        CustomerDTO customerDTO = new CustomerDTO(customerId, "John Updated", "john_updated@example.com", "Doe Updated Enterprises", "123-789", "789 Pine St");
-        Customer existingCustomer = new Customer(customerId, "John Doe", "john@example.com", "Doe Enterprises", "123-456", "123 Main St");
+        CustomerDTO customerDTO = new CustomerDTO(customerId, "John Updated", "Doe Updated Enterprises", "789 Pine St", "john_updated@example.com", "123-789");
+        Customer existingCustomer = new Customer(customerId, "John Doe", "Doe Enterprises", "123 Main St", "john@example.com", "123-456");
 
         when(customerDAL.findById(customerId)).thenReturn(Optional.of(existingCustomer));
         when(customerDAL.save(existingCustomer)).thenReturn(existingCustomer);
@@ -98,7 +98,7 @@ public class CustomerServiceTest {
     void testUpdateCustomerNotFound() {
         // Arrange
         int customerId = 1;
-        CustomerDTO customerDTO = new CustomerDTO(customerId, "John Updated", "john_updated@example.com", "Doe Updated Enterprises", "123-789", "789 Pine St");
+        CustomerDTO customerDTO = new CustomerDTO(customerId, "John Updated", "Doe Updated Enterprises", "789 Pine St", "john_updated@example.com", "123-789");
 
         when(customerDAL.findById(customerId)).thenReturn(Optional.empty());
 

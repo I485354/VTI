@@ -3,6 +3,7 @@ package org.vti.vtibackend.Presentatie.Controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.vti.vtibackend.BLL.Interface.IInvoiceItemService;
+import org.vti.vtibackend.BLL.Service.InvoiceItemService;
 import org.vti.vtibackend.model.InvoiceitemDTO;
 
 import java.util.List;
@@ -11,10 +12,10 @@ import java.util.List;
 @RequestMapping("/api/invoiceitem")
 public class InvoiceItemController {
 
-    private final IInvoiceItemService invoiceItemService;
+    private final InvoiceItemService invoiceItemService;
 
     @Autowired
-    public InvoiceItemController(IInvoiceItemService invoiceItemService) {
+    public InvoiceItemController(InvoiceItemService invoiceItemService) {
         this.invoiceItemService = invoiceItemService;
     }
 

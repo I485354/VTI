@@ -34,6 +34,12 @@ public class InvoiceService implements IInvoiceService {
 
     public InvoiceDTO createInvoice(InvoiceDTO invoiceDTO) {
         Invoice invoice = invoiceMapper.toEntity(invoiceDTO);
+        if (invoiceDTO.getCar_id() == null) {
+            invoice.setCar_id(null);
+        }
+        int highestInvoiceNumber = invoiceDAL.findHighestInvoiceNumber();
+        int nextInvoiceNumber = (highestInvoiceNumber != 0) ? highestInvoiceNumber + 1 : 1;
+        invoice.setInvoice_number(nextInvoiceNumber);
         Invoice savedInvoice = invoiceDAL.save(invoice);
         return invoiceMapper.toDTO(savedInvoice);
     }

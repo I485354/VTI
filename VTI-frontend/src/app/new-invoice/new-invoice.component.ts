@@ -5,6 +5,7 @@ import { Invoice } from '../model/invoices.model';
 import { Customers } from '../model/customer.model';
 import { InvoiceItem } from '../model/invoiceitems.model';
 import { Products } from '../model/products.model';
+import { Car } from '../model/car.model';
 
 import { ApiService } from '../api.service';
 import { FormsModule } from '@angular/forms';
@@ -21,18 +22,23 @@ export class NewInvoiceComponent implements OnInit {
   invoice: Invoice = {
     invoice_id: 0,
     customer_id: 0,
+    car_id: 0,
     invoice_date: new Date(),
     due_date: new Date(),
     total_btw: 0,
     total_amount: 0,
-    status: ''
+    status: '',
+    invoice_number: 0
   };
 
   customers: Customers[] = [];
   products: Products[] = [];
   invoiceItems: InvoiceItem[] = [];
-
+  cars: Car[] = [];
+  // Array om auto's op te slaan
+  selectedCarId = 0;
   selectedCustomerId= 0;
+  selectedCar: Car = { car_id: 0, customer_id: this.selectedCustomerId, plate_number: '', brand: '', model: '', year: 0, chasi_number: ''};
   selectedCustomer: Customers = { customer_id: 0, name: '', company: '', address: '', email: '', phone: '' };
   totalBtwAmount = 0;
 
@@ -70,6 +76,36 @@ export class NewInvoiceComponent implements OnInit {
     this.selectedCustomer = this.customers.find(customer => customer.customer_id === +this.selectedCustomerId) ||
       { customer_id: 0, name: '', company: '', address: '', email: '', phone: '' };
     this.invoice.customer_id = this.selectedCustomer.customer_id;
+
+    // Haal de auto's op van de geselecteerde klant
+    this.apiService.getCarsByCustomerId(this.selectedCustomer.customer_id).subscribe(
+      (data: Car[]) => {
+        this.cars = data; // Sla de auto's op in de array
+        if (this.cars.length > 0) {
+          this.selectedCarId = this.cars[0].car_id;
+          this.onCarChange();
+        } else {
+          this.invoice.car_id = null;
+        }
+      },
+      error => {
+        console.error('Fout bij ophalen van auto\'s:', error);
+      }
+    );
+  }
+
+
+  onCarChange() {
+      this.selectedCar = this.cars.find(car => car.car_id === +this.selectedCarId) || {
+        car_id: 0,
+        customer_id: 0,
+        plate_number: '',
+        brand: '',
+        model: '',
+        year: 0,
+        chasi_number: ''
+      };
+      this.invoice.car_id = this.selectedCarId;
   }
 
   addItem() {
@@ -107,7 +143,6 @@ export class NewInvoiceComponent implements OnInit {
   }
 
 
-
   calculateTotals() {
     this.invoice.total_amount = 0;
     this.totalBtwAmount = 0;
@@ -122,6 +157,7 @@ export class NewInvoiceComponent implements OnInit {
       this.invoice.total_amount += item.total;
       this.totalBtwAmount += itemBtwAmount;
       this.invoice.total_btw = itemBtwAmount;
+
 
     });
   }

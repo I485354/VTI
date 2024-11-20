@@ -13,11 +13,13 @@ import java.util.Date;
 public class InvoiceDTO {
     private long invoice_id;
     private long customer_id;
+    private Integer car_id;
     private Date invoice_date;
     private Date due_date;
     private double total_amount;
     private double total_btw;
     private String status;
+    private int invoice_number;
     // Getters en Setters
     @java.lang.SuppressWarnings("all")
     @lombok.Generated
@@ -29,6 +31,11 @@ public class InvoiceDTO {
     @lombok.Generated
     public long getCustomer_id() {
         return this.customer_id;
+    }
+
+    @java.lang.SuppressWarnings("all")
+    public Integer getCar_id() {
+        return this.car_id;
     }
 
     @java.lang.SuppressWarnings("all")
@@ -62,6 +69,11 @@ public class InvoiceDTO {
     }
 
     @java.lang.SuppressWarnings("all")
+    public int getInvoice_number() {
+        return this.invoice_number;
+    }
+
+    @java.lang.SuppressWarnings("all")
     @lombok.Generated
     public void setInvoice_id(final long invoice_id) {
         this.invoice_id = invoice_id;
@@ -71,6 +83,11 @@ public class InvoiceDTO {
     @lombok.Generated
     public void setCustomer_id(final long customer_id) {
         this.customer_id = customer_id;
+    }
+
+    @java.lang.SuppressWarnings("all")
+    public void setCar_id(final Integer car_id) {
+        this.car_id = car_id;
     }
 
     @java.lang.SuppressWarnings("all")
@@ -101,5 +118,10 @@ public class InvoiceDTO {
     @lombok.Generated
     public void setStatus(final String status) {
         this.status = status;
+    }
+
+    @java.lang.SuppressWarnings("all")
+    public void setInvoice_number(final int invoice_number) {
+        this.invoice_number = invoice_number;
     }
 }

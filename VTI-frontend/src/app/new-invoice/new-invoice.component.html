@@ -22,6 +22,27 @@
       <p><strong>Telefoon:</strong> {{ selectedCustomer.phone }}</p>
     </div>
 
+    <div *ngIf="cars.length > 0" class="form-group">
+      <label for="carId">Selecteer Auto</label>
+      <select id="carId" required [(ngModel)]="selectedCarId" name="carId" (change)="onCarChange()" class="form-control">
+        <option *ngFor="let car of cars" [value]="car.car_id">
+          {{ car.plate_number }} - {{ car.brand }} {{ car.model }} ({{ car.year }})
+        </option>
+      </select>
+    </div>
+    <!-- Auto Details -->
+    <div *ngIf="selectedCar && cars.length > 0">
+      <h3>Auto Gegevens</h3>
+      <p><strong>Kenteken:</strong> {{ selectedCar.plate_number }}</p>
+      <p><strong>Merk:</strong> {{ selectedCar.brand }}</p>
+      <p><strong>Model:</strong> {{ selectedCar.model }}</p>
+      <p><strong>Bouwjaar:</strong> {{ selectedCar.year }}</p>
+    </div>
+
+    <div *ngIf="cars.length === 0">
+      <p>Geen auto's beschikbaar voor deze klant.</p>
+    </div>
+
     <!-- Diensten/Producten -->
     <section class="invoice-items">
       <h3>Diensten/Producten</h3>
@@ -71,8 +92,8 @@
     <div class="form-group">
       <label for="status">Status</label>
       <select id="status" required [(ngModel)]="invoice.status" name="status" class="form-control">
-        <option value="Paid">Betaald</option>
-        <option value="Unpaid">Niet Betaald</option>
+        <option value="Betaald">Betaald</option>
+        <option value="Open">Niet Betaald</option>
       </select>
     </div>
 

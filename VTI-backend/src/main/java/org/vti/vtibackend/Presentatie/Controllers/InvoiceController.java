@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.vti.vtibackend.BLL.Interface.IInvoiceService;
+import org.vti.vtibackend.BLL.Service.InvoiceService;
 import org.vti.vtibackend.model.InvoiceDTO;
 
 
@@ -14,10 +15,10 @@ import java.util.Map;
 @RequestMapping("/api/invoice")
 public class InvoiceController {
 
-    private final IInvoiceService invoiceService;
+    private final InvoiceService invoiceService;
 
     @Autowired
-    public InvoiceController(IInvoiceService invoiceService) {
+    public InvoiceController(InvoiceService invoiceService) {
         this.invoiceService = invoiceService;
     }
 

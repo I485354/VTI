@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { Customers } from './model/customer.model';
 import { Invoice } from './model/invoices.model';
 import { Products } from './model/products.model';
+import { Car } from './model/car.model';
 
 @Injectable({
   providedIn: 'root'
@@ -35,10 +36,13 @@ export class ApiService {
     return this.http.put<Customers>(`${this.apiUrl}/customer/${customer.customer_id}`, customer);
   }
   getProducts(): Observable<Products[]> {
-  return this.http.get<Products[]>(`${this.apiUrl}/product`);   
+  return this.http.get<Products[]>(`${this.apiUrl}/product`);
 }
   addProduct(product: Products): Observable<Products> {
     return this.http.post<Products>(`${this.apiUrl}/product`, product );
   }
+  getCarsByCustomerId(customerId: number): Observable<Car[]> {
+    return this.http.get<Car[]>(`${this.apiUrl}/car/${customerId}`);
+  }
   // API voor andere data zoals betalingen, offertes, etc.
-} 
+}

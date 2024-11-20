@@ -37,13 +37,13 @@ public class InvoiceServiceTest {
     @Test
     void testGetAllInvoices() {
         // Arrange
-        Invoice invoice1 = new Invoice(1L, 1L, new Date(), new Date(), 100.0, 21.0, "Paid");
-        Invoice invoice2 = new Invoice(2L, 2L, new Date(), new Date(), 200.0, 42.0, "Unpaid");
+        Invoice invoice1 = new Invoice(1L, 1L,1,  new Date(), new Date(), 100.0, 21.0, "Paid", 1001);
+        Invoice invoice2 = new Invoice(2L, 2L,2,  new Date(), new Date(), 200.0, 42.0, "Unpaid", 1002);
 
         when(invoiceDAL.findAll()).thenReturn(Arrays.asList(invoice1, invoice2));
 
-        InvoiceDTO dto1 = new InvoiceDTO(1L, 1L, new Date(), new Date(), 100.0, 21.0, "Paid");
-        InvoiceDTO dto2 = new InvoiceDTO(2L, 2L, new Date(), new Date(), 200.0, 42.0, "Unpaid");
+        InvoiceDTO dto1 = new InvoiceDTO(1L, 1L,1,  new Date(), new Date(), 100.0, 21.0, "Paid",1001);
+        InvoiceDTO dto2 = new InvoiceDTO(2L, 2L,2,  new Date(), new Date(), 200.0, 42.0, "Unpaid", 1002);
 
         when(invoiceMapper.toDTO(invoice1)).thenReturn(dto1);
         when(invoiceMapper.toDTO(invoice2)).thenReturn(dto2);
@@ -62,8 +62,8 @@ public class InvoiceServiceTest {
     @Test
     void testCreateInvoice() {
         // Arrange
-        InvoiceDTO invoiceDTO = new InvoiceDTO(1L, 1L, new Date(), new Date(), 150.0, 31.5, "Pending");
-        Invoice invoiceEntity = new Invoice(1L, 1L, new Date(), new Date(), 150.0, 31.5, "Pending");
+        InvoiceDTO invoiceDTO = new InvoiceDTO(1L, 1L,1,  new Date(), new Date(), 150.0, 31.5, "Pending", 1001);
+        Invoice invoiceEntity = new Invoice(1L, 1L,1,  new Date(), new Date(), 150.0, 31.5, "Pending", 1001);
 
         when(invoiceMapper.toEntity(invoiceDTO)).thenReturn(invoiceEntity);
         when(invoiceDAL.save(invoiceEntity)).thenReturn(invoiceEntity);
@@ -85,12 +85,12 @@ public class InvoiceServiceTest {
         Long invoiceId = 1L;
         String newStatus = "Paid";
 
-        Invoice existingInvoice = new Invoice(invoiceId, 1L, new Date(), new Date(), 300.0, 63.0, "Unpaid");
-        Invoice updatedInvoice = new Invoice(invoiceId, 1L, new Date(), new Date(), 300.0, 63.0, newStatus);
+        Invoice existingInvoice = new Invoice(invoiceId, 1L,1,  new Date(), new Date(), 300.0, 63.0, "Unpaid", 1001);
+        Invoice updatedInvoice = new Invoice(invoiceId, 1L,1,  new Date(), new Date(), 300.0, 63.0, newStatus, 1001);
 
         when(invoiceDAL.findById(invoiceId)).thenReturn(Optional.of(existingInvoice));
         when(invoiceDAL.save(existingInvoice)).thenReturn(updatedInvoice);
-        when(invoiceMapper.toDTO(updatedInvoice)).thenReturn(new InvoiceDTO(invoiceId, 1L, new Date(), new Date(), 300.0, 63.0, newStatus));
+        when(invoiceMapper.toDTO(updatedInvoice)).thenReturn(new InvoiceDTO(invoiceId, 1L,1,  new Date(), new Date(), 300.0, 63.0, newStatus, 1001));
 
         // Act
         InvoiceDTO updatedInvoiceDTO = invoiceService.updateStatus(invoiceId, newStatus);

@@ -11,4 +11,5 @@ public interface IInvoiceDAL {
     Optional<Invoice> findById(Long id);
     void deleteById(Long id);
     boolean existsById(Long id);
+    int findHighestInvoiceNumber();
 }

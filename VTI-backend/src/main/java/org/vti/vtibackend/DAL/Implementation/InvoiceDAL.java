@@ -42,4 +42,9 @@ public class InvoiceDAL implements IInvoiceDAL {
     public boolean existsById(Long id) {
         return invoiceRepo.existsById(id);
     }
+
+    @Override
+    public int findHighestInvoiceNumber(){
+        return invoiceRepo.findHighestInvoiceNumber();
+    }
 }

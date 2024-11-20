@@ -3,6 +3,7 @@ package org.vti.vtibackend.Presentatie.Controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.vti.vtibackend.BLL.Interface.IAccountingEntryService;
+import org.vti.vtibackend.BLL.Service.AccountingEntryService;
 import org.vti.vtibackend.model.AccountingentryDTO;
 
 import java.util.List;
@@ -11,10 +12,10 @@ import java.util.List;
 @RequestMapping("/api/accountingentry")
 public class AccountingEntryController {
 
-    private final IAccountingEntryService accountingEntryService;
+    private final AccountingEntryService accountingEntryService;
 
     @Autowired
-    public  AccountingEntryController(IAccountingEntryService accountingEntryService) {
+    public  AccountingEntryController(AccountingEntryService accountingEntryService) {
         this.accountingEntryService = accountingEntryService;
     }
 

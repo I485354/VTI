@@ -15,7 +15,7 @@ import { FormsModule } from '@angular/forms';
 export class InvoicesComponent implements OnInit {
   invoices: Invoice[] = [];
   filteredInvoices: Invoice[] = []; // Array voor gefilterde facturen
-  searchId = '';
+  searchNumber = '';
   searchCustomerId = '';
   statusFilter = '';
   dateFilter: string | null = null; // Factuurdatum filter
@@ -29,7 +29,7 @@ export class InvoicesComponent implements OnInit {
     });
   }
   updateStatus(invoice: Invoice) {
-    const newStatus = invoice.status === 'Unpaid' ? 'Paid' : 'Unpaid';
+    const newStatus = invoice.status === 'Open' ? 'Betaald' : 'Open';
 
     this.apiService.updateInvoiceStatus(invoice.invoice_id, newStatus).subscribe(
       updatedInvoice => {
@@ -56,14 +56,14 @@ export class InvoicesComponent implements OnInit {
   // Functie om filters toe te passen op de factuurlijst
   applyFilters() {
     this.filteredInvoices = this.invoices.filter(invoice => {
-      const matchesId = this.searchId ? invoice.invoice_id.toString().includes(this.searchId) : true;
+      const matchesNummer = this.searchNumber ? invoice.invoice_number.toString().includes(this.searchNumber) : true;
       const matchesCustomerId = this.searchCustomerId ? invoice.customer_id.toString().includes(this.searchCustomerId) : true;
       const matchesStatus = this.statusFilter ? invoice.status === this.statusFilter : true;
       const matchesDate = this.dateFilter ?
         new Date(invoice.invoice_date).toLocaleDateString() === new Date(this.dateFilter).toLocaleDateString()
         : true;
 
-      return matchesId && matchesCustomerId && matchesStatus && matchesDate;
+      return matchesNummer && matchesCustomerId && matchesStatus && matchesDate;
     });
   }
 }

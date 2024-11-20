@@ -3,6 +3,7 @@ package org.vti.vtibackend.Presentatie.Controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.vti.vtibackend.BLL.Interface.ICustomerService;
+import org.vti.vtibackend.BLL.Service.CustomerService;
 import org.vti.vtibackend.model.CustomerDTO;
 
 import java.util.List;
@@ -11,10 +12,10 @@ import java.util.List;
 @RequestMapping("/api/customer")
 public class CustomerController {
 
-    private final ICustomerService customerService;
+    private final CustomerService customerService;
 
     @Autowired
-    public CustomerController(ICustomerService customerService) {
+    public CustomerController(CustomerService customerService) {
         this.customerService = customerService;
     }
 

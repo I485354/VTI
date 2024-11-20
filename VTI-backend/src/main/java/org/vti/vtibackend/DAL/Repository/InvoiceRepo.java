@@ -9,8 +9,6 @@ import org.vti.vtibackend.DAL.Entity.Invoice;
 
 public interface InvoiceRepo extends JpaRepository<Invoice, Long> {
 
-    @Transactional
-    @Modifying
-    @Query("UPDATE Invoice i SET i.status = :status WHERE i.invoice_id = :id")
-    int updateInvoiceStatus(Long id, String status);
+    @Query("SELECT MAX(i.invoice_number) FROM Invoice i")
+    int findHighestInvoiceNumber();
 }

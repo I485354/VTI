@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.time.LocalDate;
 import java.util.Date;
 
 @Getter
@@ -20,6 +22,8 @@ public class InvoiceDTO {
     private double total_btw;
     private String status;
     private int invoice_number;
+    private Date invoiceDate;
+    private double totalAmount;
     // Getters en Setters
     @java.lang.SuppressWarnings("all")
     @lombok.Generated
@@ -74,6 +78,16 @@ public class InvoiceDTO {
     }
 
     @java.lang.SuppressWarnings("all")
+    public Date getInvoiceDate() {
+        return this.invoiceDate;
+    }
+
+    @java.lang.SuppressWarnings("all")
+    public double getTotalAmount() {
+        return this.totalAmount;
+    }
+
+    @java.lang.SuppressWarnings("all")
     @lombok.Generated
     public void setInvoice_id(final long invoice_id) {
         this.invoice_id = invoice_id;
@@ -123,5 +137,15 @@ public class InvoiceDTO {
     @java.lang.SuppressWarnings("all")
     public void setInvoice_number(final int invoice_number) {
         this.invoice_number = invoice_number;
+    }
+
+    @java.lang.SuppressWarnings("all")
+    public void setInvoiceDate(final Date invoiceDate) {
+        this.invoiceDate = invoiceDate;
+    }
+
+    @java.lang.SuppressWarnings("all")
+    public void setTotalAmount(final double totalAmount) {
+        this.totalAmount = totalAmount;
     }
 }

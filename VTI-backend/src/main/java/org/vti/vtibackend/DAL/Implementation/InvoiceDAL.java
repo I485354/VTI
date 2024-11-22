@@ -1,12 +1,14 @@
 package org.vti.vtibackend.DAL.Implementation;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.vti.vtibackend.DAL.Entity.Invoice;
 import org.vti.vtibackend.DAL.Interface.IInvoiceDAL;
 import org.vti.vtibackend.DAL.Repository.InvoiceRepo;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Repository
@@ -46,5 +48,13 @@ public class InvoiceDAL implements IInvoiceDAL {
     @Override
     public int findHighestInvoiceNumber(){
         return invoiceRepo.findHighestInvoiceNumber();
+    }
+    @Override
+    public int countOpenInvoices(){
+        return invoiceRepo.countOpenInvoices();
+    }
+
+    public List<Object[]> findInvoicesByYear(int year){
+        return invoiceRepo.findInvoicesByYear(year);
     }
 }

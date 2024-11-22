@@ -2,6 +2,7 @@ package org.vti.vtibackend.BLL.Service;
 
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Service;
 import org.vti.vtibackend.BLL.Interface.IInvoiceService;
 import org.vti.vtibackend.DAL.Entity.Invoice;
@@ -10,6 +11,8 @@ import org.vti.vtibackend.model.InvoiceDTO;
 import org.vti.vtibackend.BLL.Mapper.InvoiceMapper;
 
 
+
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -51,6 +54,27 @@ public class InvoiceService implements IInvoiceService {
         invoice.setStatus(status);
         Invoice updatedInvoice = invoiceDAL.save(invoice);
         return invoiceMapper.toDTO(updatedInvoice);
+    }
+
+    public int getOpenInvoicesCount(){
+        return invoiceDAL.countOpenInvoices();
+    }
+
+    public List<InvoiceDTO> getInvoicesByYear(int year) {
+        List<Object[]> results = invoiceDAL.findInvoicesByYear(year);
+
+
+        return results.stream()
+                .map(result -> {
+                    Date invoiceDate = (Date) result[0];
+                    double totalAmount = (double) result[1];
+
+                    InvoiceDTO dto = new InvoiceDTO();
+                    dto.setInvoiceDate(invoiceDate);
+                    dto.setTotalAmount(totalAmount);
+                    return dto;
+                })
+                .collect(Collectors.toList());
     }
 
 }

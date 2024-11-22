@@ -39,4 +39,16 @@ public class InvoiceController {
         return ResponseEntity.ok(updatedInvoice);
     }
 
+    @GetMapping("/open-invoices")
+    public ResponseEntity<Integer> getOpenInvoices() {
+        int count = invoiceService.getOpenInvoicesCount();
+        return ResponseEntity.ok(count);
+    }
+
+    @GetMapping("/revenue")
+    public ResponseEntity<List<InvoiceDTO>> getInvoicesByYear(@RequestParam int year) {
+        List<InvoiceDTO> invoices = invoiceService.getInvoicesByYear(year);
+        return ResponseEntity.ok(invoices);
+    }
+
 }

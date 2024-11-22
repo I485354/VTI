@@ -44,5 +44,11 @@ export class ApiService {
   getCarsByCustomerId(customerId: number): Observable<Car[]> {
     return this.http.get<Car[]>(`${this.apiUrl}/car/${customerId}`);
   }
+  getOpenInvoicesCount(){
+    return this.http.get<number>(`${this.apiUrl}/invoice/open-invoices`);
+  }
+  getRevenue(year: number){
+    return this.http.get<Invoice[]>(`${this.apiUrl}/invoice/revenue?year=${year}`);
+  }
   // API voor andere data zoals betalingen, offertes, etc.
 }

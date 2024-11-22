@@ -42,8 +42,8 @@ public class InvoiceServiceTest {
 
         when(invoiceDAL.findAll()).thenReturn(Arrays.asList(invoice1, invoice2));
 
-        InvoiceDTO dto1 = new InvoiceDTO(1L, 1L,1,  new Date(), new Date(), 100.0, 21.0, "Paid",1001);
-        InvoiceDTO dto2 = new InvoiceDTO(2L, 2L,2,  new Date(), new Date(), 200.0, 42.0, "Unpaid", 1002);
+        InvoiceDTO dto1 = new InvoiceDTO(1L, 1L,1,  new Date(), new Date(), 100.0, 21.0, "Paid",1001, new Date(), 500.0);
+        InvoiceDTO dto2 = new InvoiceDTO(2L, 2L,2,  new Date(), new Date(), 200.0, 42.0, "Unpaid", 1002, new Date(), 200.0);
 
         when(invoiceMapper.toDTO(invoice1)).thenReturn(dto1);
         when(invoiceMapper.toDTO(invoice2)).thenReturn(dto2);
@@ -62,16 +62,21 @@ public class InvoiceServiceTest {
     @Test
     void testCreateInvoice() {
         // Arrange
-        InvoiceDTO invoiceDTO = new InvoiceDTO(1L, 1L,1,  new Date(), new Date(), 150.0, 31.5, "Pending", 1001);
+        InvoiceDTO invoiceDTO = new InvoiceDTO(1L, 1L,1,  new Date(), new Date(), 150.0, 31.5, "Pending", 1001, new Date(), 500.0);
+        InvoiceDTO invoiceDTO1 = new InvoiceDTO(2L, 2L, null, new Date(), new Date(),100.0, 21.0, "Open", 1002, new Date(), 500.0);
         Invoice invoiceEntity = new Invoice(1L, 1L,1,  new Date(), new Date(), 150.0, 31.5, "Pending", 1001);
+        Invoice invoiceEntity2 = new Invoice(2L, 2L,2,  new Date(), new Date(), 200.0, 42.0, "Open", 1002);
 
         when(invoiceMapper.toEntity(invoiceDTO)).thenReturn(invoiceEntity);
         when(invoiceDAL.save(invoiceEntity)).thenReturn(invoiceEntity);
         when(invoiceMapper.toDTO(invoiceEntity)).thenReturn(invoiceDTO);
 
+        when(invoiceMapper.toDTO(invoiceEntity2)).thenReturn(invoiceDTO1);
+        when(invoiceDAL.save(invoiceEntity2)).thenReturn(invoiceEntity2);
+        when(invoiceMapper.toDTO(invoiceEntity2)).thenReturn(invoiceDTO);
         // Act
         InvoiceDTO createdInvoice = invoiceService.createInvoice(invoiceDTO);
-
+        InvoiceDTO createdInvoice2 = invoiceService.createInvoice(invoiceDTO1);
         // Assert
         assertThat(createdInvoice.getTotal_amount()).isEqualTo(150.0);
         assertThat(createdInvoice.getStatus()).isEqualTo("Pending");
@@ -90,7 +95,7 @@ public class InvoiceServiceTest {
 
         when(invoiceDAL.findById(invoiceId)).thenReturn(Optional.of(existingInvoice));
         when(invoiceDAL.save(existingInvoice)).thenReturn(updatedInvoice);
-        when(invoiceMapper.toDTO(updatedInvoice)).thenReturn(new InvoiceDTO(invoiceId, 1L,1,  new Date(), new Date(), 300.0, 63.0, newStatus, 1001));
+        when(invoiceMapper.toDTO(updatedInvoice)).thenReturn(new InvoiceDTO(invoiceId, 1L,1,  new Date(), new Date(), 300.0, 63.0, newStatus, 1001, new Date(), 500.0));
 
         // Act
         InvoiceDTO updatedInvoiceDTO = invoiceService.updateStatus(invoiceId, newStatus);

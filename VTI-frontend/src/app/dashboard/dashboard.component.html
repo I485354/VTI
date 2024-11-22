@@ -1,1 +1,33 @@
-<p>dashboard works!</p>
+<div class="dashboard">
+  <h1>Dashboard</h1>
+
+  <!-- Jaar Selector -->
+  <div class="form-group">
+    <label for="year">Selecteer Jaar:</label>
+    <select id="year" [(ngModel)]="selectedYear" (change)="loadData()">
+      <option *ngFor="let year of years" [value]="year">{{ year }}</option>
+    </select>
+  </div>
+
+  <!-- Kwartaalcijfers -->
+  <div class="card">
+    <h2>Kwartaalcijfers voor {{ selectedYear }}</h2>
+    <table class="table">
+      <thead>
+      <tr>
+        <th>Kwartaal</th>
+        <th>Omzet (€)</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let revenue of quarterlyRevenue">
+        <td>{{ revenue.quarter }}</td>
+        <td>{{ revenue.totalAmount | currency:'EUR' }}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Eventueel andere statistieken -->
+</div>
+

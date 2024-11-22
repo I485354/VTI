@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from "../api.service";
-import { CommonModule } from '@angular/common'; 
-import { FormsModule } from '@angular/forms'; 
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { Revenue } from "../model/Revenue.model";
 
 @Component({
   selector: 'app-dashboard',
@@ -14,7 +15,7 @@ import { FormsModule } from '@angular/forms';
 export class DashboardComponent implements OnInit {
   selectedYear: number = new Date().getFullYear(); // Standaard huidige jaar
   years: number[] = []; // Beschikbare jaren
-  quarterlyRevenue: any[] = []; // Gegevens van de backend
+  quarterlyRevenue: Revenue[] = [];
 
   constructor(private apiService: ApiService ) {}
 

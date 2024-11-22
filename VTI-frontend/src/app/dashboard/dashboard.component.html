@@ -21,8 +21,8 @@
       </thead>
       <tbody>
       <tr *ngFor="let revenue of quarterlyRevenue">
-        <td>{{ revenue.quarter }}</td>
-        <td>{{ revenue.totalAmount | currency:'EUR' }}</td>
+        <td>{{ revenue.invoice_date }}</td>
+        <td>{{ revenue.total_amount | currency:'EUR' }}</td>
       </tr>
       </tbody>
     </table>

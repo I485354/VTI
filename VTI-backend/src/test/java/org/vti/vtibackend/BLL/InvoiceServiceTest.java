@@ -5,10 +5,10 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.vti.vtibackend.BLL.Mapper.InvoiceMapper;
+import org.vti.vtibackend.DAL.Mapper.InvoiceMapper;
 import org.vti.vtibackend.BLL.Service.InvoiceService;
 import org.vti.vtibackend.DAL.Entity.Invoice;
-import org.vti.vtibackend.DAL.Interface.IInvoiceDAL;
+import org.vti.vtibackend.BLL.Interface.IInvoiceDAL;
 import org.vti.vtibackend.model.InvoiceDTO;
 
 import java.util.Arrays;
@@ -37,16 +37,10 @@ public class InvoiceServiceTest {
     @Test
     void testGetAllInvoices() {
         // Arrange
-        Invoice invoice1 = new Invoice(1L, 1L,1,  new Date(), new Date(), 100.0, 21.0, "Paid", 1001);
-        Invoice invoice2 = new Invoice(2L, 2L,2,  new Date(), new Date(), 200.0, 42.0, "Unpaid", 1002);
+        InvoiceDTO dto1 = new InvoiceDTO(1L, 1L, 1, new Date(), new Date(), 100.0, 21.0, "Paid", 1001, new Date(), 500.0);
+        InvoiceDTO dto2 = new InvoiceDTO(2L, 2L, 2, new Date(), new Date(), 200.0, 42.0, "Unpaid", 1002, new Date(), 200.0);
 
-        when(invoiceDAL.findAll()).thenReturn(Arrays.asList(invoice1, invoice2));
-
-        InvoiceDTO dto1 = new InvoiceDTO(1L, 1L,1,  new Date(), new Date(), 100.0, 21.0, "Paid",1001, new Date(), 500.0);
-        InvoiceDTO dto2 = new InvoiceDTO(2L, 2L,2,  new Date(), new Date(), 200.0, 42.0, "Unpaid", 1002, new Date(), 200.0);
-
-        when(invoiceMapper.toDTO(invoice1)).thenReturn(dto1);
-        when(invoiceMapper.toDTO(invoice2)).thenReturn(dto2);
+        when(invoiceDAL.findAll()).thenReturn(Arrays.asList(dto1, dto2));
 
         // Act
         List<InvoiceDTO> invoices = invoiceService.getAllInvoices();
@@ -62,50 +56,41 @@ public class InvoiceServiceTest {
     @Test
     void testCreateInvoice() {
         // Arrange
-        InvoiceDTO invoiceDTO = new InvoiceDTO(1L, 1L,1,  new Date(), new Date(), 150.0, 31.5, "Pending", 1001, new Date(), 500.0);
-        InvoiceDTO invoiceDTO1 = new InvoiceDTO(2L, 2L, null, new Date(), new Date(),100.0, 21.0, "Open", 1002, new Date(), 500.0);
-        Invoice invoiceEntity = new Invoice(1L, 1L,1,  new Date(), new Date(), 150.0, 31.5, "Pending", 1001);
-        Invoice invoiceEntity1 = new Invoice(2L, 2L,null,  new Date(), new Date(), 200.0, 42.0, "Open", 1002);
+        InvoiceDTO dto = new InvoiceDTO(1L, 1L, 1, new Date(), new Date(), 150.0, 31.5, "Pending", 1001, new Date(), 500.0);
 
-        when(invoiceMapper.toEntity(invoiceDTO)).thenReturn(invoiceEntity);
-        when(invoiceDAL.save(invoiceEntity)).thenReturn(invoiceEntity);
-        when(invoiceMapper.toDTO(invoiceEntity)).thenReturn(invoiceDTO);
+        when(invoiceDAL.save(dto)).thenReturn(dto);
 
-        when(invoiceMapper.toEntity(invoiceDTO1)).thenReturn(invoiceEntity1);
-        when(invoiceDAL.save(invoiceEntity1)).thenReturn(invoiceEntity1);
-        when(invoiceMapper.toDTO(invoiceEntity1)).thenReturn(invoiceDTO1);
         // Act
-        InvoiceDTO createdInvoice = invoiceService.createInvoice(invoiceDTO);
-        InvoiceDTO createdInvoice2 = invoiceService.createInvoice(invoiceDTO1);
+        InvoiceDTO createdInvoice = invoiceService.createInvoice(dto);
+
         // Assert
-        assertThat(createdInvoice2.getCar_id()).isEqualTo(null);
-        assertThat(createdInvoice.getTotal_amount()).isEqualTo(150.0);
+        assertThat(createdInvoice).isNotNull();
+        assertThat(createdInvoice.getInvoice_id()).isEqualTo(1L);
         assertThat(createdInvoice.getStatus()).isEqualTo("Pending");
-        assertThat(createdInvoice2.getStatus()).isEqualTo("Open");
 
-        verify(invoiceDAL, times(1)).save(invoiceEntity);
+        verify(invoiceDAL, times(1)).save(dto);
     }
-
     @Test
     void testUpdateStatus() {
         // Arrange
         Long invoiceId = 1L;
         String newStatus = "Paid";
 
-        Invoice existingInvoice = new Invoice(invoiceId, 1L,1,  new Date(), new Date(), 300.0, 63.0, "Unpaid", 1001);
-        Invoice updatedInvoice = new Invoice(invoiceId, 1L,1,  new Date(), new Date(), 300.0, 63.0, newStatus, 1001);
 
-        when(invoiceDAL.findById(invoiceId)).thenReturn(Optional.of(existingInvoice));
-        when(invoiceDAL.save(existingInvoice)).thenReturn(updatedInvoice);
-        when(invoiceMapper.toDTO(updatedInvoice)).thenReturn(new InvoiceDTO(invoiceId, 1L,1,  new Date(), new Date(), 300.0, 63.0, newStatus, 1001, new Date(), 500.0));
+        InvoiceDTO updatedInvoiceDTO = new InvoiceDTO(1L, 1L, 1, new Date(), new Date(), 300.0, 63.0, newStatus, 1001, new Date(), 500.0);
+
+        when(invoiceDAL.findById(invoiceId)).thenReturn(Optional.of(updatedInvoiceDTO));
+        when(invoiceDAL.save(updatedInvoiceDTO)).thenReturn(updatedInvoiceDTO);
 
         // Act
-        InvoiceDTO updatedInvoiceDTO = invoiceService.updateStatus(invoiceId, newStatus);
+        InvoiceDTO updatedInvoice = invoiceService.updateStatus(invoiceId, newStatus);
 
         // Assert
-        assertThat(updatedInvoiceDTO.getStatus()).isEqualTo(newStatus);
+        assertThat(updatedInvoice).isNotNull();
+        assertThat(updatedInvoice.getStatus()).isEqualTo(newStatus);
 
         verify(invoiceDAL, times(1)).findById(invoiceId);
-        verify(invoiceDAL, times(1)).save(existingInvoice);
+        verify(invoiceDAL, times(1)).save(updatedInvoiceDTO);
+
     }
 }

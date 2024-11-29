@@ -5,29 +5,21 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.vti.vtibackend.BLL.Mapper.AccountingEntryMapper;
 import org.vti.vtibackend.BLL.Service.AccountingEntryService;
-import org.vti.vtibackend.DAL.Entity.AccountingEntry;
-import org.vti.vtibackend.DAL.Interface.IAccountingEntryDAL;
+
+import org.vti.vtibackend.BLL.Interface.IAccountingEntryDAL;
 import org.vti.vtibackend.model.AccountingentryDTO;
 
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
-import java.util.List;
-
 public class AccountingEntryServiceTest {
-
 
     @Mock
     private IAccountingEntryDAL accountingEntryDAL;
-
-    @Mock
-    private AccountingEntryMapper accountingEntryMapper;
 
     @InjectMocks
     private AccountingEntryService accountingEntryService;
@@ -40,27 +32,18 @@ public class AccountingEntryServiceTest {
     @Test
     void testGetAllEntries() {
         // Arrange
-        Date date = new Date();
-        AccountingEntry entry1 = new AccountingEntry(1L, 101, date, 500.0, 0.0, "Invoice payment");
-        AccountingEntry entry2 = new AccountingEntry(2L, 102, date, 0.0, 300.0, "Refund");
+        AccountingentryDTO entry1 = new AccountingentryDTO(1, 1, new java.util.Date(), 100.0, 0.0, "Description 1");
+        AccountingentryDTO entry2 = new AccountingentryDTO(2, 2, new java.util.Date(), 200.0, 50.0, "Description 2");
 
         when(accountingEntryDAL.findAll()).thenReturn(Arrays.asList(entry1, entry2));
-
-        AccountingentryDTO dto1 = new AccountingentryDTO(1L, 101, date, 500.0, 0.0, "Invoice payment");
-        AccountingentryDTO dto2 = new AccountingentryDTO(2L, 102, date, 0.0, 300.0, "Refund");
-
-        when(accountingEntryMapper.ToDTO(entry1)).thenReturn(dto1);
-        when(accountingEntryMapper.ToDTO(entry2)).thenReturn(dto2);
 
         // Act
         List<AccountingentryDTO> entries = accountingEntryService.getAllEntries();
 
         // Assert
         assertThat(entries).hasSize(2);
-        assertThat(entries.get(0).getDescriptions()).isEqualTo("Invoice payment");
-        assertThat(entries.get(1).getDescriptions()).isEqualTo("Refund");
-        assertThat(entries.get(0).getDebit_amount()).isEqualTo(500.0);
-        assertThat(entries.get(1).getCredit_amount()).isEqualTo(300.0);
+        assertThat(entries.get(0).getDescriptions()).isEqualTo("Description 1");
+        assertThat(entries.get(1).getDebit_amount()).isEqualTo(200.0);
 
         verify(accountingEntryDAL, times(1)).findAll();
     }
@@ -68,23 +51,37 @@ public class AccountingEntryServiceTest {
     @Test
     void testCreateNewEntries() {
         // Arrange
-        Date date = new Date();
-        AccountingentryDTO entryDTO = new AccountingentryDTO(1L, 101, date, 500.0, 0.0, "Invoice payment");
-        AccountingEntry entryEntity = new AccountingEntry(1L, 101, date, 500.0, 0.0, "Invoice payment");
+        AccountingentryDTO newEntry = new AccountingentryDTO(3, 3, new java.util.Date(), 300.0, 100.0, "New Description");
 
-        when(accountingEntryMapper.ToEntity(entryDTO)).thenReturn(entryEntity);
-        when(accountingEntryDAL.save(entryEntity)).thenReturn(entryEntity);
-        when(accountingEntryMapper.ToDTO(entryEntity)).thenReturn(entryDTO);
+        when(accountingEntryDAL.save(newEntry)).thenReturn(newEntry);
 
         // Act
-        AccountingentryDTO createdEntry = accountingEntryService.createNewEntries(entryDTO);
+        AccountingentryDTO createdEntry = accountingEntryService.createNewEntries(newEntry);
 
         // Assert
-        assertThat(createdEntry.getDescriptions()).isEqualTo("Invoice payment");
-        assertThat(createdEntry.getDebit_amount()).isEqualTo(500.0);
-        assertThat(createdEntry.getInvoice_id()).isEqualTo(101);
-        assertThat(createdEntry.getEntry_date()).isEqualTo(date);
+        assertThat(createdEntry).isNotNull();
+        assertThat(createdEntry.getDescriptions()).isEqualTo("New Description");
+        assertThat(createdEntry.getDebit_amount()).isEqualTo(300.0);
 
-        verify(accountingEntryDAL, times(1)).save(entryEntity);
+        verify(accountingEntryDAL, times(1)).save(newEntry);
+    }
+
+    @Test
+    void testGetAccountingEntryById() {
+        // Arrange
+        int entryId = 1;
+        AccountingentryDTO entry = new AccountingentryDTO(entryId, 1, new java.util.Date(), 150.0, 50.0, "Entry Description");
+
+        when(accountingEntryDAL.getAccountingEntry(entryId)).thenReturn(entry);
+
+        // Act
+        AccountingentryDTO retrievedEntry = accountingEntryService.getAccountingEntryById(entryId);
+
+        // Assert
+        assertThat(retrievedEntry).isNotNull();
+        assertThat(retrievedEntry.getEntry_id()).isEqualTo(entryId);
+        assertThat(retrievedEntry.getDescriptions()).isEqualTo("Entry Description");
+
+        verify(accountingEntryDAL, times(1)).getAccountingEntry(entryId);
     }
 }

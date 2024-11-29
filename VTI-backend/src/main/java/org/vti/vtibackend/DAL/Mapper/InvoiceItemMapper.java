@@ -1,4 +1,4 @@
-package org.vti.vtibackend.BLL.Mapper;
+package org.vti.vtibackend.DAL.Mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

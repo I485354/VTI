@@ -2,7 +2,7 @@ package org.vti.vtibackend.Presentatie.Controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.vti.vtibackend.BLL.Interface.IProductService;
+
 import org.vti.vtibackend.BLL.Service.ProductService;
 import org.vti.vtibackend.model.ProductDTO;
 

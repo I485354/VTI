@@ -5,11 +5,11 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.vti.vtibackend.BLL.Mapper.CustomerMapper;
+import org.vti.vtibackend.DAL.Mapper.CustomerMapper;
 import org.vti.vtibackend.BLL.Service.CustomerService;
 import org.vti.vtibackend.DAL.Entity.Customer;
 import org.vti.vtibackend.model.CustomerDTO;
-import org.vti.vtibackend.DAL.Interface.ICustomerDAL;
+import org.vti.vtibackend.BLL.Interface.ICustomerDAL;
 
 import java.util.Arrays;
 import java.util.List;
@@ -20,11 +20,9 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 public class CustomerServiceTest {
-    @Mock
-    private ICustomerDAL customerDAL;
 
     @Mock
-    private CustomerMapper customerMapper;
+    private ICustomerDAL customerDAL;
 
     @InjectMocks
     private CustomerService customerService;
@@ -37,12 +35,10 @@ public class CustomerServiceTest {
     @Test
     void testGetAllCustomers() {
         // Arrange
-        Customer customer1 = new Customer(1, "John Doe", "Doe Enterprises", "123 Main St", "john@example.com", "123-456");
-        Customer customer2 = new Customer(2, "Jane Smith", "Smith Solutions", "456 Oak Ave", "jane@example.com", "234-567");
+        CustomerDTO customer1 = new CustomerDTO(1, "John Doe", "Doe Company", "john.doe@example.com", "123 Main St", "1234567890");
+        CustomerDTO customer2 = new CustomerDTO(2, "Jane Smith", "Smith Motors", "jane.smith@example.com", "456 Elm St", "0987654321");
 
         when(customerDAL.findAll()).thenReturn(Arrays.asList(customer1, customer2));
-        when(customerMapper.ToDTO(customer1)).thenReturn(new CustomerDTO(1, "John Doe", "Doe Enterprises", "123 Main St", "john@example.com", "123-456"));
-        when(customerMapper.ToDTO(customer2)).thenReturn(new CustomerDTO(2, "Jane Smith", "Smith Solutions", "456 Oak Ave", "jane@example.com", "234-567"));
 
         // Act
         List<CustomerDTO> customers = customerService.getAllCustomers();
@@ -58,38 +54,39 @@ public class CustomerServiceTest {
     @Test
     void testCreateCustomer() {
         // Arrange
-        CustomerDTO customerDTO = new CustomerDTO(1, "John Doe", "Doe Enterprises", "123 Main St", "john@example.com", "123-456");
-        Customer customerEntity = new Customer(1, "John Doe", "Doe Enterprises", "123 Main St", "john@example.com", "123-456");
+        CustomerDTO newCustomer = new CustomerDTO(1, "John Doe", "Doe Company", "john.doe@example.com", "123 Main St", "1234567890");
 
-        when(customerMapper.ToEntity(customerDTO)).thenReturn(customerEntity);
-        when(customerDAL.save(customerEntity)).thenReturn(customerEntity);
-        when(customerMapper.ToDTO(customerEntity)).thenReturn(customerDTO);
+        when(customerDAL.save(newCustomer)).thenReturn(newCustomer);
 
         // Act
-        CustomerDTO createdCustomer = customerService.createCustomer(customerDTO);
+        CustomerDTO createdCustomer = customerService.createCustomer(newCustomer);
 
         // Assert
+        assertThat(createdCustomer).isNotNull();
         assertThat(createdCustomer.getName()).isEqualTo("John Doe");
-        verify(customerDAL, times(1)).save(customerEntity);
+        assertThat(createdCustomer.getEmail()).isEqualTo("john.doe@example.com");
+
+        verify(customerDAL, times(1)).save(newCustomer);
     }
 
     @Test
     void testUpdateCustomer() {
         // Arrange
         int customerId = 1;
-        CustomerDTO customerDTO = new CustomerDTO(customerId, "John Updated", "Doe Updated Enterprises", "789 Pine St", "john_updated@example.com", "123-789");
-        Customer existingCustomer = new Customer(customerId, "John Doe", "Doe Enterprises", "123 Main St", "john@example.com", "123-456");
+        CustomerDTO existingCustomer = new CustomerDTO(customerId, "John Doe", "Doe Company", "john.doe@example.com", "123 Main St", "1234567890");
+        CustomerDTO updatedCustomer = new CustomerDTO(customerId, "John Updated", "Updated Company", "john.updated@example.com", "789 Oak St", "9876543210");
 
         when(customerDAL.findById(customerId)).thenReturn(Optional.of(existingCustomer));
-        when(customerDAL.save(existingCustomer)).thenReturn(existingCustomer);
-        when(customerMapper.ToDTO(existingCustomer)).thenReturn(customerDTO);
+        when(customerDAL.save(existingCustomer)).thenReturn(updatedCustomer);
 
         // Act
-        CustomerDTO updatedCustomer = customerService.updateCustomer(customerId, customerDTO);
+        CustomerDTO result = customerService.updateCustomer(customerId, updatedCustomer);
 
         // Assert
-        assertThat(updatedCustomer.getName()).isEqualTo("John Updated");
-        assertThat(updatedCustomer.getEmail()).isEqualTo("john_updated@example.com");
+        assertThat(result.getName()).isEqualTo("John Updated");
+        assertThat(result.getCompany()).isEqualTo("Updated Company");
+        assertThat(result.getEmail()).isEqualTo("john.updated@example.com");
+
         verify(customerDAL, times(1)).findById(customerId);
         verify(customerDAL, times(1)).save(existingCustomer);
     }
@@ -98,22 +95,21 @@ public class CustomerServiceTest {
     void testUpdateCustomerNotFound() {
         // Arrange
         int customerId = 1;
-        CustomerDTO customerDTO = new CustomerDTO(customerId, "John Updated", "Doe Updated Enterprises", "789 Pine St", "john_updated@example.com", "123-789");
+        CustomerDTO updatedCustomer = new CustomerDTO(customerId, "John Updated", "Updated Company", "john.updated@example.com", "789 Oak St", "9876543210");
 
         when(customerDAL.findById(customerId)).thenReturn(Optional.empty());
 
         // Act & Assert
-        assertThrows(RuntimeException.class, () -> customerService.updateCustomer(customerId, customerDTO));
+        assertThrows(RuntimeException.class, () -> customerService.updateCustomer(customerId, updatedCustomer));
+
         verify(customerDAL, times(1)).findById(customerId);
-        verify(customerDAL, never()).save(any());
+        verify(customerDAL, times(0)).save(any());
     }
 
     @Test
     void testDeleteCustomer() {
         // Arrange
         int customerId = 1;
-
-        doNothing().when(customerDAL).deleteById(customerId);
 
         // Act
         customerService.deleteCustomer(customerId);

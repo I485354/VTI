@@ -2,59 +2,48 @@ package org.vti.vtibackend.BLL.Service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.vti.vtibackend.BLL.Interface.ICustomerService;
-import org.vti.vtibackend.BLL.Mapper.CustomerMapper;
-import org.vti.vtibackend.DAL.Entity.Customer;
-import org.vti.vtibackend.DAL.Interface.ICustomerDAL;
+
+import org.vti.vtibackend.BLL.Interface.ICustomerDAL;
 import org.vti.vtibackend.model.CustomerDTO;
 
 import java.util.List;
-import java.util.stream.Collectors;
+
 
 @Service
-public class CustomerService implements ICustomerService {
+public class CustomerService {
     private final ICustomerDAL customerDAL;
-    private final CustomerMapper customerMapper;
+
 
     @Autowired
-    public CustomerService( CustomerMapper customerMapper, ICustomerDAL customerDAL) {
-        this.customerMapper = customerMapper;
+    public CustomerService( ICustomerDAL customerDAL) {
         this.customerDAL = customerDAL;
     }
 
     public List<CustomerDTO> getAllCustomers() {
-        List<Customer> customers = customerDAL.findAll();
-        return customers.stream()
-                .map(customerMapper::ToDTO)
-                .collect(Collectors.toList());
+        return customerDAL.findAll();
     }
 
 
     public CustomerDTO createCustomer(CustomerDTO customers) {
-        Customer customer = customerMapper.ToEntity(customers);
-        Customer savedCustomer= customerDAL.save(customer);
-        return customerMapper.ToDTO(savedCustomer);
+        return customerDAL.save(customers);
     }
-    @Override
+
     public CustomerDTO updateCustomer(int id, CustomerDTO customerDTO) {
-        Customer existingCustomer = customerDAL.findById(id)
+        CustomerDTO existingCustomerDTO = customerDAL.findById(id)
                 .orElseThrow(() -> new RuntimeException("Customer not found"));
 
-        // Map de velden van customerDTO naar de bestaande Customer-entiteit
-        existingCustomer.setName(customerDTO.getName());
-        existingCustomer.setEmail(customerDTO.getEmail());
-        existingCustomer.setCompany(customerDTO.getCompany());
-        existingCustomer.setPhone(customerDTO.getPhone());
-        existingCustomer.setAddress(customerDTO.getAddress());
+        // Update de velden van de bestaande klant met gegevens uit de nieuwe DTO
+        existingCustomerDTO.setName(customerDTO.getName());
+        existingCustomerDTO.setEmail(customerDTO.getEmail());
+        existingCustomerDTO.setCompany(customerDTO.getCompany());
+        existingCustomerDTO.setPhone(customerDTO.getPhone());
+        existingCustomerDTO.setAddress(customerDTO.getAddress());
 
-        // Sla de wijzigingen op met save()
-        Customer updatedCustomer = customerDAL.save(existingCustomer);
-
-        // Map de bijgewerkte entiteit terug naar een DTO
-        return customerMapper.ToDTO(updatedCustomer);
+        // Sla de geüpdatete klant op via de DAL
+        return customerDAL.save(existingCustomerDTO);
     }
 
-    @Override
+
     public void deleteCustomer(int id) {
         customerDAL.deleteById(id);
     }

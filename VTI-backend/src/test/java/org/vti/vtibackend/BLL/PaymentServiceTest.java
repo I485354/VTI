@@ -6,92 +6,102 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.vti.vtibackend.BLL.Mapper.PaymentMapper;
+import org.vti.vtibackend.DAL.Mapper.PaymentMapper;
 import org.vti.vtibackend.BLL.Service.PaymentService;
 import org.vti.vtibackend.DAL.Entity.Payment;
-import org.vti.vtibackend.DAL.Interface.IPaymentDAL;
+import org.vti.vtibackend.BLL.Interface.IPaymentDAL;
 import org.vti.vtibackend.model.PaymentDTO;
 
-import java.time.ZonedDateTime;
 import java.util.Arrays;
-import java.util.Date;
+import java.util.Collections;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 public class PaymentServiceTest {
     @Mock
     private IPaymentDAL paymentDAL;
 
-    @Mock
-    private PaymentMapper paymentMapper;
-
     @InjectMocks
     private PaymentService paymentService;
 
     @BeforeEach
-    void setUp(){
-        MockitoAnnotations.initMocks(this);
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
-    void getAllPayments(){
-        //give
-        Payment paymentEntity = new Payment(1L, 1, new Date(), 100.0,"Cash");
-        Payment paymentEntity2 = new Payment(2L, 2, new Date(), 100.0,"Cash");
-        Payment paymentEntity3 = new Payment(3L, 3, new Date(), 100.0,"Cash");
+    void testGetAllPayments() {
+        // Arrange
+        PaymentDTO payment1 = new PaymentDTO(1L, 1, new java.util.Date(), 100.0, "Cash");
+        PaymentDTO payment2 = new PaymentDTO(2L, 2, new java.util.Date(), 200.0, "Credit");
+        when(paymentDAL.findAll()).thenReturn(Arrays.asList(payment1, payment2));
 
-        when(paymentDAL.findAll()).thenReturn(Arrays.asList(paymentEntity, paymentEntity2, paymentEntity3));
-
-        PaymentDTO paymentDTO = new PaymentDTO(1L,1, new Date(), 100.0,"Cash");
-        PaymentDTO paymentDTO2 = new PaymentDTO(2L,2, new Date(), 100.0,"Cash");
-
-        when(paymentMapper.ToDTO(paymentEntity)).thenReturn(paymentDTO);
-        when(paymentMapper.ToDTO(paymentEntity2)).thenReturn(paymentDTO2);
-
-        //when
         List<PaymentDTO> payments = paymentService.GetALlPayments();
 
-        // then
-        assertThat(payments).hasSize(3);
-        assertThat(payments.get(0)).isEqualTo(paymentDTO);
-        assertThat(payments.get(0).getPayment_id()).isEqualTo(1);
-        assertThat(payments.get(0).getPayment_date()).isEqualTo(paymentDTO.getPayment_date());
+        assertThat(payments).hasSize(2);
+        assertThat(payments.get(0).getPayment_id()).isEqualTo(1L);
+        assertThat(payments.get(1).getAmount()).isEqualTo(200.0);
 
         verify(paymentDAL, times(1)).findAll();
     }
 
     @Test
-    void CreatePayment(){
-        Payment paymentEntity = new Payment(1L, 1, new Date(), 100.0,"Cash");
-        Payment paymentEntity2 = new Payment(2L, 2, new Date(), 100.0,"Cash");
+    void testGetAllPayments_EmptyList() {
+        when(paymentDAL.findAll()).thenReturn(Collections.emptyList());
 
-        PaymentDTO paymentDTO = new PaymentDTO(1L,1, new Date(), 100.0,"Cash");
-        PaymentDTO paymentDTO2 = new PaymentDTO(2L,2, new Date(), 100.0,"Cash");
+        List<PaymentDTO> payments = paymentService.GetALlPayments();
 
-        when(paymentMapper.ToEntity(paymentDTO)).thenReturn(paymentEntity);
-        when(paymentDAL.save(paymentEntity)).thenReturn(paymentEntity);
-        when(paymentMapper.ToDTO(paymentEntity)).thenReturn(paymentDTO);
+        assertThat(payments).isEmpty();
+        verify(paymentDAL, times(1)).findAll();
+    }
 
-        when(paymentMapper.ToEntity(paymentDTO2)).thenReturn(paymentEntity2);
-        when(paymentDAL.save(paymentEntity2)).thenReturn(paymentEntity2);
-        when(paymentMapper.ToDTO(paymentEntity2)).thenReturn(paymentDTO2);
+    @Test
+    void testCreatePayment() {
+        PaymentDTO newPayment = new PaymentDTO(1L, 1, new java.util.Date(), 150.0, "Bank Transfer");
+        when(paymentDAL.save(newPayment)).thenReturn(newPayment);
 
-        PaymentDTO createdPayment = paymentService.createPayment(paymentDTO);
-        PaymentDTO created2Payment = paymentService.createPayment(paymentDTO2);
+        PaymentDTO createdPayment = paymentService.createPayment(newPayment);
 
+        assertThat(createdPayment).isNotNull();
+        assertThat(createdPayment.getAmount()).isEqualTo(150.0);
+        assertThat(createdPayment.getPayment_method()).isEqualTo("Bank Transfer");
 
-        assertThat(createdPayment.getPayment_id()).isEqualTo(1);
-        assertThat(created2Payment.getPayment_id()).isEqualTo(2);
-        assertThat(createdPayment.getAmount()).isEqualTo(100.0);
-        assertThat(createdPayment.getPayment_method()).isEqualTo("Cash");
-        assertThat(createdPayment.getPayment_date()).isEqualTo(paymentDTO.getPayment_date());
+        verify(paymentDAL, times(1)).save(newPayment);
+    }
 
+    @Test
+    void testCreatePayment_NegativeAmount() {
+        PaymentDTO invalidPayment = new PaymentDTO(1L, 1, new java.util.Date(), -50.0, "Cash");
 
-        verify(paymentDAL, times(1)).save(paymentEntity);
-        verify(paymentMapper, times(1)).ToEntity(paymentDTO2);
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            paymentService.createPayment(invalidPayment);
+        });
 
+        assertThat(exception.getMessage()).isEqualTo("Payment amount cannot be negative");
+        verify(paymentDAL, never()).save(any());
+    }
 
+    @Test
+    void testCreatePayment_NullPayment() {
+        NullPointerException exception = assertThrows(NullPointerException.class, () -> {
+            paymentService.createPayment(null);
+        });
+
+        assertThat(exception.getMessage()).isEqualTo("Payment cannot be null");
+        verify(paymentDAL, never()).save(any());
+    }
+
+    @Test
+    void testGetAllPayments_DatabaseError() {
+        when(paymentDAL.findAll()).thenThrow(new RuntimeException("Database connection error"));
+
+        RuntimeException exception = assertThrows(RuntimeException.class, () -> {
+            paymentService.GetALlPayments();
+        });
+        assertThat(exception.getMessage()).isEqualTo("Database connection error");
+        verify(paymentDAL, times(1)).findAll();
     }
 }

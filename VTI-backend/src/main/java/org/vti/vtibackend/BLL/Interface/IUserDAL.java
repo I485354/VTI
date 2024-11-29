@@ -5,7 +5,7 @@ import org.vti.vtibackend.model.UserDTO;
 
 import java.util.List;
 
-public interface IUserService {
-    List<UserDTO> getAllUsers();
-    UserDTO createUser(UserDTO users);
+public interface IUserDAL {
+    UserDTO save(UserDTO userDTO);
+    List<UserDTO> findAll();
 }

@@ -5,7 +5,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.vti.vtibackend.BLL.Mapper.UserMapper;
+import org.vti.vtibackend.BLL.Interface.IUserDAL;
+import org.vti.vtibackend.DAL.Mapper.UserMapper;
 import org.vti.vtibackend.BLL.Service.UserService;
 import org.vti.vtibackend.DAL.Entity.User;
 import org.vti.vtibackend.DAL.Implementation.UserDAL;
@@ -16,46 +17,80 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.*;
 public class UserServiceTest {
 
     @Mock
-    private UserDAL userDAL;
-
-    @Mock
-    private UserMapper userMapper;
+    private IUserDAL userDAL;
 
     @InjectMocks
     private UserService userService;
 
-    private User user1;
-    private User user2;
-
-    private UserDTO userDTO1;
-    private UserDTO userDTO2;
-
+    private UserDTO user1;
+    private UserDTO user2;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         MockitoAnnotations.openMocks(this);
-        user1 = new User(1L, "C123", "1234", "customer" );
-        user2 = new User(1L, "M123", "4321", "Manager" );
-        userDTO1 = new UserDTO(1L, "C123", "1234", "customer" );
-        userDTO2 = new UserDTO(1L, "M123", "4321", "Manager" );
+
+        user1 = new UserDTO(1, "john_doe", "password123", "admin");
+        user2 = new UserDTO(2, "jane_doe", "securePass", "user");
     }
 
     @Test
-    void testGetAllUsers() {
+    void getAllUsers() {
         // Arrange
         when(userDAL.findAll()).thenReturn(Arrays.asList(user1, user2));
-        when(userMapper.ToDTO(user1)).thenReturn(userDTO1);
-        when(userMapper.ToDTO(user2)).thenReturn(userDTO2);
 
+        // Act
         List<UserDTO> users = userService.getAllUsers();
 
-        assertThat(users).contains(userDTO1, userDTO2);
+        // Assert
+        assertThat(users).hasSize(2);
+        assertThat(users.get(0)).isEqualTo(user1);
+        assertThat(users.get(1)).isEqualTo(user2);
 
-        verify(userMapper, times(1)).ToDTO(user1);
+        verify(userDAL, times(1)).findAll();
+    }
 
+    @Test
+    void createUser() {
+        // Arrange
+        when(userDAL.save(user1)).thenReturn(user1);
+
+        // Act
+        UserDTO createdUser = userService.createUser(user1);
+
+        // Assert
+        assertThat(createdUser).isNotNull();
+        assertThat(createdUser.getUser_id()).isEqualTo(1);
+        assertThat(createdUser.getUsername()).isEqualTo("john_doe");
+        assertThat(createdUser.getRole()).isEqualTo("admin");
+
+        verify(userDAL, times(1)).save(user1);
+    }
+
+    @Test
+    void createUser_NullInput() {
+        // Act & Assert
+        assertThatThrownBy(() -> userService.createUser(null))
+                .isInstanceOf(NullPointerException.class)
+                .hasMessage("User cannot be null");
+
+        verify(userDAL, never()).save(any());
+    }
+
+    @Test
+    void getAllUsers_EmptyList() {
+        // Arrange
+        when(userDAL.findAll()).thenReturn(Arrays.asList());
+
+        // Act
+        List<UserDTO> users = userService.getAllUsers();
+
+        // Assert
+        assertThat(users).isEmpty();
+        verify(userDAL, times(1)).findAll();
     }
 }

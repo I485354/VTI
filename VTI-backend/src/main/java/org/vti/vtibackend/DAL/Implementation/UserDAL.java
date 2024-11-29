@@ -3,29 +3,38 @@ package org.vti.vtibackend.DAL.Implementation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.vti.vtibackend.DAL.Entity.User;
-import org.vti.vtibackend.DAL.Interface.IUserDAL;
+import org.vti.vtibackend.BLL.Interface.IUserDAL;
+import org.vti.vtibackend.DAL.Mapper.UserMapper;
 import org.vti.vtibackend.DAL.Repository.UserRepo;
+import org.vti.vtibackend.model.UserDTO;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository
 public class UserDAL implements IUserDAL {
 
     private final UserRepo userRepo;
-
+    private final UserMapper userMapper;
     @Autowired
-    public UserDAL(UserRepo userRepo) {
+    public UserDAL(UserRepo userRepo, UserMapper userMapper) {
         this.userRepo = userRepo;
+        this.userMapper = userMapper;
     }
 
     @Override
-    public User save(User user) {
-        return userRepo.save(user);
+    public UserDTO save(UserDTO userDTO) {
+        User user = userMapper.ToEntity(userDTO);
+        User savedUser = userRepo.save(user);
+        return userMapper.ToDTO(savedUser);
     }
 
     @Override
-    public List<User> findAll(){
-        return userRepo.findAll();
+    public List<UserDTO> findAll(){
+        return userRepo.findAll()
+                .stream()
+                .map(userMapper::ToDTO)
+                .collect(Collectors.toList());
     }
 
 }

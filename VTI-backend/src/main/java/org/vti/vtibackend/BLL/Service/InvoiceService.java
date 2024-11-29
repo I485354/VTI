@@ -4,11 +4,11 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
-import org.vti.vtibackend.BLL.Interface.IInvoiceService;
+
 import org.vti.vtibackend.DAL.Entity.Invoice;
-import org.vti.vtibackend.DAL.Interface.IInvoiceDAL;
+import org.vti.vtibackend.BLL.Interface.IInvoiceDAL;
 import org.vti.vtibackend.model.InvoiceDTO;
-import org.vti.vtibackend.BLL.Mapper.InvoiceMapper;
+import org.vti.vtibackend.DAL.Mapper.InvoiceMapper;
 
 
 
@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class InvoiceService implements IInvoiceService {
+public class InvoiceService  {
 
     private final IInvoiceDAL invoiceDAL;
     private final InvoiceMapper invoiceMapper;
@@ -29,52 +29,47 @@ public class InvoiceService implements IInvoiceService {
     }
 
     public List<InvoiceDTO> getAllInvoices() {
-        List<Invoice> invoices = invoiceDAL.findAll();
-        return invoices.stream()
-                .map(invoiceMapper::toDTO)
-                .collect(Collectors.toList());
+        return invoiceDAL.findAll();
     }
 
     public InvoiceDTO createInvoice(InvoiceDTO invoiceDTO) {
-        Invoice invoice = invoiceMapper.toEntity(invoiceDTO);
         if (invoiceDTO.getCar_id() == null) {
-            invoice.setCar_id(null);
+            invoiceDTO.setCar_id(null);
         }
+
         int highestInvoiceNumber = invoiceDAL.findHighestInvoiceNumber();
         int nextInvoiceNumber = (highestInvoiceNumber != 0) ? highestInvoiceNumber + 1 : 1;
-        invoice.setInvoice_number(nextInvoiceNumber);
-        Invoice savedInvoice = invoiceDAL.save(invoice);
-        return invoiceMapper.toDTO(savedInvoice);
+        invoiceDTO.setInvoice_number(nextInvoiceNumber);
+        return invoiceDAL.save(invoiceDTO);
     }
 
     @Transactional
     public InvoiceDTO updateStatus(Long id, String status) {
-        Invoice invoice = invoiceDAL.findById(id)
+        InvoiceDTO invoiceDTO = invoiceDAL.findById(id)
                 .orElseThrow(() -> new RuntimeException("Invoice not found"));
-        invoice.setStatus(status);
-        Invoice updatedInvoice = invoiceDAL.save(invoice);
-        return invoiceMapper.toDTO(updatedInvoice);
+        invoiceDTO.setStatus(status);
+
+        return invoiceDAL.save(invoiceDTO);
     }
 
-    public int getOpenInvoicesCount(){
+    public int getOpenInvoicesCount() {
         return invoiceDAL.countOpenInvoices();
     }
 
     public List<InvoiceDTO> getInvoicesByYear(int year) {
-        List<Object[]> results = invoiceDAL.findInvoicesByYear(year);
+        return invoiceDAL.findInvoicesByYear(year);
+    }
 
-
-        return results.stream()
+}
+/*
+return results.stream()
                 .map(result -> {
-                    Date invoiceDate = (Date) result[0];
-                    double totalAmount = (double) result[1];
+Date invoiceDate = (Date) result[0];
+double totalAmount = (double) result[1];
 
-                    InvoiceDTO dto = new InvoiceDTO();
+InvoiceDTO dto = new InvoiceDTO();
                     dto.setInvoiceDate(invoiceDate);
                     dto.setTotalAmount(totalAmount);
                     return dto;
                 })
-                .collect(Collectors.toList());
-    }
-
-}
+                        .collect(Collectors.toList());*/

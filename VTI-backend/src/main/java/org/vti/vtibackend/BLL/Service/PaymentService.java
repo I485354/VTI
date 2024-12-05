@@ -25,6 +25,12 @@ public class PaymentService {
     }
 
     public PaymentDTO createPayment(PaymentDTO payment) {
+        if (payment == null) {
+            throw new NullPointerException("Payment cannot be null");
+        }
+        if (payment.getAmount() < 0) {
+            throw new IllegalArgumentException("Payment amount cannot be negative");
+        }
         return paymentDAL.save(payment);
     }
 }

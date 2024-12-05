@@ -4,7 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import org.vti.vtibackend.BLL.Interface.ICustomerDAL;
+import org.vti.vtibackend.model.CreateCustomerDTO;
 import org.vti.vtibackend.model.CustomerDTO;
+import org.vti.vtibackend.model.UpdatedCustomerDTO;
 
 import java.util.List;
 
@@ -24,23 +26,33 @@ public class CustomerService {
     }
 
 
-    public CustomerDTO createCustomer(CustomerDTO customers) {
-        return customerDAL.save(customers);
+    public CustomerDTO createCustomer(CreateCustomerDTO createCustomerDTO) {
+        CustomerDTO customerDTO = new CustomerDTO();
+        customerDTO.setName(createCustomerDTO.getName());
+        customerDTO.setEmail(createCustomerDTO.getEmail());
+        customerDTO.setPhone(createCustomerDTO.getPhone());
+        customerDTO.setAddress(createCustomerDTO.getAddress());
+        customerDTO.setCompany(createCustomerDTO.getCompany());
+        int highestCustomerNumber = customerDAL.findHighestCustomerNumber();
+        int nextCustomerNumber = (highestCustomerNumber != 0) ? highestCustomerNumber + 1 : 1;
+        customerDTO.setCustomer_number(nextCustomerNumber);
+        return customerDAL.createCustomer(customerDTO);
     }
 
-    public CustomerDTO updateCustomer(int id, CustomerDTO customerDTO) {
+    public CustomerDTO updateCustomer(int id, UpdatedCustomerDTO updatedCustomerDTO) {
+        // Haal de bestaande klant op via de DAL
         CustomerDTO existingCustomerDTO = customerDAL.findById(id)
                 .orElseThrow(() -> new RuntimeException("Customer not found"));
 
-        // Update de velden van de bestaande klant met gegevens uit de nieuwe DTO
-        existingCustomerDTO.setName(customerDTO.getName());
-        existingCustomerDTO.setEmail(customerDTO.getEmail());
-        existingCustomerDTO.setCompany(customerDTO.getCompany());
-        existingCustomerDTO.setPhone(customerDTO.getPhone());
-        existingCustomerDTO.setAddress(customerDTO.getAddress());
+        // Update de relevante velden van de bestaande klant met de nieuwe gegevens
+        existingCustomerDTO.setName(updatedCustomerDTO.getName());
+        existingCustomerDTO.setCompany(updatedCustomerDTO.getCompany());
+        existingCustomerDTO.setEmail(updatedCustomerDTO.getEmail());
+        existingCustomerDTO.setPhone(updatedCustomerDTO.getPhone());
+        existingCustomerDTO.setAddress(updatedCustomerDTO.getAddress());
 
-        // Sla de geüpdatete klant op via de DAL
-        return customerDAL.save(existingCustomerDTO);
+        // Roep de DAL aan om de geüpdatete klant op te slaan
+        return customerDAL.updateCustomer(id, existingCustomerDTO);
     }
 
 

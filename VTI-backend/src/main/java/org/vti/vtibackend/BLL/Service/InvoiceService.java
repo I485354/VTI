@@ -20,11 +20,10 @@ import java.util.stream.Collectors;
 public class InvoiceService  {
 
     private final IInvoiceDAL invoiceDAL;
-    private final InvoiceMapper invoiceMapper;
 
     @Autowired
-    public InvoiceService(InvoiceMapper invoiceMapper, IInvoiceDAL invoiceDAL ) {
-        this.invoiceMapper = invoiceMapper;
+    public InvoiceService(IInvoiceDAL invoiceDAL ) {
+
         this.invoiceDAL = invoiceDAL;
     }
 

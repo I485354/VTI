@@ -20,6 +20,7 @@ public class Customer {
     private String address;
     private String email;
     private String phone;
+    private int customer_number;
     @java.lang.SuppressWarnings("all")
     @lombok.Generated
     public int getCustomer_id() {
@@ -54,6 +55,10 @@ public class Customer {
     @lombok.Generated
     public String getPhone() {
         return this.phone;
+    }
+    @java.lang.SuppressWarnings("all")
+    public int getCustomer_number() {
+        return this.customer_number;
     }
 
     @java.lang.SuppressWarnings("all")
@@ -90,6 +95,11 @@ public class Customer {
     @lombok.Generated
     public void setPhone(final String phone) {
         this.phone = phone;
+    }
+
+    @java.lang.SuppressWarnings("all")
+    public void setCustomer_number(final int customer_number) {
+        this.customer_number = customer_number;
     }
 
 }

@@ -24,6 +24,9 @@ public class ProductService{
     }
 
     public ProductDTO createProduct(ProductDTO product) {
+        if(product == null) {
+            throw new NullPointerException("Product cannot be null");
+        }
        return productDAL.save(product);
     }
 }

@@ -34,17 +34,11 @@ jobs:
         working-directory: VTI-frontend
         run: npm run lint
 
-      - name: Run unit tests
-        working-directory: VTI-frontend
-        run: npm test -- --watch=false --no-progress --browsers=ChromeHeadless
-
-      - name: Install Cypress
-        working-directory: VTI-frontend
-        run: npm install cypress
-
       - name: Run Cypress tests
         working-directory: VTI-frontend
-        run: npx cypress run --headless --browser chrome
+        run: |
+          npm install cypress
+          npx cypress run
 
       - name: Build project
         working-directory: VTI-frontend

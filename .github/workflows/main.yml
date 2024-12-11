@@ -100,6 +100,7 @@ jobs:
           mvn test -Dspring.profiles.active=test
 
       - name: SonarCloud Scan
+        working-directory: VTI-backend
         env: 
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=I485354_VTI

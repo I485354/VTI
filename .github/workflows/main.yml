@@ -34,9 +34,17 @@ jobs:
         working-directory: VTI-frontend
         run: npm run lint
 
-      - name: Run tests
+      - name: Run unit tests
         working-directory: VTI-frontend
         run: npm test -- --watch=false --no-progress --browsers=ChromeHeadless
+
+      - name: Install Cypress
+        working-directory: VTI-frontend
+        run: npm install cypress
+
+      - name: Run Cypress tests
+        working-directory: VTI-frontend
+        run: npx cypress run --headless --browser chrome
 
       - name: Build project
         working-directory: VTI-frontend
@@ -90,3 +98,8 @@ jobs:
         run: |
           mvn clean install -Dmaven.compiler.source=17 -Dmaven.compiler.target=17 -DskipTests
           mvn test -Dspring.profiles.active=test
+
+      - name: SonarCloud Scan
+        env: 
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=I485354_VTI

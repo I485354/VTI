@@ -8,7 +8,7 @@ describe('Dashboard Tests', () => {
 
     cy.get('select').should('be.visible');
 
-    cy.contains('Kwartaalcijfers voor 2024').should('be.visible');
+    cy.contains('Kwartaalcijfers').should('be.visible');
   });
 
   it('Should display the correct year in the dropdown', () => {

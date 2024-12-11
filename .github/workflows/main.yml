@@ -37,6 +37,16 @@ jobs:
       - name: Build project
         working-directory: VTI-frontend
         run: npm run build
+        
+      - name: Start frontend server
+        working-directory: VTI-frontend
+        run: npm start &
+        env:
+          CI: true
+
+      - name: Wait for frontend to be available
+        run: |
+          npx wait-on http://localhost:4200
 
       - name: Run Cypress tests
         working-directory: VTI-frontend

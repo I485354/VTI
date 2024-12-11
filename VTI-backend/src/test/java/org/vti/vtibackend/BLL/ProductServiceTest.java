@@ -6,11 +6,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.vti.vtibackend.BLL.Interface.IProductDAL;
-import org.vti.vtibackend.DAL.Mapper.ProductMapper;
 import org.vti.vtibackend.BLL.Service.ProductService;
-import org.vti.vtibackend.DAL.Entity.Product;
-import org.vti.vtibackend.DAL.Implementation.ProductDAL;
-import org.vti.vtibackend.model.ProductDTO;
+import org.vti.vtibackend.model.Product.ProductDTO;
 
 
 import java.util.Arrays;

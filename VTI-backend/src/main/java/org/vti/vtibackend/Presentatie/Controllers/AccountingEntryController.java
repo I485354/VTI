@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import org.vti.vtibackend.BLL.Service.AccountingEntryService;
-import org.vti.vtibackend.model.AccountingentryDTO;
+import org.vti.vtibackend.model.Accounting.AccountingentryDTO;
 
 import java.util.List;
 

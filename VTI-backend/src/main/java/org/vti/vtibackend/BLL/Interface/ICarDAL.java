@@ -1,7 +1,6 @@
 package org.vti.vtibackend.BLL.Interface;
 
-import org.vti.vtibackend.DAL.Entity.Car;
-import org.vti.vtibackend.model.CarDTO;
+import org.vti.vtibackend.model.Car.CarDTO;
 
 import java.util.List;
 import java.util.Optional;

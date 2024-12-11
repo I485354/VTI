@@ -1,11 +1,11 @@
 package org.vti.vtibackend.BLL.Interface;
 
 
-import org.vti.vtibackend.DAL.Entity.Invoice;
-import org.vti.vtibackend.model.InvoiceDTO;
+import org.vti.vtibackend.model.Invoice.InvoiceAndCustomerDTO;
+import org.vti.vtibackend.model.Invoice.InvoiceDTO;
+import org.vti.vtibackend.model.Invoice.InvoiceYearSummaryDTO;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 public interface IInvoiceDAL {
@@ -16,5 +16,6 @@ public interface IInvoiceDAL {
     boolean existsById(Long id);
     int findHighestInvoiceNumber();
     int countOpenInvoices();
-    List<InvoiceDTO> findInvoicesByYear(int year);
+    List<InvoiceYearSummaryDTO> findInvoicesByYear(int year);
+    List<InvoiceAndCustomerDTO> findInvoices();
 }

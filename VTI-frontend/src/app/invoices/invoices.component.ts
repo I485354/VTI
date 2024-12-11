@@ -1,9 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../api.service';
+
 import { CommonModule } from '@angular/common';
 import { Invoice } from '../model/invoices.model';
+import { UpdateInvoiceStatus } from '../model/UpdateInvoiceStatus.model';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+
+import { ActivatedRoute } from '@angular/router';
+
+
 
 @Component({
   selector: 'app-invoices',
@@ -20,17 +26,18 @@ export class InvoicesComponent implements OnInit {
   statusFilter = '';
   dateFilter: string | null = null; // Factuurdatum filter
 
-  constructor(private apiService: ApiService, private router: Router) { }
+  constructor(private apiService: ApiService, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
+    this.route.queryParams.subscribe();
+
     this.apiService.getInvoices().subscribe((data: Invoice[]) => {
       this.invoices = data;
       this.filteredInvoices = data; // Standaard alle facturen weergeven
     });
   }
   updateStatus(invoice: Invoice) {
-    const newStatus = invoice.status === 'Open' ? 'Betaald' : 'Open';
-
+    const newStatus: UpdateInvoiceStatus = {status: invoice.status === 'Open' ? 'Betaald' : 'Open' } ;
     this.apiService.updateInvoiceStatus(invoice.invoice_id, newStatus).subscribe(
       updatedInvoice => {
         invoice.status = updatedInvoice.status;

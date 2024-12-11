@@ -1,7 +1,6 @@
 package org.vti.vtibackend.BLL.Interface;
 
-import org.vti.vtibackend.DAL.Entity.Product;
-import org.vti.vtibackend.model.ProductDTO;
+import org.vti.vtibackend.model.Product.ProductDTO;
 
 import java.util.List;
 

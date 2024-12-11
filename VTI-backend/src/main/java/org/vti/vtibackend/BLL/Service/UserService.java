@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import org.vti.vtibackend.BLL.Interface.IUserDAL;
-import org.vti.vtibackend.model.UserDTO;
+import org.vti.vtibackend.model.User.UserDTO;
 
 import java.util.List;
 

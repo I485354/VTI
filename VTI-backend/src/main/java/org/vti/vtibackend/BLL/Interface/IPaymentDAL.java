@@ -1,7 +1,6 @@
 package org.vti.vtibackend.BLL.Interface;
 
-import org.vti.vtibackend.DAL.Entity.Payment;
-import org.vti.vtibackend.model.PaymentDTO;
+import org.vti.vtibackend.model.Payment.PaymentDTO;
 
 import java.util.List;
 

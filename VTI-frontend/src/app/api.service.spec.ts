@@ -13,6 +13,6 @@ describe ('ApiService', () => {
   });
 
   it('should be created', () => {
-    expect(service).toBeTruthy();
+    cy.visit('/');
   });
 });

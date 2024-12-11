@@ -6,11 +6,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.vti.vtibackend.BLL.Interface.IUserDAL;
-import org.vti.vtibackend.DAL.Mapper.UserMapper;
 import org.vti.vtibackend.BLL.Service.UserService;
-import org.vti.vtibackend.DAL.Entity.User;
-import org.vti.vtibackend.DAL.Implementation.UserDAL;
-import org.vti.vtibackend.model.UserDTO;
+import org.vti.vtibackend.model.User.UserDTO;
 
 
 import java.util.Arrays;

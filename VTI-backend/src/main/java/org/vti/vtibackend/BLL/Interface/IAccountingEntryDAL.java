@@ -1,7 +1,6 @@
 package org.vti.vtibackend.BLL.Interface;
 
-import org.vti.vtibackend.DAL.Entity.AccountingEntry;
-import org.vti.vtibackend.model.AccountingentryDTO;
+import org.vti.vtibackend.model.Accounting.AccountingentryDTO;
 
 import java.util.List;
 

@@ -4,10 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.vti.vtibackend.DAL.Entity.AccountingEntry;
 import org.vti.vtibackend.BLL.Interface.IAccountingEntryDAL;
-import org.vti.vtibackend.DAL.Entity.Invoice;
 import org.vti.vtibackend.DAL.Mapper.AccountingEntryMapper;
 import org.vti.vtibackend.DAL.Repository.AccountingEntryRepo;
-import org.vti.vtibackend.model.AccountingentryDTO;
+import org.vti.vtibackend.model.Accounting.AccountingentryDTO;
 
 import java.util.List;
 import java.util.stream.Collectors;

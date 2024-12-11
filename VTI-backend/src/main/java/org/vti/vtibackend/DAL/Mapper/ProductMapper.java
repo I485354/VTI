@@ -3,7 +3,7 @@ package org.vti.vtibackend.DAL.Mapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.vti.vtibackend.DAL.Entity.Product;
-import org.vti.vtibackend.model.ProductDTO;
+import org.vti.vtibackend.model.Product.ProductDTO;
 
 
 @Mapper(componentModel = "spring")

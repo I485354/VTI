@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import org.vti.vtibackend.BLL.Service.PaymentService;
-import org.vti.vtibackend.model.PaymentDTO;
+import org.vti.vtibackend.model.Payment.PaymentDTO;
 
 import java.util.List;
 

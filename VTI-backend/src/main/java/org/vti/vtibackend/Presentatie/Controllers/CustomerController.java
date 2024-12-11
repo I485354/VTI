@@ -1,12 +1,14 @@
 package org.vti.vtibackend.Presentatie.Controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import org.vti.vtibackend.BLL.Service.CustomerService;
-import org.vti.vtibackend.model.CreateCustomerDTO;
-import org.vti.vtibackend.model.CustomerDTO;
-import org.vti.vtibackend.model.UpdatedCustomerDTO;
+import org.vti.vtibackend.model.Customer.CreateCustomerDTO;
+import org.vti.vtibackend.model.Customer.CustomerDTO;
+import org.vti.vtibackend.model.Customer.CustomerInfoDTO;
+import org.vti.vtibackend.model.Customer.UpdatedCustomerDTO;
 
 import java.util.List;
 
@@ -38,5 +40,10 @@ public class CustomerController {
     @DeleteMapping("/{id}")
     public void deleteCustomer(@PathVariable int id) {
         customerService.deleteCustomer(id);
+    }
+    @GetMapping("/info")
+    public ResponseEntity<List<CustomerInfoDTO>> getCustomerInfo() {
+       List<CustomerInfoDTO> customerInfo = customerService.getCustomerInfo();
+        return ResponseEntity.ok(customerInfo);
     }
 }

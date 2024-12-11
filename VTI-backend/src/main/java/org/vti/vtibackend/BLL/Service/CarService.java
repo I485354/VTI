@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import org.vti.vtibackend.BLL.Interface.ICarDAL;
-import org.vti.vtibackend.model.CarDTO;
+import org.vti.vtibackend.model.Car.CarDTO;
 
 import java.util.List;
 import java.util.Optional;

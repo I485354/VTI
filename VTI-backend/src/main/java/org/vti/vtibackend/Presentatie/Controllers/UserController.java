@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import org.vti.vtibackend.BLL.Service.UserService;
-import org.vti.vtibackend.model.UserDTO;
+import org.vti.vtibackend.model.User.UserDTO;
 
 import java.util.List;
 

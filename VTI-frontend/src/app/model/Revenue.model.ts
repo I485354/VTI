@@ -1,4 +1,7 @@
 export interface Revenue {
-  invoice_date: Date;
+  year: number;
+  quarter: number;
   total_amount: number;
+  invoice_count: number;
+  
 }

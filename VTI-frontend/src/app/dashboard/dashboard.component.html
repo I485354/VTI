@@ -1,18 +1,16 @@
-<div class="dashboard">
+<div class="dashboard-container">
   <h1>Dashboard</h1>
 
-  <!-- Jaar Selector -->
-  <div class="form-group">
-    <label for="year">Selecteer Jaar:</label>
-    <select id="year" [(ngModel)]="selectedYear" (change)="loadData()">
-      <option *ngFor="let year of years" [value]="year">{{ year }}</option>
-    </select>
-  </div>
+  <!-- Dropdown voor jaarselectie -->
+  <label for="year-select">Selecteer Jaar:</label>
+  <select id="year-select" [(ngModel)]="selectedYear" (change)="loadData()">
+    <option *ngFor="let year of years" [value]="year">{{ year }}</option>
+  </select>
 
-  <!-- Kwartaalcijfers -->
-  <div class="card">
+  <!-- Tabel met kwartaalcijfers -->
+  <div *ngIf="hasData; else noData">
     <h2>Kwartaalcijfers voor {{ selectedYear }}</h2>
-    <table class="table">
+    <table>
       <thead>
       <tr>
         <th>Kwartaal</th>
@@ -20,14 +18,17 @@
       </tr>
       </thead>
       <tbody>
+      <!-- Kwartalen (1 t/m 4) -->
       <tr *ngFor="let revenue of quarterlyRevenue">
-        <td>{{ revenue.invoice_date }}</td>
-        <td>{{ revenue.total_amount | currency:'EUR' }}</td>
+        <td>{{ revenue.quarter }}</td>
+        <td>€ {{ revenue.total_amount | number: '1.2-2' }}</td>
       </tr>
       </tbody>
     </table>
   </div>
 
-  <!-- Eventueel andere statistieken -->
+  <!-- Geen data beschikbaar -->
+  <ng-template #noData>
+    <p>Geen kwartaalgegevens beschikbaar voor {{ selectedYear }}.</p>
+  </ng-template>
 </div>
-

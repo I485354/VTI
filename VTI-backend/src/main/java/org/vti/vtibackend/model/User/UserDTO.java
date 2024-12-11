@@ -1,14 +1,8 @@
-package org.vti.vtibackend.model;
+package org.vti.vtibackend.model.User;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
+
+
 public class UserDTO {
 
     private long user_id;
@@ -16,50 +10,50 @@ public class UserDTO {
     private String password;
     private String role;
 
-    @java.lang.SuppressWarnings("all")
-    @lombok.Generated
+    public UserDTO() {}
+    public UserDTO(long user_id, String username, String password, String role) {
+        this.user_id = user_id;
+        this.username = username;
+        this.password = password;
+        this.role = role;
+    }
+
+
     public long getUser_id() {
         return this.user_id;
     }
 
-    @java.lang.SuppressWarnings("all")
-    @lombok.Generated
+
     public String getUsername() {
         return this.username;
     }
 
-    @java.lang.SuppressWarnings("all")
-    @lombok.Generated
+
     public String getPassword() {
         return this.password;
     }
 
-    @java.lang.SuppressWarnings("all")
-    @lombok.Generated
+
     public String getRole() {
         return this.role;
     }
 
-    @java.lang.SuppressWarnings("all")
-    @lombok.Generated
+
     public void setUser_id(final long user_id) {
         this.user_id = user_id;
     }
 
-    @java.lang.SuppressWarnings("all")
-    @lombok.Generated
+
     public void setUsername(final String username) {
         this.username = username;
     }
 
-    @java.lang.SuppressWarnings("all")
-    @lombok.Generated
+
     public void setPassword(final String password) {
         this.password = password;
     }
 
-    @java.lang.SuppressWarnings("all")
-    @lombok.Generated
+
     public void setRole(final String role) {
         this.role = role;
     }

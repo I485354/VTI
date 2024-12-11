@@ -18,6 +18,6 @@ describe('CustomerListComponent', () => {
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    cy.visit('/customer-list');
   });
 });

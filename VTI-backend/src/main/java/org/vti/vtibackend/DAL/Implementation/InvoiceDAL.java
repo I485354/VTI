@@ -6,8 +6,14 @@ import org.vti.vtibackend.DAL.Entity.Invoice;
 import org.vti.vtibackend.BLL.Interface.IInvoiceDAL;
 import org.vti.vtibackend.DAL.Mapper.InvoiceMapper;
 import org.vti.vtibackend.DAL.Repository.InvoiceRepo;
-import org.vti.vtibackend.model.InvoiceDTO;
 
+import org.vti.vtibackend.model.Customer.CustomerInfoDTO;
+import org.vti.vtibackend.model.Invoice.InvoiceAndCustomerDTO;
+import org.vti.vtibackend.model.Invoice.InvoiceDTO;
+import org.vti.vtibackend.model.Invoice.InvoiceYearSummaryDTO;
+
+import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -16,6 +22,7 @@ import java.util.stream.Collectors;
 public class InvoiceDAL implements IInvoiceDAL {
     private final InvoiceRepo invoiceRepo;
     private final InvoiceMapper invoiceMapper;
+
 
     @Autowired
     public InvoiceDAL(InvoiceRepo invoiceRepo, InvoiceMapper invoiceMapper) {
@@ -57,16 +64,50 @@ public class InvoiceDAL implements IInvoiceDAL {
         return invoiceRepo.countOpenInvoices();
     }
 
-    public List<InvoiceDTO> findInvoicesByYear(int year) {
-        List<Object[]> results = invoiceRepo.findInvoicesByYear(year);
+    public List<InvoiceYearSummaryDTO> findInvoicesByYear(int year) {
+        List<Object[]> rawResults = invoiceRepo.findInvoicesByYear(year);
 
-        return results.stream()
+        rawResults.forEach(result -> {
+            System.out.println("Raw Result: " + Arrays.toString(result));
+        });
+
+        return rawResults.stream()
                 .map(result -> {
-                    InvoiceDTO dto = new InvoiceDTO();
-                    dto.setInvoiceDate((java.util.Date) result[0]);
-                    dto.setTotalAmount((Double) result[1]);
-                    return dto;
+                    InvoiceYearSummaryDTO invoiceGraph = new InvoiceYearSummaryDTO();
+                    invoiceGraph.setYear(year);
+                    invoiceGraph.setQuarter((Integer) result[0]);
+                    invoiceGraph.setTotal_amount((Double) result[1]);
+                    invoiceGraph.setInvoice_count(((Number) result[2]).intValue());
+                    return invoiceGraph;
                 })
                 .collect(Collectors.toList());
+    }
+    public List<InvoiceAndCustomerDTO> findInvoices(){
+        List<Object[]> results = invoiceRepo.findInvoices();
+
+
+        return results.stream().map(result -> {
+            InvoiceAndCustomerDTO dto = new InvoiceAndCustomerDTO();
+            dto.setCustomer_id(((Number) result[0]).longValue());
+            dto.setInvoice_date((Date) result[1]);
+            dto.setDue_date((Date) result[2]);
+            dto.setTotal_amount(((Number) result[3]).doubleValue());
+            dto.setTotal_btw(((Number) result[4]).doubleValue());
+            dto.setStatus((String) result[5]);
+            dto.setInvoice_number(((Number) result[6]).intValue());
+            dto.setDeleted((String) result[7]);
+
+            CustomerInfoDTO customerInfo = new CustomerInfoDTO();
+            customerInfo.setName((String) result[8]);
+            customerInfo.setCompany((String) result[9]);
+            customerInfo.setAddress((String) result[10]);
+            customerInfo.setEmail((String) result[11]);
+            customerInfo.setPhone((String) result[12]);
+            customerInfo.setCustomer_number(((Number) result[13]).intValue());
+
+            dto.setCustomers(List.of(customerInfo));
+
+            return dto;
+        }).collect(Collectors.toList());
     }
 }

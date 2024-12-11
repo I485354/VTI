@@ -6,7 +6,7 @@ import org.vti.vtibackend.DAL.Entity.Product;
 import org.vti.vtibackend.BLL.Interface.IProductDAL;
 import org.vti.vtibackend.DAL.Mapper.ProductMapper;
 import org.vti.vtibackend.DAL.Repository.ProductRepo;
-import org.vti.vtibackend.model.ProductDTO;
+import org.vti.vtibackend.model.Product.ProductDTO;
 
 import java.util.List;
 import java.util.stream.Collectors;

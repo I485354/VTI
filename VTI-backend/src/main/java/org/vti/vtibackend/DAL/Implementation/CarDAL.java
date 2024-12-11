@@ -5,7 +5,7 @@ import org.vti.vtibackend.DAL.Entity.Car;
 import org.vti.vtibackend.BLL.Interface.ICarDAL;
 import org.vti.vtibackend.DAL.Mapper.CarMapper;
 import org.vti.vtibackend.DAL.Repository.CarRepo;
-import org.vti.vtibackend.model.CarDTO;
+import org.vti.vtibackend.model.Car.CarDTO;
 
 import java.util.List;
 import java.util.Optional;

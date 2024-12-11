@@ -4,17 +4,11 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+
 
 import java.util.Date;
 @Entity
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+
 public class AccountingEntry {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,74 +18,73 @@ public class AccountingEntry {
     private double debit_amount;
     private double credit_amount;
     private String descriptions;
-    @java.lang.SuppressWarnings("all")
-    @lombok.Generated
+
+    public AccountingEntry() {
+
+    }
+    public AccountingEntry(int entry_id, int invoice_id, Date entry_date, double debit_amount, double credit_amount, String descriptions) {
+        this.entry_id = entry_id;
+        this.invoice_id = invoice_id;
+        this.entry_date = entry_date;
+        this.debit_amount = debit_amount;
+        this.credit_amount = credit_amount;
+        this.descriptions = descriptions;
+    }
+
     public long getEntry_id() {
         return this.entry_id;
     }
 
-    @java.lang.SuppressWarnings("all")
-    @lombok.Generated
+
     public int getInvoice_id() {
         return this.invoice_id;
     }
 
-    @java.lang.SuppressWarnings("all")
-    @lombok.Generated
+
     public Date getEntry_date() {
         return this.entry_date;
     }
 
-    @java.lang.SuppressWarnings("all")
-    @lombok.Generated
+
     public double getDebit_amount() {
         return this.debit_amount;
     }
 
-    @java.lang.SuppressWarnings("all")
-    @lombok.Generated
+
     public double getCredit_amount() {
         return this.credit_amount;
     }
 
-    @java.lang.SuppressWarnings("all")
-    @lombok.Generated
+
     public String getDescriptions() {
         return this.descriptions;
     }
 
-    @java.lang.SuppressWarnings("all")
-    @lombok.Generated
+
     public void setEntry_id(final long entry_id) {
         this.entry_id = entry_id;
     }
 
-    @java.lang.SuppressWarnings("all")
-    @lombok.Generated
+
     public void setInvoice_id(final int invoice_id) {
         this.invoice_id = invoice_id;
     }
 
-    @java.lang.SuppressWarnings("all")
-    @lombok.Generated
     public void setEntry_date(final Date entry_date) {
         this.entry_date = entry_date;
     }
 
-    @java.lang.SuppressWarnings("all")
-    @lombok.Generated
+
     public void setDebit_amount(final double debit_amount) {
         this.debit_amount = debit_amount;
     }
 
-    @java.lang.SuppressWarnings("all")
-    @lombok.Generated
+
     public void setCredit_amount(final double credit_amount) {
         this.credit_amount = credit_amount;
     }
 
-    @java.lang.SuppressWarnings("all")
-    @lombok.Generated
+
     public void setDescriptions(final String descriptions) {
         this.descriptions = descriptions;
     }

@@ -4,10 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import org.vti.vtibackend.BLL.Interface.IPaymentDAL;
-import org.vti.vtibackend.model.PaymentDTO;
+import org.vti.vtibackend.model.Payment.PaymentDTO;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class PaymentService {

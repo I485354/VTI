@@ -3,7 +3,7 @@ package org.vti.vtibackend.DAL.Mapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.vti.vtibackend.DAL.Entity.Car;
-import org.vti.vtibackend.model.CarDTO;
+import org.vti.vtibackend.model.Car.CarDTO;
 
 
 @Mapper(componentModel = "spring")

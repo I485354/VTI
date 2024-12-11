@@ -1,0 +1,47 @@
+[
+  {
+    "customer_id": 1,
+    "name": "John Doe",
+    "company": "Doe Autos",
+    "address": "123 Main Street",
+    "email": "john.doe@example.com",
+    "phone": "0612345678",
+    "customer_number": 1
+  },
+  {
+    "customer_id": 2,
+    "name": "Jane Smith",
+    "company": "Smith Motors",
+    "address": "456 Elm Avenue",
+    "email": "jane.smith@example.com",
+    "phone": "0687654321",
+    "customer_number": 2
+  },
+  {
+    "customer_id": 3,
+    "name": "Emily Johnson",
+    "company": "Johnson Co.",
+    "address": "789 Pine Rd",
+    "email": "emily@example.com",
+    "phone": "345-678-9012",
+    "customer_number": 3
+  },
+  {
+    "customer_id": 4,
+    "name": "Furkan Fidan",
+    "company": "sf comp",
+    "address": "Scholeksterstraat 29",
+    "email": "sello.furkan70@gmail.com",
+    "phone": "0624116745",
+    "customer_number": 4
+  },
+  {
+    "customer_id": 5,
+    "name": "Furkan Fidan",
+    "company": "ff cmpny",
+    "address": "Scholeksterstraat 29",
+    "email": "sello.furkan70@gmail.com",
+    "phone": "0624116745",
+    "customer_number": 5
+  }
+]

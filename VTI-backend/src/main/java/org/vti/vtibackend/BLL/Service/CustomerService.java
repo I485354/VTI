@@ -4,9 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import org.vti.vtibackend.BLL.Interface.ICustomerDAL;
-import org.vti.vtibackend.model.CreateCustomerDTO;
-import org.vti.vtibackend.model.CustomerDTO;
-import org.vti.vtibackend.model.UpdatedCustomerDTO;
+import org.vti.vtibackend.model.Customer.CreateCustomerDTO;
+import org.vti.vtibackend.model.Customer.CustomerDTO;
+import org.vti.vtibackend.model.Customer.CustomerInfoDTO;
+import org.vti.vtibackend.model.Customer.UpdatedCustomerDTO;
 
 import java.util.List;
 
@@ -17,7 +18,7 @@ public class CustomerService {
 
 
     @Autowired
-    public CustomerService( ICustomerDAL customerDAL) {
+    public CustomerService(ICustomerDAL customerDAL) {
         this.customerDAL = customerDAL;
     }
 
@@ -40,23 +41,23 @@ public class CustomerService {
     }
 
     public CustomerDTO updateCustomer(int id, UpdatedCustomerDTO updatedCustomerDTO) {
-        // Haal de bestaande klant op via de DAL
         CustomerDTO existingCustomerDTO = customerDAL.findById(id)
                 .orElseThrow(() -> new RuntimeException("Customer not found"));
 
-        // Update de relevante velden van de bestaande klant met de nieuwe gegevens
         existingCustomerDTO.setName(updatedCustomerDTO.getName());
         existingCustomerDTO.setCompany(updatedCustomerDTO.getCompany());
         existingCustomerDTO.setEmail(updatedCustomerDTO.getEmail());
         existingCustomerDTO.setPhone(updatedCustomerDTO.getPhone());
         existingCustomerDTO.setAddress(updatedCustomerDTO.getAddress());
-
-        // Roep de DAL aan om de geüpdatete klant op te slaan
         return customerDAL.updateCustomer(id, existingCustomerDTO);
     }
 
 
     public void deleteCustomer(int id) {
         customerDAL.deleteById(id);
+    }
+
+    public List<CustomerInfoDTO> getCustomerInfo() {
+       return customerDAL.findCustomerInfo();
     }
 }

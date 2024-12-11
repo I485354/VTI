@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import org.vti.vtibackend.BLL.Interface.IInvoiceItemDAL;
-import org.vti.vtibackend.model.InvoiceitemDTO;
+import org.vti.vtibackend.model.InvoiceItem.InvoiceitemDTO;
 
 import java.util.List;
 

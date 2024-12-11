@@ -1,29 +1,111 @@
-.dashboard {
+/* Algemeen */
+.dashboard-container {
+  font-family: Arial, sans-serif;
+  margin: 20px;
   padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.form-group {
+h1 {
+  text-align: center;
+  color: #333;
   margin-bottom: 20px;
 }
 
-.card {
-  padding: 20px;
-  background-color: #f8f9fa;
-  border: 1px solid #ddd;
-  border-radius: 5px;
+h2 {
+  text-align: center;
+  color: #555;
+  margin: 20px 0;
 }
 
-.table {
+/* Dropdown en label */
+label {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+  display: block;
+  margin-bottom: 10px;
+}
+
+select {
+  font-size: 16px;
+  padding: 8px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+  outline: none;
+  cursor: pointer;
+}
+
+select:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Tabel */
+table {
   width: 100%;
   border-collapse: collapse;
+  margin-top: 20px;
+  background-color: #fff;
 }
 
-.table th, .table td {
-  padding: 10px;
-  text-align: left;
-  border-bottom: 1px solid #ddd;
+th, td {
+  border: 1px solid #ddd;
+  padding: 12px;
+  text-align: center;
+  font-size: 14px;
 }
 
-.table th {
-  background-color: #f1f1f1;
+th {
+  background-color: #007bff;
+  color: white;
+  text-transform: uppercase;
 }
+
+td {
+  color: #333;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+tr:hover {
+  background-color: #e8f4fd;
+}
+
+table thead th {
+  border: none;
+}
+
+/* Geen data beschikbaar */
+p {
+  text-align: center;
+  color: #999;
+  font-style: italic;
+  margin-top: 20px;
+  font-size: 16px;
+}
+
+/* Mobielvriendelijk */
+/*@media screen and (max-width: 768px) {
+  .dashboard-container {
+    padding: 10px;
+  }
+
+  table {
+    font-size: 12px;
+  }
+
+  select {
+    width: 100%;
+  }
+
+  h1, h2 {
+    font-size: 18px;
+  }
+}*/

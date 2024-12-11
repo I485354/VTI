@@ -50,22 +50,23 @@
         <!-- Productgegevens en BTW -->
         <div class="item-field">
           <label for="productSelect{{i}}">Product:</label>
-          <select id="product" [(ngModel)]="item.product_id" name="product{{i}}" (change)="onProductChange(item)">
-            <option value="" disabled selected>Kies een product</option>
+          <select id="productSelect{{i}}" [(ngModel)]="item.product_id" name="product{{i}}" (change)="onProductChange(item)">
+          <option value="" disabled selected>Kies een product</option>
             <option *ngFor="let product of products" [value]="product.product_id">{{ product.name }}</option>
           </select>
         </div>
         <div class="item-field">
-          <label for="quantity">Aantal:</label>
-          <input id="quantity" type="number" [(ngModel)]="item.quantity" name="quantity{{i}}" (input)="calculateTotals()" />
+          <label for="quantity{{i}}">Aantal:</label>
+
+          <input id="quantity{{i}}" type="number" [(ngModel)]="item.quantity" name="quantity{{i}}" (input)="calculateTotals()" />
         </div>
         <div class="item-field">
-          <label for="btw">BTW:</label>
-          <input id="btw" type="text" [(ngModel)]="item.btw" name="btw{{i}}" readonly />
+          <label for="btw{{i}}">BTW:</label>
+          <input id="btw{{i}}" type="number" [(ngModel)]="item.btw" name="btw{{i}}" readonly />
         </div>
         <div class="item-field">
-          <label for="unitPrice">Eenheidsprijs (€):</label>
-          <input id="unitPrice" type="number" [(ngModel)]="item.unit_price" name="unitPrice{{i}}" readonly />
+          <label for="unitPrice{{i}}">Eenheidsprijs (€):</label>
+          <input id="unitPrice{{i}}" type="number" [(ngModel)]="item.unit_price" name="unitPrice{{i}}" readonly />
         </div>
         <div class="item-field">
           <label class="totals" for="totals">Totaal (€):</label>

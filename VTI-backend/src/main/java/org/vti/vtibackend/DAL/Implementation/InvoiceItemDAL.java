@@ -2,14 +2,11 @@ package org.vti.vtibackend.DAL.Implementation;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.vti.vtibackend.DAL.Entity.Invoice;
 import org.vti.vtibackend.DAL.Entity.InvoiceItem;
 import org.vti.vtibackend.BLL.Interface.IInvoiceItemDAL;
 import org.vti.vtibackend.DAL.Mapper.InvoiceItemMapper;
-import org.vti.vtibackend.DAL.Mapper.InvoiceMapper;
-import org.vti.vtibackend.DAL.Repository.InvoiceRepo;
 import org.vti.vtibackend.DAL.Repository.InvoiceitemRepo;
-import org.vti.vtibackend.model.InvoiceitemDTO;
+import org.vti.vtibackend.model.InvoiceItem.InvoiceitemDTO;
 
 import java.util.List;
 import java.util.stream.Collectors;

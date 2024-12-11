@@ -6,7 +6,7 @@ import org.vti.vtibackend.DAL.Entity.Payment;
 import org.vti.vtibackend.BLL.Interface.IPaymentDAL;
 import org.vti.vtibackend.DAL.Mapper.PaymentMapper;
 import org.vti.vtibackend.DAL.Repository.PaymentRepo;
-import org.vti.vtibackend.model.PaymentDTO;
+import org.vti.vtibackend.model.Payment.PaymentDTO;
 
 import java.util.List;
 import java.util.stream.Collectors;

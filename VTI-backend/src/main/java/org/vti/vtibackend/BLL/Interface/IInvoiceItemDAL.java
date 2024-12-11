@@ -1,7 +1,6 @@
 package org.vti.vtibackend.BLL.Interface;
 
-import org.vti.vtibackend.DAL.Entity.InvoiceItem;
-import org.vti.vtibackend.model.InvoiceitemDTO;
+import org.vti.vtibackend.model.InvoiceItem.InvoiceitemDTO;
 
 import java.util.List;
 

@@ -1,0 +1,20 @@
+[
+  {
+    "car_id": 1,
+    "customer_id": 1,
+    "plate_number": "AB-123-CD",
+    "brand": "Toyota",
+    "model": "Corolla",
+    "year": 2015,
+    "chasi_number": "1HGCM82633A123456"
+  },
+  {
+    "car_id": 2,
+    "customer_id": 2,
+    "plate_number": "EF-456-GH",
+    "brand": "Volkswagen",
+    "model": "Golf",
+    "year": 2018,
+    "chasi_number": "WVWZZZ1KZAW123456"
+  }
+]

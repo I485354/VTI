@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
+
 import { Invoice } from '../model/invoices.model';
 import { Customers } from '../model/customer.model';
 import { InvoiceItem } from '../model/invoiceitems.model';
@@ -10,6 +11,8 @@ import { Car } from '../model/car.model';
 import { ApiService } from '../api.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+
+
 
 @Component({
   selector: 'app-new-invoice',
@@ -128,11 +131,6 @@ export class NewInvoiceComponent implements OnInit {
     // Forceer product_id vergelijking als nummers om inconsistentie te vermijden
     const selectedProduct = this.products.find(p => +p.product_id === +item.product_id);
 
-    // Log de `product_id` waarden en `selectedProduct` voor verdere controle
-    console.log('Producten array:', this.products); // Log alle producten nogmaals voor duidelijkheid
-    console.log('Zoek product met product_id:', item.product_id);
-    console.log('Gevonden product:', selectedProduct);
-
     if (selectedProduct) {
       item.unit_price = selectedProduct.price;
       item.btw = selectedProduct.btw; // Pas de BTW aan indien nodig
@@ -173,8 +171,8 @@ export class NewInvoiceComponent implements OnInit {
 
     this.apiService.addInvoice(invoiceToSend).subscribe(
       response => {
-        console.log('Factuur aangemaakt:', response);
-        this.router.navigate(['/invoices']);
+        console.log(response);
+        this.router.navigate(['/invoices'],);
       },
       error => {
         console.error('Er is een fout opgetreden:', error); // Fout afvangen

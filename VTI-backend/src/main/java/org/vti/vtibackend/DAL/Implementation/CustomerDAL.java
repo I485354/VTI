@@ -6,8 +6,8 @@ import org.vti.vtibackend.DAL.Entity.Customer;
 import org.vti.vtibackend.BLL.Interface.ICustomerDAL;
 import org.vti.vtibackend.DAL.Mapper.CustomerMapper;
 import org.vti.vtibackend.DAL.Repository.CustomerRepo;
-import org.vti.vtibackend.model.CustomerDTO;
-import org.vti.vtibackend.model.UpdatedCustomerDTO;
+import org.vti.vtibackend.model.Customer.CustomerDTO;
+import org.vti.vtibackend.model.Customer.CustomerInfoDTO;
 
 
 import java.util.List;
@@ -82,6 +82,13 @@ public class CustomerDAL implements ICustomerDAL {
     @Override
     public int findHighestCustomerNumber(){
         return customerRepo.findHighestCustomerNumber();
+    }
+
+    public List<CustomerInfoDTO> findCustomerInfo(){
+        return customerRepo.findAll()
+                .stream()
+                .map(customerMapper:: ToInfoDTO)
+                .collect(Collectors.toList());
     }
 
 }

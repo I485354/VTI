@@ -1,0 +1,66 @@
+[
+  {
+    "product_id": 1,
+    "name": "Olie Filter",
+    "description": "Olie Filter vervangen",
+    "price": 25,
+    "quantity": 100,
+    "btw": 21
+  },
+  {
+    "product_id": 2,
+    "name": "Remblokken",
+    "description": "Set van remblokken",
+    "price": 50,
+    "quantity": 50,
+    "btw": 21
+  },
+  {
+    "product_id": 3,
+    "name": "Olie verversen",
+    "description": "Dienst voor olie verversen",
+    "price": 50,
+    "quantity": 100,
+    "btw": 21
+  },
+  {
+    "product_id": 4,
+    "name": "Remschijven",
+    "description": "Set van remschijven",
+    "price": 75,
+    "quantity": 50,
+    "btw": 21
+  },
+  {
+    "product_id": 5,
+    "name": "APK Diesel",
+    "description": "Apk diesel auto",
+    "price": 50,
+    "quantity": 1,
+    "btw": 21
+  },
+  {
+    "product_id": 6,
+    "name": "APK Benzine",
+    "description": "Apk benzine auto",
+    "price": 50,
+    "quantity": 1,
+    "btw": 21
+  },
+  {
+    "product_id": 7,
+    "name": "band wisselen ",
+    "description": "1 band wisselen ",
+    "price": 25,
+    "quantity": 1,
+    "btw": 21
+  },
+  {
+    "product_id": 8,
+    "name": "olie vullen",
+    "description": "motorolie verversen",
+    "price": 20,
+    "quantity": 1,
+    "btw": 9
+  }
+]

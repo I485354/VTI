@@ -6,7 +6,7 @@ import org.vti.vtibackend.DAL.Entity.User;
 import org.vti.vtibackend.BLL.Interface.IUserDAL;
 import org.vti.vtibackend.DAL.Mapper.UserMapper;
 import org.vti.vtibackend.DAL.Repository.UserRepo;
-import org.vti.vtibackend.model.UserDTO;
+import org.vti.vtibackend.model.User.UserDTO;
 
 import java.util.List;
 import java.util.stream.Collectors;

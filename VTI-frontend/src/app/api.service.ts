@@ -5,6 +5,8 @@ import { Customers } from './model/customer.model';
 import { Invoice } from './model/invoices.model';
 import { Products } from './model/products.model';
 import { Car } from './model/car.model';
+import {Revenue} from './model/Revenue.model';
+import { UpdateInvoiceStatus } from './model/UpdateInvoiceStatus.model';
 
 @Injectable({
   providedIn: 'root'
@@ -23,11 +25,12 @@ export class ApiService {
     return this.http.get<Invoice[]>(`${this.apiUrl}/invoice`);
   }
   addInvoice(invoice: Invoice): Observable<Invoice> {
-    return this.http.post<Invoice>(`${this.apiUrl}/invoice`, invoice);
+    return this.http.post<Invoice>(`${this.apiUrl}/invoice/create_invoice`, invoice);
   }
-  updateInvoiceStatus(invoiceId: number, status: string): Observable<Invoice> {
-    return this.http.put<Invoice>(`${this.apiUrl}/invoice/${invoiceId}/status`, { status });
+  updateInvoiceStatus(invoiceId: number, updateStatus: UpdateInvoiceStatus): Observable<Invoice> {
+    return this.http.put<Invoice>(`${this.apiUrl}/invoice/${invoiceId}/status`, updateStatus);
   }
+
   addCustomer(customer: Customers): Observable<Customers> {
     return this.http.post<Customers>(`${this.apiUrl}/customer`, customer);
   }
@@ -48,7 +51,7 @@ export class ApiService {
     return this.http.get<number>(`${this.apiUrl}/invoice/open-invoices`);
   }
   getRevenue(year: number){
-    return this.http.get<Invoice[]>(`${this.apiUrl}/invoice/revenue?year=${year}`);
+    return this.http.get<Revenue[]>(`${this.apiUrl}/invoice/revenue?year=${year}`);
   }
   // API voor andere data zoals betalingen, offertes, etc.
 }

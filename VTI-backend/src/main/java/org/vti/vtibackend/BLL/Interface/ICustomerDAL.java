@@ -1,8 +1,7 @@
 package org.vti.vtibackend.BLL.Interface;
 
-import org.vti.vtibackend.DAL.Entity.Customer;
-import org.vti.vtibackend.model.CustomerDTO;
-import org.vti.vtibackend.model.UpdatedCustomerDTO;
+import org.vti.vtibackend.model.Customer.CustomerDTO;
+import org.vti.vtibackend.model.Customer.CustomerInfoDTO;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,5 +14,6 @@ public interface ICustomerDAL {
     Optional<CustomerDTO> findById(int id);
     void deleteById(int id);
     int findHighestCustomerNumber();
+    List<CustomerInfoDTO> findCustomerInfo();
 
 }

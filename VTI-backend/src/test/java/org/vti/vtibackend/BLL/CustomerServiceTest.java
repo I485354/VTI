@@ -5,13 +5,11 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.vti.vtibackend.DAL.Mapper.CustomerMapper;
 import org.vti.vtibackend.BLL.Service.CustomerService;
-import org.vti.vtibackend.DAL.Entity.Customer;
-import org.vti.vtibackend.model.CreateCustomerDTO;
-import org.vti.vtibackend.model.CustomerDTO;
+import org.vti.vtibackend.model.Customer.CreateCustomerDTO;
+import org.vti.vtibackend.model.Customer.CustomerDTO;
 import org.vti.vtibackend.BLL.Interface.ICustomerDAL;
-import org.vti.vtibackend.model.UpdatedCustomerDTO;
+import org.vti.vtibackend.model.Customer.UpdatedCustomerDTO;
 
 import java.util.Arrays;
 import java.util.List;

@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.vti.vtibackend.BLL.Service.CarService;
-import org.vti.vtibackend.model.CarDTO;
+import org.vti.vtibackend.model.Car.CarDTO;
 
 import java.util.List;
 @RestController

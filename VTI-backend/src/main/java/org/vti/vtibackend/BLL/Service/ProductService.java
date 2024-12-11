@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import org.vti.vtibackend.BLL.Interface.IProductDAL;
-import org.vti.vtibackend.model.ProductDTO;
+import org.vti.vtibackend.model.Product.ProductDTO;
 
 import java.util.List;
 

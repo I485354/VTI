@@ -3,7 +3,7 @@ package org.vti.vtibackend.DAL.Mapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.vti.vtibackend.DAL.Entity.Invoice;
-import org.vti.vtibackend.model.InvoiceDTO;
+import org.vti.vtibackend.model.Invoice.InvoiceDTO;
 
 
 @Mapper(componentModel = "spring")

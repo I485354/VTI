@@ -8,7 +8,7 @@ import org.mockito.MockitoAnnotations;
 import org.vti.vtibackend.BLL.Service.AccountingEntryService;
 
 import org.vti.vtibackend.BLL.Interface.IAccountingEntryDAL;
-import org.vti.vtibackend.model.AccountingentryDTO;
+import org.vti.vtibackend.model.Accounting.AccountingentryDTO;
 
 import java.util.Arrays;
 import java.util.List;

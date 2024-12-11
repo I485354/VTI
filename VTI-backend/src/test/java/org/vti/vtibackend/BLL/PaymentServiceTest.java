@@ -6,11 +6,9 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.vti.vtibackend.DAL.Mapper.PaymentMapper;
 import org.vti.vtibackend.BLL.Service.PaymentService;
-import org.vti.vtibackend.DAL.Entity.Payment;
 import org.vti.vtibackend.BLL.Interface.IPaymentDAL;
-import org.vti.vtibackend.model.PaymentDTO;
+import org.vti.vtibackend.model.Payment.PaymentDTO;
 
 import java.util.Arrays;
 import java.util.Collections;

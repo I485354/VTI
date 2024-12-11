@@ -25,6 +25,10 @@ public class UserService  {
     }
 
     public UserDTO createUser(UserDTO users) {
-     return userDAL.save(users);
+        if (users == null) {
+            throw new NullPointerException("User cannot be null");
+        } else {
+            return userDAL.save(users);
+        }
     }
 }

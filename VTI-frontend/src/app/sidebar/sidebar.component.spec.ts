@@ -1,21 +1,21 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { SidebarComponent } from './sidebar.component';
 
-describe('SidebarComponent', () => {
-  let component: SidebarComponent;
-  let fixture: ComponentFixture<SidebarComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [RouterTestingModule, SidebarComponent]
-    })
-    .compileComponents();
 
-    fixture = TestBed.createComponent(SidebarComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+
+describe('Sidebar Component', () => {
+  beforeEach(() => {
+    // Bezoek de pagina waar de Sidebar wordt geladen
+    cy.visit('/');
   });
 
+  it('should display all sidebar links', () => {
+    // Controleer of de sidebar aanwezig is
+    cy.get('.sidebar').should('exist');
 
+    // Controleer of bepaalde links in de sidebar aanwezig zijn
+    const sidebarLinks = ['Dashboard', 'Facturen', 'Offertes', 'Klanten', 'Betalingen', 'Instellingen'];
+    sidebarLinks.forEach((link) => {
+      cy.contains(link).should('exist');
+    });
+  });
 });

@@ -1,23 +1,12 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { CustomerListComponent } from './customer-list.component';
 
-describe('CustomerListComponent', () => {
-  let component: CustomerListComponent;
-  let fixture: ComponentFixture<CustomerListComponent>;
-
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule,CustomerListComponent]
-    })
-    .compileComponents();
-
-    fixture = TestBed.createComponent(CustomerListComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+describe('Customer List Component', () => {
+  beforeEach(() => {
+    // Bezoek de pagina waar de CustomerListComponent wordt geladen
+    cy.visit('/customer-list'); // Zorg ervoor dat '/customer-list' de juiste route is
   });
 
-  it('should create', () => {
-    cy.visit('/customer-list');
+  it('should render the customer list page', () => {
+    // Controleer of de pagina geladen is
+    cy.get('h1').contains('Klantenlijst').should('be.visible'); // Controleer of de titel 'Klantenlijst' zichtbaar is
   });
 });

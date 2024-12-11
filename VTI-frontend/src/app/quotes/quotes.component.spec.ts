@@ -1,24 +1,13 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { QuotesComponent } from './quotes.component';
 
-describe('QuotesComponent', () => {
-  let component: QuotesComponent;
-  let fixture: ComponentFixture<QuotesComponent>;
+describe('Quotes Component', () => {
+  beforeEach(() => {
+    // Bezoek de pagina waar de QuotesComponent wordt geladen
+    cy.visit('/quotes'); // Zorg ervoor dat '/quotes' de juiste route is
+  });
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [
-          RouterTestingModule
-          ,HttpClientTestingModule
-          ,QuotesComponent]
-    })
-    .compileComponents();
-
-    fixture = TestBed.createComponent(QuotesComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+  it('should render the quotes page', () => {
+    // Controleer of de pagina geladen is
+    cy.get('h1').contains('Offertes').should('be.visible'); // Controleer of de titel 'Offertes' aanwezig is
   });
 
 });

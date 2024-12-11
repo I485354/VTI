@@ -98,3 +98,8 @@ jobs:
         run: |
           mvn clean install -Dmaven.compiler.source=17 -Dmaven.compiler.target=17 -DskipTests
           mvn test -Dspring.profiles.active=test
+
+      - name: SonarCloud Scan
+        env: 
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: mvn sonar:sonar

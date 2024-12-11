@@ -30,7 +30,7 @@ describe('Dashboard Tests', () => {
 
   it('Should display correct revenue data for all quarters', () => {
     const quarters = [1, 2, 3, 4];
-    const revenues = ['€ 0.00', '€ 0.00', '€ 0.00', '€ 2,353.25'];
+    const revenues = ['€ 0.00', '€ 0.00', '€ 0.00', '€ 3,663.25'];
 
     // Wacht tot de tabel gevuld is (controleer op aantal rijen)
     cy.get('table tbody tr').should('have.length', 4);

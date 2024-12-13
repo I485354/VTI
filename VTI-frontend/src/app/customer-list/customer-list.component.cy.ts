@@ -33,7 +33,7 @@ describe('Customer List Component', () => {
       getCustomers: () => of(mockCustomers), // Gebruik `of` van RxJS om een Observable te mocken
       addCustomer: (customer) => of({ ...customer, customer_id: mockCustomers.length + 1 }),
       updateCustomer: (customer) => of(customer),
-      deleteCustomer: (customerId) => of(),
+      //deleteCustomer: (customerId) => of(),
     };
 
     // Mount de component

@@ -17,7 +17,7 @@ export class CustomerListComponent implements OnInit {
   customers: Customers[] = [];
   selectedCustomer: Customers = { customer_id: 0, name: '', address: '', phone: '', email: '', company: ''};
   isFormVisible = false;
-  isEditing: boolean = false;
+  isEditing = false;
   successMessage: string | null = null;
   confirmationMessage: string | null = null;
 
@@ -73,6 +73,9 @@ export class CustomerListComponent implements OnInit {
     if (this.selectedCustomer) {
       this.apiService.deleteCustomer(this.selectedCustomer.customer_id).subscribe(() => {
         this.successMessage = `${this.selectedCustomer?.name} succesvol verwijderd!`;
+        setTimeout(() => {
+          this.successMessage = '';
+        }, 3000);
         this.loadCustomers();
         this.cancelConfirmation();
       });
@@ -81,8 +84,6 @@ export class CustomerListComponent implements OnInit {
 
   cancelConfirmation(): void {
     this.confirmationMessage = null;
-    setTimeout(() => {
-      this.successMessage;
-    }, 3000);
+
   }
 }

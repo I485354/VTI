@@ -13,11 +13,11 @@ import { FormsModule } from '@angular/forms';
 
 export class CustomerFormComponent {
   @Input() customer: Customers = { customer_id: 0, name: '', address: '', phone: '', email: '', company: ''};
-  @Input() isEditing: boolean = false;
+  @Input() isEditing = false;
   @Output() customerSave = new EventEmitter<Customers>();
   @Output() customerCancel = new EventEmitter<void>();
 
-  successMessage: string = ''; // Variabele voor succesbericht
+  successMessage = ''; // Variabele voor succesbericht
 
   saveCustomer(): void {
     this.customerSave.emit(this.customer);

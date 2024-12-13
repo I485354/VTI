@@ -18,7 +18,7 @@ public class UserDTO {
         this.role = role;
     }
 
-
+    //Getters
     public long getUser_id() {
         return this.user_id;
     }
@@ -38,7 +38,7 @@ public class UserDTO {
         return this.role;
     }
 
-
+    //Setters
     public void setUser_id(final long user_id) {
         this.user_id = user_id;
     }

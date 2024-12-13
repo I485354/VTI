@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import org.vti.vtibackend.BLL.Interface.IUserDAL;
 import org.vti.vtibackend.model.User.UserDTO;
+import org.vti.vtibackend.model.User.UserInfo;
 
 import java.util.List;
 
@@ -20,7 +21,7 @@ public class UserService  {
         this.userDAL = userDAL;
     }
 
-    public List<UserDTO> getAllUsers() {
+    public List<UserInfo> getAllUsers() {
         return userDAL.findAll();
     }
 

@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 
 import org.vti.vtibackend.BLL.Service.UserService;
 import org.vti.vtibackend.model.User.UserDTO;
+import org.vti.vtibackend.model.User.UserInfo;
 
 import java.util.List;
 
@@ -20,7 +21,7 @@ public class UserController {
     }
 
     @GetMapping
-    public List<UserDTO> getAllUsers() {
+    public List<UserInfo> getAllUsers() {
         return userService.getAllUsers();
     }
 

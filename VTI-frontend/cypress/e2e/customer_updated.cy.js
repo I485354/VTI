@@ -10,7 +10,7 @@ describe('Update customer', () => {
     cy.contains('Bewerken').click();
 
     // Controleer of het formulier zichtbaar is
-    //cy.contains('Bewerken').should('be.visible');
+    cy.contains('Klant Bewerken').should('be.visible');
     cy.get('input#name').should('have.value', 'John Doe');
     cy.get('input#email').should('have.value', 'john.doe@example.com');
     cy.get('input#company').should('have.value', 'Doe Enterprises');

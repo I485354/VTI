@@ -34,6 +34,9 @@ export class ApiService {
   addCustomer(customer: Customers): Observable<Customers> {
     return this.http.post<Customers>(`${this.apiUrl}/customer`, customer);
   }
+  deleteCustomer(customerId: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/customer/${customerId}`);
+  }
 
   updateCustomer(customer: Customers): Observable<Customers> {
     return this.http.put<Customers>(`${this.apiUrl}/customer/${customer.customer_id}`, customer);

@@ -1,6 +1,6 @@
 <div class="form-container" *ngIf="customer">
-  <h2 class="form-title">Nieuwe Klant Toevoegen</h2>
-  <div class="form-group"> 
+  <h2 class="form-title">{{ isEditing ? 'Klant Bewerken' : 'Nieuwe Klant Toevoegen' }}</h2>
+  <div class="form-group">
     <label for="name">Naam:</label>
     <input type="text" id="name" [(ngModel)]="customer.name" />
   </div>
@@ -23,5 +23,8 @@
   <div class="button-group">
     <button class="save-button" (click)="saveCustomer()">Opslaan</button>
     <button class="cancel-button" (click)="cancelCustomer()">Annuleren</button>
+  </div>
+  <div *ngIf="successMessage" class="success-message">
+    {{ successMessage }}
   </div>
 </div>

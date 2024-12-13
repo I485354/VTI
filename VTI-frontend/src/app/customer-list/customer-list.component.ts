@@ -17,6 +17,9 @@ export class CustomerListComponent implements OnInit {
   customers: Customers[] = [];
   selectedCustomer: Customers = { customer_id: 0, name: '', address: '', phone: '', email: '', company: ''};
   isFormVisible = false;
+  isEditing: boolean = false;
+  successMessage: string | null = null;
+  confirmationMessage: string | null = null;
 
 
   constructor(private apiService: ApiService) { }
@@ -32,7 +35,8 @@ export class CustomerListComponent implements OnInit {
   }
 
   onEditCustomer(customer: Customers): void {
-    this.selectedCustomer = { ...customer }; // Maak een kopie om ongewenste wijzigingen te voorkomen
+    this.selectedCustomer = { ...customer };
+    this.isEditing = true;// Maak een kopie om ongewenste wijzigingen te voorkomen
     this.isFormVisible = true;
   }
 
@@ -54,9 +58,31 @@ export class CustomerListComponent implements OnInit {
     this.isFormVisible = false;
   }
 
-  private loadCustomers(): void {
+  loadCustomers(): void {
     this.apiService.getCustomers().subscribe((data: Customers[]) => {
       this.customers = data;
     });
+  }
+
+  requestDeleteCustomer(customer: Customers): void {
+    this.selectedCustomer = customer;
+    this.confirmationMessage = `Weet je zeker dat je ${customer.name} wilt verwijderen?`;
+  }
+
+  confirmDelete(): void {
+    if (this.selectedCustomer) {
+      this.apiService.deleteCustomer(this.selectedCustomer.customer_id).subscribe(() => {
+        this.successMessage = `${this.selectedCustomer?.name} succesvol verwijderd!`;
+        this.loadCustomers();
+        this.cancelConfirmation();
+      });
+    }
+  }
+
+  cancelConfirmation(): void {
+    this.confirmationMessage = null;
+    setTimeout(() => {
+      this.successMessage;
+    }, 3000);
   }
 }

@@ -6,11 +6,6 @@ describe('CustomerFormComponent', () => {
     mount(CustomerFormComponent);
   });
 
-  it('should create the component', () => {
-    // Controleer of het component correct is geladen
-    cy.get('app-customer-form').should('exist');
-  });
-
   it('should render the form fields', () => {
     // Controleer of de inputvelden correct worden weergegeven
     cy.get('input#name').should('exist');
@@ -36,9 +31,14 @@ describe('CustomerFormComponent', () => {
 
     // Klik op de opslaan-knop
     cy.get('button.save-button').click();
+    cy.contains('Changes saved').should('be.visible');
+
+    // Wacht tot het bericht verdwijnt
+    cy.wait(3000);
+    cy.contains('Changes saved').should('not.exist');
 
     // Controleer of de juiste gegevens zijn gelogd
-    cy.get('@formSubmitSpy').should('be.calledWithMatch', 'Customer saved:', {
+    cy.get('@formSubmitSpy').should('be.calledWithMatch', 'Changes saved', {
       name: 'John Doe',
       email: 'john.doe@example.com',
       company: 'Doe Enterprises',

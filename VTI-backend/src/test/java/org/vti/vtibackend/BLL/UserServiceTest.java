@@ -8,6 +8,7 @@ import org.mockito.MockitoAnnotations;
 import org.vti.vtibackend.BLL.Interface.IUserDAL;
 import org.vti.vtibackend.BLL.Service.UserService;
 import org.vti.vtibackend.model.User.UserDTO;
+import org.vti.vtibackend.model.User.UserInfo;
 
 
 import java.util.Arrays;
@@ -26,6 +27,7 @@ public class UserServiceTest {
 
     private UserDTO user1;
     private UserDTO user2;
+    private UserInfo userInfo;
 
     @BeforeEach
     void setUp() {
@@ -33,20 +35,22 @@ public class UserServiceTest {
 
         user1 = new UserDTO(1, "john_doe", "password123", "admin");
         user2 = new UserDTO(2, "jane_doe", "securePass", "user");
+        userInfo = new UserInfo(1, "john_doe", "admin");
     }
 
     @Test
     void getAllUsers() {
+
         // Arrange
-        when(userDAL.findAll()).thenReturn(Arrays.asList(user1, user2));
+        when(userDAL.findAll()).thenReturn(Arrays.asList(userInfo));
 
         // Act
-        List<UserDTO> users = userService.getAllUsers();
+        List<UserInfo> users = userService.getAllUsers();
 
         // Assert
-        assertThat(users).hasSize(2);
-        assertThat(users.get(0)).isEqualTo(user1);
-        assertThat(users.get(1)).isEqualTo(user2);
+        assertThat(users).hasSize(1);
+        assertThat(users.get(0)).isEqualTo(userInfo);
+
 
         verify(userDAL, times(1)).findAll();
     }
@@ -84,7 +88,7 @@ public class UserServiceTest {
         when(userDAL.findAll()).thenReturn(Arrays.asList());
 
         // Act
-        List<UserDTO> users = userService.getAllUsers();
+        List<UserInfo> users = userService.getAllUsers();
 
         // Assert
         assertThat(users).isEmpty();

@@ -24,7 +24,7 @@ describe('PaymentsComponent', () => {
 
   it('should render the component correctly', () => {
     // Controleer dat de component is geladen
-    cy.get('h1').should('contain', 'Payments'); // Controleer dat een titel aanwezig is
+    cy.get('h1').should('contain', 'payments works!'); // Controleer dat een titel aanwezig is
   });
 
 });

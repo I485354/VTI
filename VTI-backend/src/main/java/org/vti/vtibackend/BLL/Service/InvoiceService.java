@@ -26,7 +26,27 @@ public class InvoiceService  {
         return invoiceDAL.findAll();
     }
 
+    private void validateCreateInvoice(CreateInvoiceDTO createInvoiceDTO) {
+        if (createInvoiceDTO.getInvoice_date() == null) {
+            throw new IllegalArgumentException("Invoice date is required.");
+        }
+        if (createInvoiceDTO.getDue_date() == null) {
+            throw new IllegalArgumentException("Due date is required.");
+        }
+        if (createInvoiceDTO.getCustomer_id() <= 0) {
+            throw new IllegalArgumentException("Customer ID must be greater than 0.");
+        }
+        if (createInvoiceDTO.getTotal_amount() <= 0) {
+            throw new IllegalArgumentException("Total amount must be greater than 0.");
+        }
+        if (createInvoiceDTO.getTotal_btw() <= 0) {
+            throw new IllegalArgumentException("Total BTW must be greater than 0.");
+        }
+    }
+
     public InvoiceDTO createInvoice(CreateInvoiceDTO createInvoiceDTO) {
+        validateCreateInvoice(createInvoiceDTO);
+
         InvoiceDTO invoiceDTO = new InvoiceDTO();
         invoiceDTO.setCustomer_id(createInvoiceDTO.getCustomer_id());
         invoiceDTO.setCar_id(createInvoiceDTO.getCar_id());

@@ -7,6 +7,7 @@ import org.vti.vtibackend.BLL.Interface.IUserDAL;
 import org.vti.vtibackend.DAL.Mapper.UserMapper;
 import org.vti.vtibackend.DAL.Repository.UserRepo;
 import org.vti.vtibackend.model.User.UserDTO;
+import org.vti.vtibackend.model.User.UserInfo;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,10 +31,10 @@ public class UserDAL implements IUserDAL {
     }
 
     @Override
-    public List<UserDTO> findAll(){
+    public List<UserInfo> findAll(){
         return userRepo.findAll()
                 .stream()
-                .map(userMapper::ToDTO)
+                .map(userMapper::ToUserInfo)
                 .collect(Collectors.toList());
     }
 

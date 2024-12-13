@@ -130,6 +130,66 @@
 .edit-button:hover {
   background-color: #4682B4;
 }
+.delete-button {
+  padding: 6px 12px;
+  font-size: 14px;
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.delete-button:hover {
+  background-color: #ff0000;
+}
+
+.success-message {
+  color: white;
+  background-color: green;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.confirmation-message {
+  color: black;
+  background-color: yellow;
+  padding: 15px;
+  margin-bottom: 10px;
+  border: 1px solid black;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.confirm-button {
+  background-color: red;
+  color: white;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.cancel-button {
+  background-color: gray;
+  color: white;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.confirm-button:hover {
+  background-color: darkred;
+}
+
+.cancel-button:hover {
+  background-color: darkgray;
+}
 
 .no-data {
   color: #888;

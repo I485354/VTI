@@ -41,7 +41,7 @@ jobs:
       - name: Deploy to Vercel
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-        run: npx vercel deploy --prod --confirm --token=$VERCEL_TOKEN --project-name=VTI-frontend --output=dist/vti-frontend
+        run: npx vercel deploy --prod --confirm --token=$VERCEL_TOKEN --project-name=vti-frontend --output=dist/vti-frontend
 
       - name: Run Cypress tests
         working-directory: VTI-frontend

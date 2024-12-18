@@ -36,12 +36,12 @@ jobs:
 
       - name: Build project
         working-directory: VTI-frontend
-        run: npm run build
+        run: npm run build --prod
         
       - name: Deploy to Vercel
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-        run: npx vercel deploy dist/vti-frontend --prod --confirm --token=$VERCEL_TOKEN
+        run: npx vercel deploy dist/vti-frontend --prod --yes --token=$VERCEL_TOKEN
 
 
       - name: Run Cypress tests

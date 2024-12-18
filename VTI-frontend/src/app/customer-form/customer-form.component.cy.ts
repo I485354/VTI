@@ -31,14 +31,15 @@ describe('CustomerFormComponent', () => {
 
     // Klik op de opslaan-knop
     cy.get('button.save-button').click();
-    cy.contains('Changes saved').should('be.visible');
+    cy.contains('Veranderingen opgeslagen').should('be.visible');
 
     // Wacht tot het bericht verdwijnt
     cy.wait(3000);
-    cy.contains('Changes saved').should('not.exist');
+    cy.contains('Veranderingen opgeslagen').should('not.exist');
 
     // Controleer of de juiste gegevens zijn gelogd
-    cy.get('@formSubmitSpy').should('be.calledWithMatch', 'Changes saved', {
+    cy.get('@formSubmitSpy').should('be.calledWithMatch', 'Veranderingen opgeslagen', {
+      customer_id: 0,
       name: 'John Doe',
       email: 'john.doe@example.com',
       company: 'Doe Enterprises',
@@ -50,7 +51,6 @@ describe('CustomerFormComponent', () => {
   it('should allow cancelling the form', () => {
     // Klik op de annuleren-knop
     cy.get('button.cancel-button').click();
-
     // Controleer of het formulier wordt gesloten of geannuleerd
     cy.get('app-customer-form').should('not.exist');
   });

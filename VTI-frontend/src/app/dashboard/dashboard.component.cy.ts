@@ -1,46 +1,60 @@
 import { mount } from 'cypress/angular';
 import { DashboardComponent } from './dashboard.component';
-import { HttpClientModule } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { ApiService } from '../api.service';
+import { of } from 'rxjs';
+import { Revenue } from '../model/Revenue.model';
 
-describe('DashboardComponent', () => {
+// Mock data
+const mockQuarterlyRevenue: Revenue[] = [
+  { year: 2024, quarter: 1, total_amount: 10000, invoice_count: 10 },
+  { year: 2024, quarter: 2, total_amount: 15000, invoice_count: 15 },
+  { year: 2024, quarter: 3, total_amount: 20000, invoice_count: 20 },
+  { year: 2024, quarter: 4, total_amount: 25000, invoice_count: 25 },
+];
+
+describe('DashboardComponent (Unit Test)', () => {
+  let apiServiceMock: Partial<ApiService>;
+
   beforeEach(() => {
-    // Mount de component
+    // Mock ApiService
+    apiServiceMock = {
+      getRevenue: () => of(mockQuarterlyRevenue),
+    };
+
     mount(DashboardComponent, {
-      imports: [HttpClientModule, FormsModule, CommonModule],
+      imports: [CommonModule, FormsModule],
+      providers: [{ provide: ApiService, useValue: apiServiceMock }],
     });
   });
-
-  it('should create', () => {
-    cy.visit('/');
-    cy.get('app-dashboard').should('exist');
-  });
-
-  it('should display the current year in the dropdown', () => {
-    // Controleer of het huidige jaar in de dropdown staat
+  
+  it('should initialize years correctly', () => {
     const currentYear = new Date().getFullYear();
     cy.get('select').should('contain', currentYear.toString());
+    cy.get('select').should('contain', (currentYear - 9).toString());
   });
 
-  it('should load data when a year is selected', () => {
-    // Simuleer het selecteren van een jaar
-    cy.intercept('GET', '**/invoice/revenue*', { fixture: 'revenue.json' }).as('getRevenue');
-    cy.get('select').select('2024');
-
-    // Wacht op de mock-API en controleer of data is geladen
-    cy.wait('@getRevenue');
+  it('should load and display mock quarterly revenue data', () => {
+    // Controleer of data in de tabel wordt geladen
     cy.get('table').should('exist');
-    cy.get('table tbody tr').should('have.length.greaterThan', 0);
+    cy.get('table tbody tr').should('have.length', 4);
+    cy.get('table tbody').contains('td', '€ 10,000.00').should('be.visible'); // Q1
+    cy.get('table tbody').contains('td', '€ 15,000.00').should('be.visible'); // Q2
+    cy.get('table tbody').contains('td', '€ 20,000.00').should('be.visible'); // Q3
+    cy.get('table tbody').contains('td', '€ 25,000.00').should('be.visible'); // Q4
   });
 
-  it('should display a message if no data is available', () => {
-    // Simuleer een lege dataset
-    cy.intercept('GET', '**/invoice/revenue*', { body: [] }).as('getEmptyRevenue');
-    cy.get('select').select('2025');
+  it('should display a message when no data is available', () => {
+    // Mock lege dataset
+    apiServiceMock.getRevenue = () => of([]);
+    mount(DashboardComponent, {
+      imports: [CommonModule, FormsModule],
+      providers: [{ provide: ApiService, useValue: apiServiceMock }],
+    });
 
-    // Controleer of de juiste melding wordt weergegeven
-    cy.wait('@getEmptyRevenue');
-    cy.contains('Geen kwartaalgegevens beschikbaar voor 2025').should('be.visible');
+    cy.get('select').select('2023');
+    cy.contains('Geen kwartaalgegevens beschikbaar').should('be.visible');
   });
 });
+

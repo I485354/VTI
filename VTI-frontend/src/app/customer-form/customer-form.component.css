@@ -82,3 +82,13 @@
   border-radius: 5px;
   font-size: 14px;
 }
+
+.has-error input {
+  border: 1px solid red;
+}
+
+.error-message {
+  color: red;
+  font-size: 12px;
+  margin-top: 4px;
+}

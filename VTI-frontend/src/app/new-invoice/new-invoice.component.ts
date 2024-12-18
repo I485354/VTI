@@ -172,6 +172,7 @@ export class NewInvoiceComponent implements OnInit {
     this.apiService.addInvoice(invoiceToSend).subscribe(
       response => {
         console.log(response);
+        console.log('Invoice succesfull made', invoiceToSend);
         this.router.navigate(['/invoices'],);
       },
       error => {

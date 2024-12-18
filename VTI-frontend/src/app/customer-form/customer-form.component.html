@@ -1,29 +1,53 @@
 <div class="form-container" *ngIf="customer">
   <h2 class="form-title">{{ isEditing ? 'Klant Bewerken' : 'Nieuwe Klant Toevoegen' }}</h2>
-  <div class="form-group">
+
+  <div class="form-group" [ngClass]="{'has-error': formSubmitted && !customer.name}">
     <label for="name">Naam:</label>
-    <input type="text" id="name" [(ngModel)]="customer.name" />
+    <input type="text" id="name" [(ngModel)]="customer.name" required />
+    <div class="error-message" *ngIf="formSubmitted && !customer.name">
+      Veld is verplicht
+    </div>
   </div>
-  <div class="form-group">
+
+  <div class="form-group" [ngClass]="{'has-error': formSubmitted && !customer.email}">
     <label for="email">Email:</label>
-    <input type="email" id="email" [(ngModel)]="customer.email" />
+    <input type="email" id="email" [(ngModel)]="customer.email" required />
+    <div class="error-message" *ngIf="formSubmitted && !customer.email">
+      Veld is verplicht
+    </div>
   </div>
-  <div class="form-group">
+
+  <div class="form-group" [ngClass]="{'has-error': formSubmitted && !customer.company}">
     <label for="company">Bedrijf:</label>
-    <input type="text" id="company" [(ngModel)]="customer.company" />
+    <input type="text" id="company" [(ngModel)]="customer.company" required />
+    <div class="error-message" *ngIf="formSubmitted && !customer.company">
+      Veld is verplicht
+    </div>
   </div>
-  <div class="form-group">
+
+  <div class="form-group" [ngClass]="{'has-error': formSubmitted && !customer.phone}">
     <label for="phone">Telefoonnummer:</label>
-    <input type="text" id="phone" [(ngModel)]="customer.phone" />
+    <input type="text" id="phone" [(ngModel)]="customer.phone" required />
+    <div class="error-message" *ngIf="formSubmitted && !customer.phone">
+      Veld is verplicht
+    </div>
   </div>
-  <div class="form-group">
+
+  <div class="form-group" [ngClass]="{'has-error': formSubmitted && !customer.address}">
     <label for="address">Adres:</label>
-    <input type="text" id="address" [(ngModel)]="customer.address" />
+    <input type="text" id="address" [(ngModel)]="customer.address" required />
+    <div class="error-message" *ngIf="formSubmitted && !customer.address">
+      Veld is verplicht
+    </div>
   </div>
+
   <div class="button-group">
-    <button class="save-button" (click)="saveCustomer()">Opslaan</button>
+    <button class="save-button" (click)="saveCustomer()">
+      Opslaan
+    </button>
     <button class="cancel-button" (click)="cancelCustomer()">Annuleren</button>
   </div>
+
   <div *ngIf="successMessage" class="success-message">
     {{ successMessage }}
   </div>

@@ -28,16 +28,24 @@ public class CustomerService {
 
 
     public CustomerDTO createCustomer(CreateCustomerDTO createCustomerDTO) {
-        CustomerDTO customerDTO = new CustomerDTO();
-        customerDTO.setName(createCustomerDTO.getName());
-        customerDTO.setEmail(createCustomerDTO.getEmail());
-        customerDTO.setPhone(createCustomerDTO.getPhone());
-        customerDTO.setAddress(createCustomerDTO.getAddress());
-        customerDTO.setCompany(createCustomerDTO.getCompany());
-        int highestCustomerNumber = customerDAL.findHighestCustomerNumber();
-        int nextCustomerNumber = (highestCustomerNumber != 0) ? highestCustomerNumber + 1 : 1;
-        customerDTO.setCustomer_number(nextCustomerNumber);
-        return customerDAL.createCustomer(customerDTO);
+        if (createCustomerDTO.getName() == null || createCustomerDTO.getName().isEmpty()
+                || createCustomerDTO.getEmail() == null || createCustomerDTO.getEmail().isEmpty()
+                || createCustomerDTO.getPhone() == null || createCustomerDTO.getPhone().isEmpty()
+                || createCustomerDTO.getAddress() == null || createCustomerDTO.getAddress().isEmpty()
+                || createCustomerDTO.getCompany() == null || createCustomerDTO.getCompany().isEmpty())
+        {
+            throw new IllegalArgumentException("Alle velden (name, email, phone, address, company) zijn verplicht.");
+        }
+            CustomerDTO customerDTO = new CustomerDTO();
+            customerDTO.setName(createCustomerDTO.getName());
+            customerDTO.setEmail(createCustomerDTO.getEmail());
+            customerDTO.setPhone(createCustomerDTO.getPhone());
+            customerDTO.setAddress(createCustomerDTO.getAddress());
+            customerDTO.setCompany(createCustomerDTO.getCompany());
+            int highestCustomerNumber = customerDAL.findHighestCustomerNumber();
+            int nextCustomerNumber = (highestCustomerNumber != 0) ? highestCustomerNumber + 1 : 1;
+            customerDTO.setCustomer_number(nextCustomerNumber);
+            return customerDAL.createCustomer(customerDTO);
     }
 
     public CustomerDTO updateCustomer(int id, UpdatedCustomerDTO updatedCustomerDTO) {

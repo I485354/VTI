@@ -24,25 +24,23 @@ describe('CustomerListComponent', () => {
       phone: '9876543210',
       address: '456 Side Avenue',
     },
-   /* {
-      customer_id: 3,
-      name: 'Alice Brown',
-      email: 'alice.brown@example.com',
-      company: 'Brown LLC',
-      phone: '555555555',
-      address: 'Third Boulevard 33',
-    }*/
   ];
 
   let apiServiceMock: Partial<ApiService>;
 
   beforeEach(() => {
-    // Mock ApiService
+    // Mock ApiService volledig
     apiServiceMock = {
       getCustomers: () => of(mockCustomers),
-      addCustomer: (customer) => of({ ...customer, customer_id: mockCustomers.length + 1 }),
+      addCustomer: (customer) => {
+        // Simuleer het toevoegen van een klant
+        const newCustomer = { ...customer, customer_id: mockCustomers.length + 1 };
+        mockCustomers.push(newCustomer);
+        return of(newCustomer);
+      }
     };
 
+    // Mount de component met dependencies
     mount(CustomerListComponent, {
       imports: [RouterTestingModule, HttpClientModule, FormsModule],
       providers: [{ provide: ApiService, useValue: apiServiceMock }],
@@ -50,48 +48,50 @@ describe('CustomerListComponent', () => {
   });
 
   it('should render the customer list and display customers', () => {
-    // Check if the title is displayed
     cy.get('h2.title').should('contain', 'Klantenlijst');
-
-    // Verify customers are displayed in the table
     cy.get('table.customer-table tbody tr').should('have.length', 2);
     cy.get('table.customer-table').contains('td', 'John Doe').should('be.visible');
     cy.get('table.customer-table').contains('td', 'Jane Smith').should('be.visible');
   });
 
-  it('should validate the customer form', () => {
-
-    cy.get('button.add-button').click();
-
-    cy.get('button.save-button').click();
-
-    // Check for error messages
-    cy.get('.error-message').should('contain', 'Name is required'); // Example error
-  });
 
   it('should add a new customer', () => {
-    // Click the "Add Customer" button
     cy.get('button.add-button').click();
 
-    // Fill in the customer form
+    cy.log('Vul formulier correct in');
     cy.get('input#name').type('Alice Brown');
     cy.get('input#email').type('alice.brown@example.com');
     cy.get('input#company').type('Brown LLC');
     cy.get('input#phone').type('555555555');
     cy.get('input#address').type('Third Boulevard 33');
 
-    // Click the "Save" button
+    cy.log('Klik op de Save-knop');
     cy.get('button.save-button').click();
 
-    // Verify the new customer is added to the table
+    cy.log('Controleer dat een nieuwe rij wordt toegevoegd');
     cy.get('table.customer-table tbody tr').should('have.length', 3);
     cy.get('table.customer-table').contains('td', 'Alice Brown').should('be.visible');
   });
-  
+
   it('should see Bewerkpagina', () => {
-    cy.get('Bewerk').click();
-    
+    cy.log('Klik op de Edit-knop van de eerste klant');
+    cy.get('table.customer-table tbody tr')
+      .first()
+      .find('button.edit-button')
+      .click();
+
+    cy.log('Controleer of het formulier gevuld is met klantdata');
+    cy.get('input#name').should('have.value', 'John Doe');
+    cy.get('h2.form-title').should('contain', 'Klant Bewerken');
   });
-  
+
+  it('should display errors when required fields are empty', () => {
+    cy.get('button.add-button').click();
+
+    cy.log('Laat alle velden leeg en klik op Save');
+    cy.get('button.save-button').click({force: true});
+
+    cy.get('.error-message').should('contain', 'Veld is verplicht');
+  });
 });
 

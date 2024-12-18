@@ -43,13 +43,22 @@ export class CustomerListComponent implements OnInit {
   onSaveCustomer(customer: Customers): void {
     if (customer.customer_id) {
       this.apiService.updateCustomer(customer).subscribe(() => {
+        this.successMessage = `${customer.name} succesvol bijgewerkt`;
+        setTimeout(() => {
+         this.successMessage = '';
+          this.isFormVisible = false; // Verberg het formulier na 4 seconden
+        }, 4000);
         this.loadCustomers();
-        this.isFormVisible = false;
       });
     } else {
       this.apiService.addCustomer(customer).subscribe(() => {
+        this.successMessage = `${customer.name} succesvol toegevoegd!`;
+        setTimeout(() => {
+          this.successMessage = '';
+          this.isFormVisible = false; // Verberg het formulier na 4 seconden
+        }, 4000);
         this.loadCustomers();
-        this.isFormVisible = false;
+
       });
     }
   }

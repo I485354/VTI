@@ -41,8 +41,12 @@ jobs:
       - name: Deploy to Vercel
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-        run:  DEPLOY_URL=$(npx vercel deploy VTI-frontend/ --yes --prod --token=$VERCEL_TOKEN)
-          echo "Deployed to $DEPLOY_URL"
+        run:  |
+          OUTPUT=$(npx vercel deploy VTI-frontend/ --yes --prod --token=$VERCEL_TOKEN)
+          echo "$OUTPUT"
+          DEPLOY_URL=$(echo "$OUTPUT" | grep -oP 'https?://\S+')
+          echo "Deployment URL: $DEPLOY_URL"
+          echo "DEPLOY_URL=$DEPLOY_URL" >> $GITHUB_ENV
 
       - name: Alias Deployment to Custom Domain
         env:

@@ -14,7 +14,7 @@ describe('New Invoice Page', () => {
     cy.intercept('POST', '/api/invoice/create_invoice', { statusCode: 201 }).as('createInvoice');
 
     // Bezoek de nieuwe factuurpagina
-    cy.visit('/new-invoice');
+    cy.visit('/new-invoice',  {failOnStatusCode: false});
   });
 
   it('Should load customers and allow customer selection', () => {

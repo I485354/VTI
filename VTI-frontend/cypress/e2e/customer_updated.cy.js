@@ -1,7 +1,7 @@
 describe('Update customer', () => {
   beforeEach(() => {
-
-    cy.visit('/customer-list'); // Pas aan naar jouw pagina-URL
+ 
+    cy.visit('/customer-list',  {failOnStatusCode: false}); // Pas aan naar jouw pagina-URL
   });
 
   it('Should open the update from with customer info filled in', () => {

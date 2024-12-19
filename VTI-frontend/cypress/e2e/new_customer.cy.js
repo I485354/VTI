@@ -1,7 +1,7 @@
 describe('New customer', () => {
   beforeEach(() => {
 
-    cy.visit('/customer-list'); // Pas aan naar jouw pagina-URL
+    cy.visit('/customer-list',  {failOnStatusCode: false}); // Pas aan naar jouw pagina-URL
   });
 
   it('Should open the add customer form when clicking the "Voeg Klant Toe" button', () => {

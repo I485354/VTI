@@ -1,6 +1,6 @@
 describe('Dashboard Tests', () => {
   beforeEach(() => {
-    cy.visit('/');
+    cy.visit('/dashboard');
   });
 
   it('Should load the dashboard page', () => {

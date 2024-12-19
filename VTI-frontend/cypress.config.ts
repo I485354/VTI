@@ -1,8 +1,8 @@
 import { defineConfig } from "cypress";
-/*process.env["CYPRESS_BASE_URL"] || "https://vti-frontend.vercel.app" ||*/
+
 export default defineConfig({
   e2e: {
-    baseUrl: "http://localhost:4200/" ,
+    baseUrl: process.env["CYPRESS_BASE_URL"] || "https://vti-frontend.vercel.app" || "http://localhost:4200" ,
     setupNodeEvents(on, config) {
       // implement node event listeners here
     },

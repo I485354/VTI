@@ -2,7 +2,7 @@ import { defineConfig } from "cypress";
 
 export default defineConfig({
   e2e: {
-    baseUrl: "https://vti-frontend-hnaavycex-i485354s-projects.vercel.app",
+    baseUrl: "https://vti-frontend.vercel.app",
     setupNodeEvents(on, config) {
       // implement node event listeners here
     },

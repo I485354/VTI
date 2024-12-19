@@ -56,7 +56,7 @@ jobs:
             echo "No deployment URL found!"
             exit 1
           fi
-          npx vercel alias $DEPLOY_URL vti-frontend.vercel.app --token=$VERCEL_TOKEN
+          npx vercel alias vti-frontend.vercel.app $DEPLOY_URL --token=$VERCEL_TOKEN
           
 
       - name: Run Cypress tests

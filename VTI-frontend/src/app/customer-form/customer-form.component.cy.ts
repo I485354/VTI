@@ -31,14 +31,14 @@ describe('CustomerFormComponent', () => {
 
     // Klik op de opslaan-knop
     cy.get('button.save-button').click();
-    cy.contains('Veranderingen opgeslagen').should('be.visible');
+    cy.contains('Nieuwe klant aangemaakt').should('be.visible');
 
     // Wacht tot het bericht verdwijnt
     cy.wait(3000);
     cy.contains('Veranderingen opgeslagen').should('not.exist');
 
     // Controleer of de juiste gegevens zijn gelogd
-    cy.get('@formSubmitSpy').should('be.calledWithMatch', 'Veranderingen opgeslagen', {
+    cy.get('@formSubmitSpy').should('be.calledWithMatch', 'Nieuwe klant aangemaakt', {
       customer_id: 0,
       name: 'John Doe',
       email: 'john.doe@example.com',

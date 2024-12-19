@@ -21,9 +21,14 @@ export class ProductFormComponent {
   addProduct() {
     this.apiService.addProduct(this.newProduct).subscribe(
       (response) => {
-        console.log('Product toegevoegd:', response);
-        this.clearForm()
-        this.router.navigate(['/quotes']);
+        console.log('Product toegevoegd:', this.newProduct);
+        console.log(response);
+        setTimeout(() => {
+          this.router.navigate(['/quotes']);
+          this.clearForm()
+          }, 3000
+        );
+
       },
       (error) => {
         console.error('Fout bij het toevoegen van product:', error);

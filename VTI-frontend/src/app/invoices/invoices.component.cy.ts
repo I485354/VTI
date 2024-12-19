@@ -8,6 +8,7 @@ import { of } from 'rxjs';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Invoice } from '../model/invoices.model';
 import { Component } from '@angular/core';
+
 @Component({ template: '<p>Nieuwe factuur pagina</p>' })
 class DummyComponent {}
 
@@ -116,7 +117,7 @@ describe('InvoicesComponent', () => {
   });
 
   it('should update invoice status when the action button is clicked', () => {
-  
+
     cy.get('table tbody tr').first().within(() => {
       cy.contains('Markeer als Betaald').click();
       cy.contains('Betaald').should('be.visible');

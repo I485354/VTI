@@ -41,16 +41,7 @@ jobs:
       - name: Deploy to Vercel
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-        run: |
-          DEPLOYMENT_URL=$(npx vercel deploy VTI-frontend/ --prod --yes --token=$VERCEL_TOKEN | jq -r '.url')
-          
-          if [ -n "$DEPLOYMENT_URL" ]; then
-            echo "Deployment URL: $DEPLOYMENT_URL"
-            npx vercel alias $DEPLOYMENT_URL vti-frontend.vercel.app --token=$VERCEL_TOKEN
-          else
-            echo "Deployment failed or no URL returned."
-            exit 1
-          fi
+        run: npx vercel deploy VTI-frontend/ --prod --yes --token=$VERCEL_TOKEN 
 
 
 

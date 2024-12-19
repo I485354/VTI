@@ -41,8 +41,23 @@ jobs:
       - name: Deploy to Vercel
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-        run: npx vercel deploy VTI-frontend/ --prod --yes --token=$VERCEL_TOKEN
+        run:  |
+          OUTPUT=$(npx vercel deploy VTI-frontend/ --yes --prod --token=$VERCEL_TOKEN)
+          echo "$OUTPUT"
+          DEPLOY_URL=$(echo "$OUTPUT" | grep -oP 'https?://\S+' | head -n 1)
+          echo "Deployment URL: $DEPLOY_URL"
+          echo "DEPLOY_URL=$DEPLOY_URL" >> $GITHUB_ENV
 
+      - name: Alias Deployment to Custom Domain
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: |
+          if [ -z "$DEPLOY_URL" ]; then
+            echo "No deployment URL found!"
+            exit 1
+          fi
+          npx vercel alias $DEPLOY_URL  vti-frontend.vercel.app --token=$VERCEL_TOKEN
+          
 
       - name: Run Cypress tests
         working-directory: VTI-frontend

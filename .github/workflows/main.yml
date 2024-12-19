@@ -44,7 +44,7 @@ jobs:
         run:  |
           OUTPUT=$(npx vercel deploy VTI-frontend/ --yes --prod --token=$VERCEL_TOKEN)
           echo "$OUTPUT"
-          DEPLOY_URL=$(echo "$OUTPUT" | grep -oP 'https?://\S+')
+          DEPLOY_URL=$(echo "$OUTPUT" | grep -oP 'https?://\S+'| head -n 1)
           echo "Deployment URL: $DEPLOY_URL"
           echo "DEPLOY_URL=$DEPLOY_URL" >> $GITHUB_ENV
 
@@ -56,7 +56,7 @@ jobs:
             echo "No deployment URL found!"
             exit 1
           fi
-          npx vercel alias $DEPLOY_URL  vti-frontend.vercel.app --token=$VERCEL_TOKEN
+          npx vercel alias ${{ DEPLOY_URL }}  vti-frontend.vercel.app --token=$VERCEL_TOKEN
           
 
       - name: Run Cypress tests

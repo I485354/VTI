@@ -41,7 +41,12 @@ jobs:
       - name: Deploy to Vercel
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-        run: npx vercel deploy VTI-frontend/ --prod --yes --token=$VERCEL_TOKEN --alias vti-frontend.vercel.app
+        run: npx vercel deploy VTI-frontend/ --prod --yes --token=$VERCEL_TOKEN 
+        
+      - name: Assign Alias
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: npx vercel alias vti-frontend.vercel.app --token=$VERCEL_TOKEN
 
 
       - name: Run Cypress tests

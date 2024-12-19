@@ -47,7 +47,7 @@ export class CustomerListComponent implements OnInit {
         setTimeout(() => {
          this.successMessage = '';
           this.isFormVisible = false; // Verberg het formulier na 4 seconden
-        }, 4000);
+        }, 2000);
         this.loadCustomers();
       });
     } else {

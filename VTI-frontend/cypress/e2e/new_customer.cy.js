@@ -30,7 +30,8 @@ describe('New customer', () => {
 
     // Klik op de "Opslaan" knop
     cy.contains('Opslaan').click();
-    
+
+    cy.wait(5000);
 
     // Controleer of de klant wordt weergegeven in de klantenlijst
     cy.contains('John Doe').should('be.visible');

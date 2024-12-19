@@ -34,7 +34,7 @@ export class CustomerFormComponent {
 
       setTimeout(() => {
         this.successMessage = '';
-      }, 2000);
+      }, 1500);
 
       this.resetForm();
       this.formSubmitted = false; // Reset de validatie na succesvolle opslag

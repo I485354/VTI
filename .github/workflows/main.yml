@@ -57,6 +57,11 @@ jobs:
             exit 1
           fi
           npx vercel alias $DEPLOY_URL vti-frontend.vercel.app --token=$VERCEL_TOKEN
+      - name: Log BASE_URL
+        run: echo "BASE_URL is:" "$DEPLOY_URL"
+
+      - name: Wait for deployment
+        run: sleep 30
 
       - name: Run Cypress tests
         working-directory: VTI-frontend
@@ -64,6 +69,7 @@ jobs:
           BASE_URL: ${{ env.DEPLOY_URL }} 
         run: |
           npm install cypress
+          echo "BASE_URL is:" $BASE_URL"
           npx cypress run
 
   backend:

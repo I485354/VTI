@@ -30,7 +30,8 @@ public class SecurityConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/api/**")
-                        .allowedOrigins("http://localhost:4200", "https://vti-frontend.vercel.app")
+                        .allowedOriginPatterns("http://localhost:4200", "https://vti-frontend.vercel.app",
+                                "https://vti-frontend-*-i485354s-projects.vercel.app")
                         .allowedMethods("GET", "POST", "PUT", "DELETE")
                         .allowedHeaders("*")
                         .allowCredentials(true);

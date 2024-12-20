@@ -1,6 +1,7 @@
 package org.vti.vtibackend.Presentatie.Controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,17 +25,21 @@ public class CustomerController {
     }
 
     @GetMapping
-    public List<CustomerDTO> getAllCustomers() {
-        return customerService.getAllCustomers();
+    public ResponseEntity<List<CustomerDTO>> getAllCustomers() {
+        List<CustomerDTO> newCustomer = customerService.getAllCustomers();
+        return new ResponseEntity<>(newCustomer, HttpStatus.OK);
     }
 
     @PostMapping
-    public CustomerDTO createCustomer(@RequestBody CreateCustomerDTO customers) {
-        return customerService.createCustomer(customers);
+    public ResponseEntity<CustomerDTO> createCustomer(@RequestBody CreateCustomerDTO customers) {
+        CustomerDTO createdCustomer = customerService.createCustomer(customers);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdCustomer);
     }
+
     @PutMapping("/{id}")
-    public CustomerDTO updateCustomer(@PathVariable int id, @RequestBody UpdatedCustomerDTO updatedCustomers) {
-        return customerService.updateCustomer(id, updatedCustomers);
+    public ResponseEntity<CustomerDTO> updateCustomer(@PathVariable int id, @RequestBody UpdatedCustomerDTO updatedCustomers) {
+        CustomerDTO customerDTO = customerService.updateCustomer(id, updatedCustomers);
+        return ResponseEntity.status(HttpStatus.CREATED).body(customerDTO);
     }
 
     @DeleteMapping("/{id}")

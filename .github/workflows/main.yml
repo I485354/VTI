@@ -66,6 +66,7 @@ jobs:
         run: |
           npm install cypress
           echo "BASE_URL is: $BASE_URL"
+          npx cypress run --spec "cypress/e2e/api_check.cy.js"
           npx cypress run
 
   backend:

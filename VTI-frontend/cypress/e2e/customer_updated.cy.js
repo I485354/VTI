@@ -6,7 +6,6 @@ describe('Update customer', () => {
 
   it('Should open the update from with customer info filled in', () => {
     // Zoek en klik op de "Voeg Klant Toe" knop
-    cy.visit('/customer-list');
     cy.contains('Bewerken').click();
 
     // Controleer of het formulier zichtbaar is
@@ -20,7 +19,6 @@ describe('Update customer', () => {
 
   it('Should fill out the form and save a new customer', () => {
     // Klik op de "Voeg Klant Toe" knop
-    cy.visit('/customer-list');
     cy.contains('Bewerken').click();
 
     // Vul de velden in
@@ -41,7 +39,6 @@ describe('Update customer', () => {
 
   it('Should cancel adding a new customer', () => {
     // Klik op de "Voeg Klant Toe" knop
-    cy.visit('/customer-list');
     cy.contains('Bewerken').click();
 
     // Vul een veld in

@@ -1,6 +1,7 @@
 describe('Dashboard Tests', () => {
   beforeEach(() => {
     cy.visit('/dashboard',  {failOnStatusCode: false});
+    cy.wait(1000);
   });
 
   it('Should load the dashboard page', () => {

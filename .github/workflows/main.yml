@@ -69,7 +69,7 @@ jobs:
           BASE_URL: ${{ env.DEPLOY_URL }} 
         run: |
           npm install cypress
-          echo "BASE_URL is:" $BASE_URL"
+          echo "BASE_URL is: $BASE_URL"
           npx cypress run
 
   backend:

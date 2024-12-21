@@ -126,9 +126,9 @@ jobs:
 
       - name: Build Docker Image
         run: |
-          docker build -t vti-backend:latest ./VTI-backend
+          docker build -t mysql:latest
 
       - name: Run Docker Container
         run: |
-          docker run -d --name vti-backend-container --network=host -e SPRING_PROFILES_ACTIVE=test vti-backend:latest
+          docker run -d --name mysql-database --network=host -e SPRING_PROFILES_ACTIVE=test mysql:latest
           echo "Docker container is running."

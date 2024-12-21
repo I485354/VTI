@@ -80,7 +80,7 @@ jobs:
           - 3306:3306
         env:
           MYSQL_DATABASE: VTI_database
-          MYSQL_USER: Sello
+          MYSQL_USER: VTI
           MYSQL_PASSWORD: VTI-database1234
           MYSQL_ROOT_PASSWORD: rootpassword
         options: >-
@@ -126,7 +126,7 @@ jobs:
 
       - name: Build Docker Image
         run: |
-          docker build -t mysql:latest
+          docker build -t mysql:latest .
 
       - name: Run Docker Container
         run: |

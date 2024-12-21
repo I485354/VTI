@@ -10,6 +10,6 @@ WORKDIR /app/VTI-backend
 
 RUN chmod +x ./mvnw
 
-RUN ./mvnw package -DskipTests
+RUN ./mvnw package
 
 ENTRYPOINT ["java", "-jar", "target/VTI-backend-0.0.1-SNAPSHOT.jar"]

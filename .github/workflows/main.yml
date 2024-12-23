@@ -178,7 +178,6 @@ jobs:
 
   backend:
     name: Backend CI
-    needs: backend-and-cypress
     runs-on: ubuntu-latest
 
     services:
@@ -231,55 +230,7 @@ jobs:
         working-directory: VTI-backend
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=I485354_VTI
-
-    
-          
-  #  steps:
-  #    - name: Checkout code
-  #      uses: actions/checkout@v3
-  
-  #    - name: Set up JDK
-  #      uses: actions/setup-java@v3
-  #      with:
-  #        distribution: 'adopt'
-  #        java-version: '17'
-        
-  #    - name: Cache Maven packages
-  #      uses: actions/cache@v3
-  #      with:
-  #        path: ~/.m2/repository
-  #        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-  #        restore-keys: |
-  #          ${{ runner.os }}-maven
-
-            
-  #    - name: Create Docker Network
-  #      run: |
-  #        docker network ls | grep vti-network || docker network create vti-network
-  #
-  #    - name: Start MySQL Container
-  #      run: |
-  #        docker run -d --name mysql-database --network vti-network -e MYSQL_DATABASE=VTI_database -e MYSQL_USER=VTI -e MYSQL_PASSWORD=VTI-database1234 -e MYSQL_ROOT_PASSWORD=rootpassword mysql:latest
-
-  #    - name: Build Backend Docker Image
-  #      run: |
-  #        docker build -t vti-backend ./VTI-backend
-
-  #    - name: Run Backend Container
-  #      run: |
-  #        docker run -d --name vti-backend --network vti-network -p 8080:8080 vti-backend
-
-  #    - name: Run Tests
-  #      run: |
-  #        docker exec vti-backend mvn test -Dspring.profiles.active=test
-  
-  #    - name: Run SonarCloud Scan
-  #      run: |
-  #        docker exec vti-backend mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
-  #          -Dsonar.projectKey=I485354_VTI \
-  #          -Dsonar.host.url=https://sonarcloud.io \
-  #          -Dsonar.login=${{ secrets.SONAR_TOKEN }}          
+        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=I485354_VTI   
 
   cleanup:
     name: Cleanup Resources

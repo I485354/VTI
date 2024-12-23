@@ -106,34 +106,61 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven
 
-      # Controleer of vti-network bestaat, maak het anders aan
-      - name: Create Docker Network
+      - name: Wacht tot MySQL volledig is gestart
         run: |
-          docker network ls | grep vti-network || docker network create vti-network    
-          
-      - name: Start Existing Database Container
-        run: |
-          docker start mysql-database || echo "Database already running."
+          for i in {1..10}; do
+            if docker exec mysql-database mysqladmin ping --silent; then
+              echo "MySQL is beschikbaar."
+              break
+            fi
+            echo "Wachten op MySQL..."
+            sleep 5
+          done
 
-      - name: Build Backend Docker Image
+      - name: Controleer en voeg backend-container toe aan netwerk
         run: |
-          docker build -t vti-backend ./VTI-backend
+          docker network connect vti-network vti-backend || echo "Backend container al verbonden."
 
-      - name: Remove Existing Backend Container
-        run: |
-          docker rm -f vti-backend || echo "No existing backend container to remove."
-
-      # Start de backendcontainer
-      - name: Run Backend Container
-        run: |
-          docker run -d --name vti-backend --network vti-network -p 8080:8080 vti-backend
-
-      # Voer tests uit in een tijdelijke container
       - name: Run Tests in Backend Container
         run: |
           docker run --rm --network vti-network \
             -e SPRING_PROFILES_ACTIVE=test \
             vti-backend mvn test
+
+
+
+
+
+            
+
+      # Controleer of vti-network bestaat, maak het anders aan
+     # - name: Create Docker Network
+     #   run: |
+     #     docker network ls | grep vti-network || docker network create vti-network    
+          
+     # - name: Start Existing Database Container
+     #   run: |
+     #     docker start mysql-database || echo "Database already running."
+
+     # - name: Build Backend Docker Image
+     #   run: |
+     #     docker build -t vti-backend ./VTI-backend
+
+     # - name: Remove Existing Backend Container
+     #   run: |
+     #     docker rm -f vti-backend || echo "No existing backend container to remove."
+
+      # Start de backendcontainer
+     # - name: Run Backend Container
+     #   run: |
+     #     docker run -d --name vti-backend --network vti-network -p 8080:8080 vti-backend
+
+      # Voer tests uit in een tijdelijke container
+     # - name: Run Tests in Backend Container
+     #   run: |
+     #     docker run --rm --network vti-network \
+     #       -e SPRING_PROFILES_ACTIVE=test \
+     #       vti-backend mvn test
   
       - name: SonarCloud Scan
         working-directory: VTI-backend

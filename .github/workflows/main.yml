@@ -88,22 +88,17 @@ jobs:
           --health-interval=10s
           --health-timeout=5s
           --health-retries=3
+          
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-
+  
       - name: Set up JDK
         uses: actions/setup-java@v3
         with:
           distribution: 'adopt'
           java-version: '17'
-
-      - name: Wait for MySQL
-        run: |
-          while ! mysqladmin ping -h"127.0.0.1" --silent; do
-            sleep 1
-          done
-
+        
       - name: Cache Maven packages
         uses: actions/cache@v3
         with:
@@ -112,93 +107,60 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven
 
-      - name: Build and Test with Maven
-        working-directory: VTI-backend
+            
+      - name: Create Docker Network
         run: |
-          mvn clean install -Dmaven.compiler.source=17 -Dmaven.compiler.target=17 -DskipTests
-          mvn test -Dspring.profiles.active=test
+          docker network ls | grep vti-network || docker network create vti-network
+  
+      - name: Start MySQL Container
+        run: |
+          docker run -d --name mysql-database --network vti-network -e MYSQL_DATABASE=VTI_database -e MYSQL_USER=VTI -e MYSQL_PASSWORD=VTI-database1234 -e MYSQL_ROOT_PASSWORD=rootpassword mysql:latest
 
+      - name: Build Backend Docker Image
+        run: |
+          docker build -t vti-backend ./VTI-backend
+
+      - name: Run Backend Container
+        run: |
+          docker run -d --name vti-backend --network vti-network -p 8080:8080 vti-backend
+
+      - name: Run Tests
+        run: |
+          docker exec vti-backend mvn test -Dspring.profiles.active=test
+  
       - name: SonarCloud Scan
         working-directory: VTI-backend
         env: 
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=I485354_VTI
 
-   backend:
-  name: Backend CI
-  runs-on: ubuntu-latest
 
-  services:
-    mysql:
-      image: mysql:latest
-      ports:
-        - 3306:3306
-      env:
-        MYSQL_DATABASE: VTI_database
-        MYSQL_USER: VTI
-        MYSQL_PASSWORD: VTI-database1234
-        MYSQL_ROOT_PASSWORD: rootpassword
-      options: >-
-        --health-cmd="mysqladmin ping --silent"
-        --health-interval=10s
-        --health-timeout=5s
-        --health-retries=3
 
-  steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
 
-    - name: Set up JDK
-      uses: actions/setup-java@v3
-      with:
-        distribution: 'adopt'
-        java-version: '17'
+            
 
-    - name: Wait for MySQL to be ready
-      run: |
-        echo "Waiting for MySQL to be ready..."
-        while ! mysqladmin ping -h"127.0.0.1" -u"VTI" -p"VTI-database1234" --silent; do
-          sleep 2
-        done
-        echo "MySQL is ready!"
+      # Controleer of vti-network bestaat, maak het anders aan
+    
 
-    - name: Cache Maven packages
-      uses: actions/cache@v3
-      with:
-        path: ~/.m2/repository
-        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-        restore-keys: |
-          ${{ runner.os }}-maven
+     # - name: Build Backend Docker Image
+     #   run: |
+     #     docker build -t vti-backend ./VTI-backend
 
-    - name: Build and Test with Maven
-      working-directory: VTI-backend
-      run: |
-        mvn clean install -Dmaven.compiler.source=17 -Dmaven.compiler.target=17 -DskipTests
-        mvn test -Dspring.profiles.active=test
+     # - name: Remove Existing Backend Container
+     #   run: |
+     #     docker rm -f vti-backend || echo "No existing backend container to remove."
 
-    - name: SonarCloud Scan
-      working-directory: VTI-backend
-      env: 
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=I485354_VTI
+      # Start de backendcontainer
+     # - name: Run Backend Container
+     #   run: |
+     #     docker run -d --name vti-backend --network vti-network -p 8080:8080 vti-backend
 
-    - name: Build Docker Image
-      run: |
-        docker build -t vti-backend .
+      # Voer tests uit in een tijdelijke container
+     # - name: Run Tests in Backend Container
+     #   run: |
+     #     docker run --rm --network vti-network \
+     #       -e SPRING_PROFILES_ACTIVE=test \
+     #       vti-backend mvn test
 
-    - name: Run Backend Container
-      run: |
-        docker network create vti-network || true
-        docker run -d --name mysql-database --network vti-network \
-          -e MYSQL_DATABASE=VTI_database \
-          -e MYSQL_USER=VTI \
-          -e MYSQL_PASSWORD=VTI-database1234 \
-          -e MYSQL_ROOT_PASSWORD=rootpassword \
-          mysql:latest
-        echo "Waiting for MySQL container to be ready..."
-        until docker exec mysql-database mysqladmin ping --silent; do
-          sleep 2
-        done
-        docker run -d --name vti-backend --network vti-network -p 8080:8080 vti-backend
-        echo "Backend container is running."
+  
 

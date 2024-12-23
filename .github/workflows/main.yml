@@ -106,14 +106,19 @@ jobs:
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-maven
+
+            
+      - name: Create Docker Network
+        run: |
+          docker network ls | grep vti-network || docker network create vti-network
   
       - name: Start MySQL Container
         run: |
-          docker run -d --name mysql-database --network vti-network \
-            -e MYSQL_DATABASE=VTI_database \
-            -e MYSQL_USER=VTI \
-            -e MYSQL_PASSWORD=VTI-database1234 \
-            -e MYSQL_ROOT_PASSWORD=rootpassword \
+          docker run -d --name mysql-database --network vti-network 
+            -e MYSQL_DATABASE=VTI_database 
+            -e MYSQL_USER=VTI 
+            -e MYSQL_PASSWORD=VTI-database1234 
+            -e MYSQL_ROOT_PASSWORD=rootpassword 
             mysql:latest
 
       - name: Build Backend Docker Image

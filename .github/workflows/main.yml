@@ -128,11 +128,14 @@ jobs:
         run: |
           docker exec vti-backend mvn test -Dspring.profiles.active=test
   
-      - name: SonarCloud Scan
-        working-directory: VTI-backend
-        env: 
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=I485354_VTI
+      - name: Run SonarCloud Scan
+        run: |
+          docker exec vti-backend mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
+            -Dsonar.projectKey=I485354_VTI \
+            -Dsonar.organization=YOUR_ORGANIZATION_KEY \
+            -Dsonar.host.url=https://sonarcloud.io \
+            -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+
 
 
 

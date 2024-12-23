@@ -69,72 +69,81 @@ jobs:
           npx cypress run --spec "cypress/e2e/api_check.cy.js"
           npx cypress run
 
-  backend:
-    name: Backend CI
-    runs-on: ubuntu-latest
-    
-    services:
-      mysql:
-        image: mysql:latest
-        ports:
-          - 3306:3306
-        env:
-          MYSQL_DATABASE: VTI_database
-          MYSQL_USER: VTI
-          MYSQL_PASSWORD: VTI-database1234
-          MYSQL_ROOT_PASSWORD: rootpassword
-        options: >-
-          --health-cmd="mysqladmin ping --silent"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=3
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+backend:
+  name: Backend CI
+  runs-on: ubuntu-latest
+  
+  services:
+    mysql:
+      image: mysql:latest
+      ports:
+        - 3306:3306
+      env:
+        MYSQL_DATABASE: VTI_database
+        MYSQL_USER: VTI
+        MYSQL_PASSWORD: VTI-database1234
+        MYSQL_ROOT_PASSWORD: rootpassword
+      options: >-
+        --health-cmd="mysqladmin ping --silent"
+        --health-interval=10s
+        --health-timeout=5s
+        --health-retries=3
+        
+  steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
 
-      - name: Set up JDK
-        uses: actions/setup-java@v3
-        with:
-          distribution: 'adopt'
-          java-version: '17'
-          
-      - name: Cache Maven packages
-        uses: actions/cache@v3
-        with:
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-maven
-            
-      - name: Create Docker Network
-        run: |
-          docker network ls | grep vti-network || docker network create vti-network    
-          
-      - name: Start Existing Database Container
-        run: |
-          docker start mysql-database || echo "Database already running."
+    - name: Set up JDK
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'adopt'
+        java-version: '17'
+      
+    - name: Cache Maven packages
+      uses: actions/cache@v3
+      with:
+        path: ~/.m2/repository
+        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+        restore-keys: |
+          ${{ runner.os }}-maven
 
-      - name: Wacht tot MySQL volledig is gestart
-        run: |
-          for i in {1..10}; do
-            if docker exec mysql-database mysqladmin ping --silent; then
-              echo "MySQL is beschikbaar."
-              break
-            fi
-            echo "Wachten op MySQL..."
-            sleep 5
-          done
+    - name: Create Docker Network
+      run: |
+        docker network ls | grep vti-network || docker network create vti-network    
 
-      - name: Controleer en voeg backend-container toe aan netwerk
-        run: |
-          docker network connect vti-network vti-backend || echo "Backend container al verbonden."
+    - name: Start Existing Database Container
+      run: |
+        docker ps -a --filter "name=mysql-database" --format "{{.Names}}" | grep mysql-database || \
+        docker run -d --name mysql-database --network vti-network -e MYSQL_DATABASE=VTI_database -e MYSQL_USER=VTI -e MYSQL_PASSWORD=VTI-database1234 -e MYSQL_ROOT_PASSWORD=rootpassword mysql:latest
 
-      - name: Run Tests in Backend Container
-        run: |
-          docker run --rm --network vti-network \
-            -e SPRING_PROFILES_ACTIVE=test \
-            vti-backend mvn test
+    - name: Wacht tot MySQL volledig is gestart
+      run: |
+        for i in {1..10}; do
+          if docker exec mysql-database mysqladmin ping --silent; then
+            echo "MySQL is beschikbaar."
+            break
+          fi
+          echo "Wachten op MySQL..."
+          sleep 5
+        done
 
+    - name: Build Backend Docker Image
+      run: |
+        docker build -t vti-backend ./VTI-backend
+
+    - name: Run Backend Container
+      run: |
+        docker run -d --name vti-backend --network vti-network -p 8080:8080 vti-backend
+
+    - name: Run Tests in Backend Container
+      run: |
+        docker exec vti-backend mvn test -Dspring.profiles.active=test
+
+    - name: SonarCloud Scan
+      working-directory: VTI-backend
+      env: 
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=I485354_VTI
 
 
 
@@ -163,11 +172,6 @@ jobs:
      #     docker run --rm --network vti-network \
      #       -e SPRING_PROFILES_ACTIVE=test \
      #       vti-backend mvn test
-  
-      - name: SonarCloud Scan
-        working-directory: VTI-backend
-        env: 
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=I485354_VTI
+
   
 

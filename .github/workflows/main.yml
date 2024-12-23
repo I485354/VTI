@@ -98,26 +98,18 @@ jobs:
           distribution: 'adopt'
           java-version: '17'
           
-      - name: Build Docker Images
+      - name: Start Existing Database Container
         run: |
-          docker build -t mysql-database .
-          docker build -t vti-backend -f Dockerfile .
-    
-      - name: Start MySQL Container
+          docker start mysql-database || echo "Database already running."
+
+      - name: Build Backend Docker Image
         run: |
-          docker network create vti-network || true
-          docker run -d --name mysql-database --network vti-network \
-            -e MYSQL_DATABASE=VTI_database \
-            -e MYSQL_USER=VTI \
-            -e MYSQL_PASSWORD=VTI-database1234 \
-            -e MYSQL_ROOT_PASSWORD=rootpassword \
-            mysql:latest
-          echo "Waiting for MySQL container to be ready..."
-          until docker exec mysql-database mysqladmin ping --silent; do
-            sleep 2
-          done
-          echo "MySQL is ready."
-    
+          docker build -t vti-backend ./VTI-backend
+
+      - name: Run Backend Container
+        run: |
+          docker run -d --name vti-backend --network vti-network -p 8080:8080 vti-backend
+
       - name: Run Tests in Backend Container
         run: |
           docker run --rm --name vti-backend --network vti-network \
@@ -130,8 +122,4 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=I485354_VTI
   
-      - name: Run Backend Container
-        run: |
-          docker run -d --name vti-backend --network vti-network -p 8080:8080 vti-backend
-          echo "Backend container is running."
 

@@ -62,7 +62,7 @@ jobs:
       - name: Run Cypress tests
         working-directory: VTI-frontend
         env:
-          BASE_URL: ${{ env.DEPLOY_URL }} 
+          BASE_URL: ${{ env.NGROK_URL }}
         run: |
           npm install cypress
           echo "BASE_URL is: $BASE_URL"

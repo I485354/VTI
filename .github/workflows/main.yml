@@ -114,12 +114,7 @@ jobs:
   
       - name: Start MySQL Container
         run: |
-          docker run -d --name mysql-database --network vti-network 
-            -e MYSQL_DATABASE=VTI_database 
-            -e MYSQL_USER=VTI 
-            -e MYSQL_PASSWORD=VTI-database1234 
-            -e MYSQL_ROOT_PASSWORD=rootpassword 
-            mysql:latest
+          docker run -d --name mysql-database --network vti-network -e MYSQL_DATABASE=VTI_database -e MYSQL_USER=VTI -e MYSQL_PASSWORD=VTI-database1234 -e MYSQL_ROOT_PASSWORD=rootpassword mysql:latest
 
       - name: Build Backend Docker Image
         run: |

@@ -1,5 +1,6 @@
 # .github/workflows/ci.yml
 name: CI Workflow
+
 on:
   push:
     paths:
@@ -9,211 +10,202 @@ on:
     paths:
       - 'VTI-frontend/**'
       - 'VTI-backend/**'
-  workflow_dispatch: 
-  
+  workflow_dispatch:
+
 jobs:
-     backend-and-cypress:
-        runs-on: ubuntu-latest
-    
-        services:
-          mysql:
-            image: mysql:latest
-            ports:
-              - 3306:3306
-            env:
-              MYSQL_DATABASE: VTI_database
-              MYSQL_USER: VTI
-              MYSQL_PASSWORD: VTI-database1234
-              MYSQL_ROOT_PASSWORD: rootpassword
-            options: --health-cmd="mysqladmin ping --silent" --health-interval=10s --health-timeout=5s --health-retries=3
-    
-        steps:
-          - name: Check out
-            uses: actions/checkout@v3
-    
-          - name: Set up JDK
-            uses: actions/setup-java@v3
-            with:
-              distribution: 'adopt'
-              java-version: '17'
-    
-          - name: Wait for MySQL
-            run: |
-              while ! mysqladmin ping -h"127.0.0.1" --silent; do
-                sleep 1
-              done
-    
-          # Build & start backend
-          - name: Build backend
-            run: |
-              cd VTI-backend
-              mvn clean install -DskipTests
-              # Eventueel 'mvn spring-boot:run' in de background:
-              nohup mvn spring-boot:run -Dspring-boot.run.profiles=test &
-    
-          - name: Wait for backend to start
-            run: |
-              # Wacht tot poort 8080 "open" is.
-              for i in {1..30}; do
-                if nc -z localhost 8080; then
-                  echo "Backend is up!"
-                  break
-                fi
-                echo "Wachten op backend..."
-                sleep 2
-              done
-    
-          # Build & start frontend
-          - name: Set up Node
-            uses: actions/setup-node@v3
-            with:
-              node-version: '20.17.0'
-    
-          - name: Install frontend dependencies
-            run: |
-              cd VTI-frontend
-              npm install
-    
-          - name: Build frontend
-            run: |
-              cd VTI-frontend
-              npm run build
-    
-          - name: Start frontend
-            run: |
-              cd VTI-frontend
-              nohup npm run start &
-    
-          - name: Wait for frontend
-            run: |
-              # Stel dat je frontend op 3000 draait.
-              for i in {1..30}; do
-                if nc -z localhost 3000; then
-                  echo "Frontend is up!"
-                  break
-                fi
-                echo "Wachten op frontend..."
-                sleep 2
-              done
-    
-          # Nu Cypress
-          - name: Cypress tests
-            run: |
-              cd VTI-frontend
-              npm install cypress
-              npx cypress run
-    
-    
-    
-     frontend:
-        name: Frontend CI
-        needs: backend
-        runs-on: ubuntu-latest
-    
-        steps:
-          - name: Checkout code
-            uses: actions/checkout@v4
-    
-          - name: Set up Node.js
-            uses: actions/setup-node@v3
-            with:
-              node-version: '20.17.0'
-    
-          - name: Install dependencies
-            working-directory: VTI-frontend
-            run: npm install
-    
-          - name: Run lint
-            working-directory: VTI-frontend
-            run: npm run lint
-    
-          - name: Build project
-            working-directory: VTI-frontend
-            run: npm run build --prod
-    
-          - name: Deploy to Vercel
-            env:
-              VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-            run:  |
-              OUTPUT=$(npx vercel deploy VTI-frontend/ --yes  --token=$VERCEL_TOKEN)
-              echo "$OUTPUT"
-              DEPLOY_URL=$(echo "$OUTPUT" | grep -oP 'https?://\S+' | head -n 1)
-              echo "Deployment URL: $DEPLOY_URL"
-              echo "DEPLOY_URL=$DEPLOY_URL" >> $GITHUB_ENV
-    
-          - name: Alias Deployment to Custom Domain
-            env:
-              VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-            run: |
-              if [ -z "$DEPLOY_URL" ]; then
-                echo "No deployment URL found!"
-                exit 1
-              fi
-              npx vercel alias $DEPLOY_URL vti-frontend.vercel.app --token=$VERCEL_TOKEN
-        
-     #   - name: Run Cypress tests
-     #     working-directory: VTI-frontend
-     #     env:
-     #       BASE_URL: ${{ env.DEPLOY_URL }}
-     #     run: |
-     #       npm install cypress
-     #       echo "BASE_URL is: $BASE_URL"
-     #       npx cypress run --spec "cypress/e2e/api_check.cy.js"
-     #       npx cypress run
-    
-     backend:
-      name: Backend CI
-      runs-on: ubuntu-latest
-    
-    
-      services:
-        mysql:
-          image: mysql:latest
-          ports:
-            - 3306:3306
-          env:
-            MYSQL_DATABASE: VTI_database
-            MYSQL_USER: VTI
-            MYSQL_PASSWORD: VTI-database1234
-            MYSQL_ROOT_PASSWORD: rootpassword
-          options: >-
-            --health-cmd="mysqladmin ping --silent"
-            --health-interval=10s
-            --health-timeout=5s
-            --health-retries=3
-            
-      steps:
-          - name: Checkout code
-            uses: actions/checkout@v3
-    
-          - name: Set up JDK
-            uses: actions/setup-java@v3
-            with:
-              distribution: 'adopt'
-              java-version: '17'
-    
-          - name: Wait for MySQL
-            run: |
-              while ! mysqladmin ping -h"127.0.0.1" --silent; do
-                sleep 1
-              done
-          - name: Cache Maven packages
-            uses: actions/cache@v3
-            with:
-              path: ~/.m2/repository
-              key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-              restore-keys: |
-                ${{ runner.os }}-maven
-          - name: Build and Test with Maven
-            working-directory: VTI-backend
-            run: |
-              mvn clean install -Dmaven.compiler.source=17 -Dmaven.compiler.target=17 -DskipTests
-              mvn test -Dspring.profiles.active=test
-          - name: SonarCloud Scan
-            working-directory: VTI-backend
-            env: 
-              SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-            run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=I485354_VTI
+  backend-and-cypress:
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:latest
+        ports:
+          - 3306:3306
+        env:
+          MYSQL_DATABASE: VTI_database
+          MYSQL_USER: VTI
+          MYSQL_PASSWORD: VTI-database1234
+          MYSQL_ROOT_PASSWORD: rootpassword
+        options: --health-cmd="mysqladmin ping --silent" --health-interval=10s --health-timeout=5s --health-retries=3
+
+    steps:
+      - name: Check out
+        uses: actions/checkout@v3
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'adopt'
+          java-version: '17'
+
+      - name: Wait for MySQL
+        run: |
+          while ! mysqladmin ping -h"127.0.0.1" --silent; do
+            sleep 1
+          done
+
+      # Build & start backend
+      - name: Build backend
+        run: |
+          cd VTI-backend
+          mvn clean install -DskipTests
+          # Eventueel 'mvn spring-boot:run' in de background:
+          nohup mvn spring-boot:run -Dspring-boot.run.profiles=test &
+
+      - name: Wait for backend to start
+        run: |
+          # Wacht tot poort 8080 "open" is.
+          for i in {1..30}; do
+            if nc -z localhost 8080; then
+              echo "Backend is up!"
+              break
+            fi
+            echo "Wachten op backend..."
+            sleep 2
+          done
+
+      # Build & start frontend
+      - name: Set up Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20.17.0'
+
+      - name: Install frontend dependencies
+        run: |
+          cd VTI-frontend
+          npm install
+
+      - name: Build frontend
+        run: |
+          cd VTI-frontend
+          npm run build
+
+      - name: Start frontend
+        run: |
+          cd VTI-frontend
+          nohup npm run start &
+
+      - name: Wait for frontend
+        run: |
+          # Stel dat je frontend op 3000 draait.
+          for i in {1..30}; do
+            if nc -z localhost 3000; then
+              echo "Frontend is up!"
+              break
+            fi
+            echo "Wachten op frontend..."
+            sleep 2
+          done
+
+      # Nu Cypress
+      - name: Cypress tests
+        run: |
+          cd VTI-frontend
+          npm install cypress
+          npx cypress run
+
+  frontend:
+    name: Frontend CI
+    needs: backend
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20.17.0'
+
+      - name: Install dependencies
+        working-directory: VTI-frontend
+        run: npm install
+
+      - name: Run lint
+        working-directory: VTI-frontend
+        run: npm run lint
+
+      - name: Build project
+        working-directory: VTI-frontend
+        run: npm run build --prod
+
+      - name: Deploy to Vercel
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: |
+          OUTPUT=$(npx vercel deploy VTI-frontend/ --yes  --token=$VERCEL_TOKEN)
+          echo "$OUTPUT"
+          DEPLOY_URL=$(echo "$OUTPUT" | grep -oP 'https?://\S+' | head -n 1)
+          echo "Deployment URL: $DEPLOY_URL"
+          echo "DEPLOY_URL=$DEPLOY_URL" >> $GITHUB_ENV
+
+      - name: Alias Deployment to Custom Domain
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: |
+          if [ -z "$DEPLOY_URL" ]; then
+            echo "No deployment URL found!"
+            exit 1
+          fi
+          npx vercel alias $DEPLOY_URL vti-frontend.vercel.app --token=$VERCEL_TOKEN
+
+  backend:
+    name: Backend CI
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:latest
+        ports:
+          - 3306:3306
+        env:
+          MYSQL_DATABASE: VTI_database
+          MYSQL_USER: VTI
+          MYSQL_PASSWORD: VTI-database1234
+          MYSQL_ROOT_PASSWORD: rootpassword
+        options: >-
+          --health-cmd="mysqladmin ping --silent"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'adopt'
+          java-version: '17'
+
+      - name: Wait for MySQL
+        run: |
+          while ! mysqladmin ping -h"127.0.0.1" --silent; do
+            sleep 1
+          done
+
+      - name: Cache Maven packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven
+
+      - name: Build and Test with Maven
+        working-directory: VTI-backend
+        run: |
+          mvn clean install -Dmaven.compiler.source=17 -Dmaven.compiler.target=17 -DskipTests
+          mvn test -Dspring.profiles.active=test
+
+      - name: SonarCloud Scan
+        working-directory: VTI-backend
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=I485354_VTI
+
     
           
   #  steps:

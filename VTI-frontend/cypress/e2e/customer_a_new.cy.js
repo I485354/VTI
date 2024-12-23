@@ -1,5 +1,9 @@
 describe('New customer', () => {
   beforeEach(() => {
+    const apiUrl = 'http://localhost:8080/api';
+    cy.request('POST', `${apiUrl}/customers` ).then((response) => {
+      
+    })
 
     cy.visit('/customer-list',  {failOnStatusCode: false});
     cy.wait(1000);
@@ -31,6 +35,7 @@ describe('New customer', () => {
 
 
     cy.contains('Opslaan').click();
+    
 
     cy.wait(5000);
 

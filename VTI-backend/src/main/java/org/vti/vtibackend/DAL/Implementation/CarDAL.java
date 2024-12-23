@@ -22,8 +22,9 @@ public class CarDAL implements ICarDAL {
     }
 
     public Optional<CarDTO> findByCustomerId(int customerId){
-        return carRepo.findById(customerId)
+        return carRepo.findByCustomerId(customerId)
                 .map(carMapper::ToDTO);
+
     }
     public List<CarDTO> findAll(){
         return carRepo.findAll()

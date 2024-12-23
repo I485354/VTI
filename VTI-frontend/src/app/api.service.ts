@@ -7,6 +7,7 @@ import { Products } from './model/products.model';
 import { Car } from './model/car.model';
 import {Revenue} from './model/Revenue.model';
 import { UpdateInvoiceStatus } from './model/UpdateInvoiceStatus.model';
+import { createCar } from './model/createCar.model';
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +21,9 @@ export class ApiService {
 
   getCustomers(): Observable<Customers[]> {
     return this.http.get<Customers[]>(`${this.apiUrl}/customer`);
+  }
+  getCustomerById(id: number): Observable<Customers> {
+    return this.http.get<Customers>(`${this.apiUrl}/customer/customerById/${id}`);
   }
   getInvoices(): Observable<Invoice[]> {
     return this.http.get<Invoice[]>(`${this.apiUrl}/invoice`);
@@ -55,6 +59,10 @@ export class ApiService {
   }
   getRevenue(year: number){
     return this.http.get<Revenue[]>(`${this.apiUrl}/invoice/revenue?year=${year}`);
+  }
+
+  createCar(createcar: createCar): Observable<Car> {
+    return this.http.post<Car>(`${this.apiUrl}/car`, createcar);
   }
   // API voor andere data zoals betalingen, offertes, etc.
 }

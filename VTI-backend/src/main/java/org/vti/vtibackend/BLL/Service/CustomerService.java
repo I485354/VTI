@@ -26,6 +26,12 @@ public class CustomerService {
         return customerDAL.findAll();
     }
 
+    public CustomerDTO getCustomerById(int id) {
+        return customerDAL.findById(id)
+                .orElseThrow(() -> new RuntimeException("no Customer found with id " + id));
+    }
+
+
 
     public CustomerDTO createCustomer(CreateCustomerDTO createCustomerDTO) {
         if (createCustomerDTO.getName() == null || createCustomerDTO.getName().isEmpty()

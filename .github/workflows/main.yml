@@ -119,13 +119,19 @@ jobs:
         run: |
           docker build -t vti-backend ./VTI-backend
 
+      - name: Remove Existing Backend Container
+        run: |
+          docker rm -f vti-backend || echo "No existing backend container to remove."
+
+      # Start de backendcontainer
       - name: Run Backend Container
         run: |
           docker run -d --name vti-backend --network vti-network -p 8080:8080 vti-backend
 
+      # Voer tests uit in een tijdelijke container
       - name: Run Tests in Backend Container
         run: |
-          docker run --rm --name vti-backend --network vti-network \
+          docker run --rm --network vti-network \
             -e SPRING_PROFILES_ACTIVE=test \
             vti-backend mvn test
   

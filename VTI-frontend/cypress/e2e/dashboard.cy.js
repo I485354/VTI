@@ -63,7 +63,7 @@ describe('Dashboard Tests', () => {
           const trimmed = text.trim();
           // Voorbeeld van regex die "€ 4.223,75" of "€ 0,00" of "€ 123" etc. toelaat
           // (Let op de regionale notatie: punt voor duizendtallen en komma voor decimalen.)
-          const currencyRegex = /^€\s?\d{1,3}(\.\d{3})*(\.\d{2})?$/;
+          const currencyRegex = /^€\s?\d{1,3}(,\d{3})*(\.\d{2})?$/;
           expect(trimmed).to.match(
             currencyRegex,
             `Omzet-veld moet een valuta-indicatie zijn, maar was: "${trimmed}"`

@@ -107,35 +107,24 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven
   
-      - name: Create Docker Network
+      - name: Start MySQL Container
         run: |
-          docker network ls | grep vti-network || docker network create vti-network    
-  
-      - name: Start Existing Database Container
-        run: |
-          docker ps -a --filter "name=mysql-database" --format "{{.Names}}" | grep mysql-database || \
-          docker run -d --name mysql-database --network vti-network -e MYSQL_DATABASE=VTI_database -e MYSQL_USER=VTI -e MYSQL_PASSWORD=VTI-database1234 -e MYSQL_ROOT_PASSWORD=rootpassword mysql:latest
-  
-      - name: Wacht tot MySQL volledig is gestart
-        run: |
-          for i in {1..10}; do
-            if docker exec mysql-database mysqladmin ping --silent; then
-              echo "MySQL is beschikbaar."
-              break
-            fi
-            echo "Wachten op MySQL..."
-            sleep 5
-          done
-  
+          docker run -d --name mysql-database --network vti-network \
+            -e MYSQL_DATABASE=VTI_database \
+            -e MYSQL_USER=VTI \
+            -e MYSQL_PASSWORD=VTI-database1234 \
+            -e MYSQL_ROOT_PASSWORD=rootpassword \
+            mysql:latest
+
       - name: Build Backend Docker Image
         run: |
           docker build -t vti-backend ./VTI-backend
-  
+
       - name: Run Backend Container
         run: |
           docker run -d --name vti-backend --network vti-network -p 8080:8080 vti-backend
-  
-      - name: Run Tests in Backend Container
+
+      - name: Run Tests
         run: |
           docker exec vti-backend mvn test -Dspring.profiles.active=test
   

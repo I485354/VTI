@@ -152,6 +152,7 @@ jobs:
 
   backend:
     name: Backend CI
+    needs: backend-and-cypress
     runs-on: ubuntu-latest
 
     services:

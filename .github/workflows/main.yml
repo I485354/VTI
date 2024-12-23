@@ -61,8 +61,8 @@ jobs:
           # Check tabellen
           mysql -h 127.0.0.1 -u VTI -pVTI-database1234 -e "SHOW DATABASES;"
           mysql -h 127.0.0.1 -u VTI -pVTI-database1234 -e "USE VTI_database; SHOW TABLES;"
-          mysql -h 127.0.0.1 -u VTI -VTI-database1234 -e "USE VTI_database; SELECT * FROM customer;"
-          mysql -h 127.0.0.1 -u VTI -VTI-database1234 -e "USE VTI_database; SELECT * FROM invoice;"
+          mysql -h 127.0.0.1 -u VTI -pVTI-database1234 -e "USE VTI_database; SELECT * FROM customer;"
+          mysql -h 127.0.0.1 -u VTI -pVTI-database1234 -e "USE VTI_database; SELECT * FROM invoice;"
           
 
       - name: Wait for backend to start

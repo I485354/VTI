@@ -105,6 +105,14 @@ jobs:
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-maven
+            
+      - name: Create Docker Network
+        run: |
+          docker network ls | grep vti-network || docker network create vti-network    
+          
+      - name: Start Existing Database Container
+        run: |
+          docker start mysql-database || echo "Database already running."
 
       - name: Wacht tot MySQL volledig is gestart
         run: |
@@ -134,13 +142,7 @@ jobs:
             
 
       # Controleer of vti-network bestaat, maak het anders aan
-     # - name: Create Docker Network
-     #   run: |
-     #     docker network ls | grep vti-network || docker network create vti-network    
-          
-     # - name: Start Existing Database Container
-     #   run: |
-     #     docker start mysql-database || echo "Database already running."
+    
 
      # - name: Build Backend Docker Image
      #   run: |

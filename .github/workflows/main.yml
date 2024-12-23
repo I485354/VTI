@@ -52,6 +52,16 @@ jobs:
           # Eventueel 'mvn spring-boot:run' in de background:
           nohup mvn spring-boot:run -Dspring-boot.run.profiles=test &
 
+      - name: Inspect database
+        run: |
+          # Installeer de MySQL-client
+          sudo apt-get update
+          sudo apt-get install -y mysql-client
+
+          # Check tabellen
+          mysql -h 127.0.0.1 -u root -prootpassword -e "SHOW DATABASES;"
+          mysql -h 127.0.0.1 -u root -prootpassword -e "USE VTI_database; SHOW TABLES;"
+
       - name: Wait for backend to start
         run: |
           # Wacht tot poort 8080 "open" is.

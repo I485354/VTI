@@ -43,6 +43,19 @@ jobs:
           while ! mysqladmin ping -h"127.0.0.1" --silent; do
             sleep 1
           done
+          
+      - name: Import DB from dump
+        run: |
+          sudo apt-get update && sudo apt-get install -y mysql-client
+          
+          # Even check of het bestand daadwerkelijk aanwezig is
+          ls -lha
+
+          # Dump inladen in je database
+          mysql -h 127.0.0.1 \
+                -u VTI \
+                -pVTI-database1234 \
+                VTI_database < VTI_database_backup.sql
 
       # Build & start backend
       - name: Build backend
@@ -51,6 +64,19 @@ jobs:
           mvn clean install -DskipTests
           # Eventueel 'mvn spring-boot:run' in de background:
           nohup mvn spring-boot:run -Dspring-boot.run.profiles=test &
+
+      - name: Inspect database
+        run: |
+          # Installeer de MySQL-client
+          sudo apt-get update
+          sudo apt-get install -y mysql-client
+
+          # Check tabellen
+          mysql -h 127.0.0.1 -u VTI -pVTI-database1234 -e "SHOW DATABASES;"
+          mysql -h 127.0.0.1 -u VTI -pVTI-database1234 -e "USE VTI_database; SHOW TABLES;"
+          mysql -h 127.0.0.1 -u VTI -pVTI-database1234 -e "USE VTI_database; SELECT * FROM customer;"
+          mysql -h 127.0.0.1 -u VTI -pVTI-database1234 -e "USE VTI_database; SELECT * FROM invoice;"
+          
 
       - name: Wait for backend to start
         run: |

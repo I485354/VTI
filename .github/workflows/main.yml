@@ -43,6 +43,19 @@ jobs:
           while ! mysqladmin ping -h"127.0.0.1" --silent; do
             sleep 1
           done
+          
+      - name: Import DB from dump
+        run: |
+          sudo apt-get update && sudo apt-get install -y mysql-client
+          
+          # Even check of het bestand daadwerkelijk aanwezig is
+          ls -lha
+
+          # Dump inladen in je database
+          mysql -h 127.0.0.1 \
+                -u VTI \
+                -pVTI-database1234 \
+                VTI_database < VTI_database_backup.sql
 
       # Build & start backend
       - name: Build backend

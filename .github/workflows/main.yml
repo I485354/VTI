@@ -12,8 +12,103 @@ on:
       - 'VTI-backend/**'
   workflow_dispatch:
 
+
+
 jobs:
-  frontend:
+ backend-and-cypress:
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:latest
+        ports:
+          - 3306:3306
+        env:
+          MYSQL_DATABASE: VTI_database
+          MYSQL_USER: VTI
+          MYSQL_PASSWORD: VTI-database1234
+          MYSQL_ROOT_PASSWORD: rootpassword
+        options: --health-cmd="mysqladmin ping --silent" --health-interval=10s --health-timeout=5s --health-retries=3
+
+    steps:
+      - name: Check out
+        uses: actions/checkout@v3
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'adopt'
+          java-version: '17'
+
+      - name: Wait for MySQL
+        run: |
+          while ! mysqladmin ping -h"127.0.0.1" --silent; do
+            sleep 1
+          done
+
+      # Build & start backend
+      - name: Build backend
+        run: |
+          cd VTI-backend
+          mvn clean install -DskipTests
+          # Eventueel 'mvn spring-boot:run' in de background:
+          nohup mvn spring-boot:run -Dspring-boot.run.profiles=test &
+
+      - name: Wait for backend to start
+        run: |
+          # Wacht tot poort 8080 "open" is.
+          for i in {1..30}; do
+            if nc -z localhost 8080; then
+              echo "Backend is up!"
+              break
+            fi
+            echo "Wachten op backend..."
+            sleep 2
+          done
+
+      # Build & start frontend
+      - name: Set up Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20.17.0'
+
+      - name: Install frontend dependencies
+        run: |
+          cd VTI-frontend
+          npm install
+
+      - name: Build frontend
+        run: |
+          cd VTI-frontend
+          npm run build
+
+      - name: Start frontend
+        run: |
+          cd VTI-frontend
+          nohup npm run start &
+
+      - name: Wait for frontend
+        run: |
+          # Stel dat je frontend op 3000 draait.
+          for i in {1..30}; do
+            if nc -z localhost 3000; then
+              echo "Frontend is up!"
+              break
+            fi
+            echo "Wachten op frontend..."
+            sleep 2
+          done
+
+      # Nu Cypress
+      - name: Cypress tests
+        run: |
+          cd VTI-frontend
+          npm install cypress
+          npx cypress run
+
+
+
+frontend:
     name: Frontend CI
     needs: backend
     runs-on: ubuntu-latest
@@ -69,7 +164,7 @@ jobs:
    #       npx cypress run --spec "cypress/e2e/api_check.cy.js"
    #       npx cypress run
 
-  backend:
+backend:
     name: Backend CI
     runs-on: ubuntu-latest
 

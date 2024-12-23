@@ -134,5 +134,25 @@ jobs:
             -Dsonar.projectKey=I485354_VTI \
             -Dsonar.host.url=https://sonarcloud.io \
             -Dsonar.login=${{ secrets.SONAR_TOKEN }}
-  
+
+  cleanup:
+    name: Cleanup Resources
+    needs: [backend, frontend]
+    runs-on: ubuntu-latest
+    if: always() # Ensure this runs even if previous jobs fail
+
+    steps:
+      - name: Remove Backend Container
+        run: |
+          docker stop vti-backend || true
+          docker rm vti-backend || true
+
+      - name: Remove MySQL Container
+        run: |
+          docker stop mysql-database || true
+          docker rm mysql-database || true
+
+      - name: Remove Docker Network
+        run: |
+          docker network rm vti-network || true
 

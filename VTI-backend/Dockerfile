@@ -2,7 +2,7 @@ FROM openjdk:17-jdk-slim
 
 WORKDIR /app
 
-#RUN apt-get update && apt-get install -y git && apt-get clean
+RUN apt-get update && apt-get install -y git && apt-get clean
 
 #RUN git clone https://github.com/I485354/VTI.git . && cd VTI-backend
 

@@ -120,6 +120,16 @@ jobs:
             -Dsonar.projectKey=I485354_VTI \
             -Dsonar.host.url=https://sonarcloud.io \
             -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+            
+      - name: Expose Backend
+        run: |
+          curl -s https://ngrok-agent.s3.amazonaws.com/ngrok.asc | tee /etc/apt/trusted.gpg.d/ngrok.asc >/dev/null && \
+          echo "deb https://ngrok-agent.s3.amazonaws.com buster main" | tee /etc/apt/sources.list.d/ngrok.list && \
+          apt update && apt install ngrok
+          ngrok http 8080 --log=stdout > ngrok.log &
+          sleep 5
+          NGROK_URL=$(curl -s http://localhost:4040/api/tunnels | jq -r .tunnels[0].public_url)
+          echo "NGROK_URL=$NGROK_URL" >> $GITHUB_ENV
 
   cleanup:
     name: Cleanup Resources

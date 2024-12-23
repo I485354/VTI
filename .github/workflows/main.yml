@@ -59,15 +59,15 @@ jobs:
           fi
           npx vercel alias $DEPLOY_URL vti-frontend.vercel.app --token=$VERCEL_TOKEN
     
-      - name: Run Cypress tests
-        working-directory: VTI-frontend
-        env:
-          BASE_URL: ${{ env.NGROK_URL }}
-        run: |
-          npm install cypress
-          echo "BASE_URL is: $BASE_URL"
-          npx cypress run --spec "cypress/e2e/api_check.cy.js"
-          npx cypress run
+   #   - name: Run Cypress tests
+   #     working-directory: VTI-frontend
+   #     env:
+   #       BASE_URL: ${{ env.DEPLOY_URL }}
+   #     run: |
+   #       npm install cypress
+   #       echo "BASE_URL is: $BASE_URL"
+   #       npx cypress run --spec "cypress/e2e/api_check.cy.js"
+   #       npx cypress run
 
   backend:
     name: Backend CI

@@ -135,6 +135,6 @@ jobs:
           echo "$OUTPUT"
           DEPLOY_URL=$(echo "$OUTPUT" | grep -oP 'https?://\S+' | head -n 1)
           echo "DEPLOY_URL=$DEPLOY_URL" >> $GITHUB_ENV
-          npx vercel alias "$DEPLOY_URL" vti-frontend.vercel.app --token=$VERCEL_TOKE
+          npx vercel alias "$DEPLOY_URL" vti-frontend.vercel.app --token=$VERCEL_TOKEN
 
 

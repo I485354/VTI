@@ -48,8 +48,16 @@ public class CustomerService {
             customerDTO.setPhone(createCustomerDTO.getPhone());
             customerDTO.setAddress(createCustomerDTO.getAddress());
             customerDTO.setCompany(createCustomerDTO.getCompany());
-            int highestCustomerNumber = customerDAL.findHighestCustomerNumber();
-            int nextCustomerNumber = (highestCustomerNumber != 0) ? highestCustomerNumber + 1 : 1;
+
+            int highestCustomerNumber = 0;
+            try {
+                highestCustomerNumber = customerDAL.findHighestCustomerNumber();
+            } catch (Exception e) {
+                System.err.println("Kan het hoogste klantnummer niet ophalen: " + e.getMessage());
+            }
+
+
+            int nextCustomerNumber = (highestCustomerNumber > 0) ? highestCustomerNumber + 1 : 1;
             customerDTO.setCustomer_number(nextCustomerNumber);
             return customerDAL.createCustomer(customerDTO);
     }

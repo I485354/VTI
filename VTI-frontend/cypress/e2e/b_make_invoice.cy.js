@@ -130,17 +130,13 @@ describe('New Invoice Page', () => {
     cy.get('select#status').select('Betaald');
     cy.get('button[type="submit"]').click();
 
-    // Controleer dat de factuur succesvol aangemaakt is
-    cy.request('GET', '/api/invoice').then((response) => {
-      expect(response.body).to.have.length.greaterThan(0);
-      cy.request('GET', `http://localhost:8080/api/invoice`).then((response) => {
-        const customerId = this.customerId; // Zorg dat deze alias is ingesteld
-        const newInvoice = response.body.find((invoice) => invoice.customer_id === customerId);
+    cy.request('GET', `http://localhost:8080/api/invoice`).then((response) => {
+      const customerId = this.customerId; // Zorg dat deze alias is ingesteld
+      const newInvoice = response.body.find((invoice) => invoice.customer_id === customerId);
 
-        // Controleer dat de factuur bestaat en de status correct is
-        expect(newInvoice).to.exist;
-        expect(newInvoice.status).to.eq('Betaald');
-      });
+      // Controleer dat de factuur bestaat en de status correct is
+      expect(newInvoice).to.exist;
+      expect(newInvoice.status).to.eq('Betaald');
     });
   });
 });

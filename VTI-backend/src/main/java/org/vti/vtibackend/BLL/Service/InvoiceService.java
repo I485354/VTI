@@ -67,7 +67,13 @@ public class InvoiceService  {
            throw new IllegalArgumentException("some parameters are missing");
         } else {
 
-            int highestInvoiceNumber = invoiceDAL.findHighestInvoiceNumber();
+            int highestInvoiceNumber = 0;
+            try{
+                highestInvoiceNumber = invoiceDAL.findHighestInvoiceNumber();
+            } catch (Exception e) {
+                System.err.println("Kan het hoogste factuurnummer niet ophalen: " + e.getMessage());
+            }
+
             int nextInvoiceNumber = (highestInvoiceNumber != 0) ? highestInvoiceNumber + 1 : 1;
             invoiceDTO.setInvoice_number(nextInvoiceNumber);
             return invoiceDAL.save(invoiceDTO);

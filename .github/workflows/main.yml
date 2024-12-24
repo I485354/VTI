@@ -93,12 +93,18 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '20.17.0'
+          
+      - name: Install Angular CLI
+        run: |
+          npm install -g @angular/cli
+
 
       # 9. Frontend build
       - name: Install & Build frontend
         run: |
           cd VTI-frontend
           npm install
+          npx ng build --prod
           npm run build
 
       # 10. Frontend starten (achtergrond)

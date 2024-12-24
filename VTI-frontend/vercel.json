@@ -4,6 +4,6 @@
     { "src": "dist/vti-frontend/browser/**/*", "use": "@vercel/static" }
   ],
   "routes": [
-    { "src": "/(.*)", "dest": "/index.html" }
+    { "src": "(.*)", "dest": "/index.html" }
   ]
 }

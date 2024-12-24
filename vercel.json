@@ -1,0 +1,29 @@
+{
+  "version": 2,
+
+  // 1) Tell Vercel how to build
+  "builds": [
+    // We tell it to run a build command in the repo root
+    // which actually does "cd VTI-frontend && npm install && npm run build"
+    {
+      "src": "package.json",
+      "use": "@vercel/cli",
+      "config": {
+        "buildCommand": "cd VTI-frontend && npm install && npm run build"
+      }
+    },
+    // Then treat everything in dist/ as static
+    {
+      "src": "VTI-frontend/dist/vti-frontend/browser/**/*",
+      "use": "@vercel/static"
+    }
+  ],
+
+  // 2) Set up rewrites so Angular routing doesn’t 404
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "VTI-frontend/dist/vti-frontend/browser/index.html"
+    }
+  ]
+}

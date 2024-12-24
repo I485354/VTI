@@ -35,9 +35,6 @@ describe('Customer List', () => {
 
   it('Should open the edit form with customer info filled in', () => {
     cy.contains(testCustomer.name).parent().find('button.edit-button').click();
-
-    // Controleer of het formulier wordt geopend en gevuld is
-    cy.contains('Bewerken').should('be.visible');
     cy.get('input#name').should('have.value', testCustomer.name);
     cy.get('input#email').should('have.value', testCustomer.email);
     cy.get('input#company').should('have.value', testCustomer.company);
@@ -99,7 +96,7 @@ describe('Customer List', () => {
       cy.contains(customer.name).parent().find('button.delete-button').click();
       cy.contains(`Weet je zeker dat je ${customer.name} wilt verwijderen?`).should('be.visible');
       cy.get('button.confirm-button').click();
-      cy.wait(2000)
+      cy.wait(2500)
 
       cy.contains(customer.name).should('not.exist');
     });

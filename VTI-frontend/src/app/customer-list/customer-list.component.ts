@@ -84,7 +84,7 @@ export class CustomerListComponent implements OnInit {
         this.successMessage = `${this.selectedCustomer?.name} succesvol verwijderd!`;
         setTimeout(() => {
           this.successMessage = '';
-        }, 3000);
+        }, 2500);
         this.loadCustomers();
         this.cancelConfirmation();
       });

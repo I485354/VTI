@@ -131,6 +131,7 @@ jobs:
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
         run: |
+          cd VTI-frontend
           OUTPUT=$(npx vercel deploy --yes --token=$VERCEL_TOKEN)
           echo "$OUTPUT"
           DEPLOY_URL=$(echo "$OUTPUT" | grep -oP 'https?://\S+' | head -n 1)

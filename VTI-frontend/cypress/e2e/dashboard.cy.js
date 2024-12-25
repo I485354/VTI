@@ -1,8 +1,9 @@
 describe('Dashboard Tests', () => {
 
   beforeEach(() => {
-    // Bezoek het dashboard.
-    // Zet `failOnStatusCode: false` als de backend soms een foutstatus geeft.
+    cy.get('input[name="username"]').type('test2');
+    cy.get('input[name="password"]').type('1234');
+    cy.get('button[type="submit"]').click();
     cy.visit('/dashboard', { failOnStatusCode: false });
     // Eventueel een korte pauze, of liever iets als cy.wait('@someAlias') als je met intercept werkt.
     cy.wait(1000);

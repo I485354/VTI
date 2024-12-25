@@ -1,7 +1,12 @@
 describe('New Invoice Page', () => {
   beforeEach(() => {
     const apiUrl = 'http://localhost:8080';
-
+    
+    cy.visit('/login');
+    cy.get('input[name="username"]').type('test2');
+    cy.get('input[name="password"]').type('1234');
+    cy.get('button[type="submit"]').click();
+    
     // Maak testdata via de API
     cy.request('POST', `${apiUrl}/api/customer`, {
       name: 'Jan thees',

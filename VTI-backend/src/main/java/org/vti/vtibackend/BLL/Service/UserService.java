@@ -40,7 +40,7 @@ public class UserService  {
             UserDTO userDTO = new UserDTO();
             userDTO.setUsername(users.getUsername());
             userDTO.setPassword(passwordEncoder.encode(users.getPassword()));
-            userDTO.setRole("customer");
+            userDTO.setRole("admin");
             users.setPassword(passwordEncoder.encode(users.getPassword()));
             return userDAL.save(userDTO);
         }

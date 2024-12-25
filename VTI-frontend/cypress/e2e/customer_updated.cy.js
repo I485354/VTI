@@ -8,10 +8,11 @@ const testCustomer = {
 
 describe('Customer List', () => {
   beforeEach(() => {
+    cy.visit('/login')
     cy.get('input[name="username"]').type('test2');
     cy.get('input[name="password"]').type('1234');
-
     cy.get('button[type="submit"]').click();
+    
     cy.visit('/customer-list', { failOnStatusCode: false });
   });
 

@@ -12,7 +12,7 @@ describe('Customer List', () => {
     cy.get('input[name="username"]').type('test2');
     cy.get('input[name="password"]').type('1234');
     cy.get('button[type="submit"]').click();
-    
+    cy.wait(500);
     cy.visit('/customer-list', { failOnStatusCode: false });
   });
 

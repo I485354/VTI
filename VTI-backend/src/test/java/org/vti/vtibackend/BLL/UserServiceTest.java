@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.vti.vtibackend.BLL.Interface.IUserDAL;
 import org.vti.vtibackend.BLL.Service.UserService;
 import org.vti.vtibackend.model.User.CreateUserDTO;
@@ -25,6 +26,9 @@ public class UserServiceTest {
 
     @InjectMocks
     private UserService userService;
+
+    @InjectMocks
+    private PasswordEncoder passwordEncoder;
 
     private UserDTO user1;
     private UserInfo userInfo;

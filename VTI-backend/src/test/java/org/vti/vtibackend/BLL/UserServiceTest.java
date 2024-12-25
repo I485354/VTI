@@ -2,6 +2,7 @@ package org.vti.vtibackend.BLL;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -23,12 +24,13 @@ public class UserServiceTest {
 
     @Mock
     private IUserDAL userDAL;
+    @Mock
+    private PasswordEncoder passwordEncoder;
 
     @InjectMocks
     private UserService userService;
 
-    @InjectMocks
-    private PasswordEncoder passwordEncoder;
+
 
     private UserDTO user1;
     private UserInfo userInfo;
@@ -63,7 +65,10 @@ public class UserServiceTest {
     @Test
     void createUser() {
         // Arrange
-        when(userDAL.save(user1)).thenReturn(user1);
+        when(passwordEncoder.encode("securePass")).thenReturn("encodedPassword");
+        when(userDAL.save(any(UserDTO.class))).thenReturn(user1);
+
+        ArgumentCaptor<UserDTO> captor = ArgumentCaptor.forClass(UserDTO.class);
 
         // Act
         UserDTO createdUser = userService.createUser(createUser);
@@ -74,8 +79,15 @@ public class UserServiceTest {
         assertThat(createdUser.getUsername()).isEqualTo("john_doe");
         assertThat(createdUser.getRole()).isEqualTo("admin");
 
-        verify(userDAL, times(1)).save(user1);
+        // Capture het object dat is doorgegeven aan save
+        verify(userDAL, times(1)).save(captor.capture());
+        UserDTO capturedUser = captor.getValue();
+
+        // Controleer de waarden van het captured object
+        assertThat(capturedUser.getUsername()).isEqualTo("jane_doe");
+        assertThat(capturedUser.getPassword()).isEqualTo("encodedPassword");
     }
+
 
     @Test
     void createUser_NullInput() {

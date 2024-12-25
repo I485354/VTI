@@ -1,6 +1,7 @@
 package org.vti.vtibackend.DAL.Implementation;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Repository;
 import org.vti.vtibackend.DAL.Entity.User;
 import org.vti.vtibackend.BLL.Interface.IUserDAL;
@@ -36,6 +37,23 @@ public class UserDAL implements IUserDAL {
                 .stream()
                 .map(userMapper::ToUserInfo)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public UserDTO findByUsername(String username) {
+
+        return userRepo.findByUsername(username).stream()
+                .findFirst()
+                .map(userMapper::ToDTO)
+                .orElseThrow(() -> new UsernameNotFoundException("Gebruiker niet gevonden"));
+    }
+
+    @Override
+    public UserDTO authenticateUser(String username, String password) {
+        return userRepo.findByUsername(username)
+                .stream().findFirst()
+                .map(userMapper::ToDTO)
+                .orElseThrow(() -> new UsernameNotFoundException("gebruiker niet gevonden"));
     }
 
 }

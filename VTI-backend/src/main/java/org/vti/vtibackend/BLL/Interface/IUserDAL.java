@@ -8,4 +8,6 @@ import java.util.List;
 public interface IUserDAL {
     UserDTO save(UserDTO userDTO);
     List<UserInfo> findAll();
+    UserDTO findByUsername(String username);
+    UserDTO authenticateUser(String username, String password);
 }

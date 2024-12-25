@@ -7,6 +7,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.vti.vtibackend.BLL.Interface.IUserDAL;
 import org.vti.vtibackend.BLL.Service.UserService;
+import org.vti.vtibackend.model.User.CreateUserDTO;
 import org.vti.vtibackend.model.User.UserDTO;
 import org.vti.vtibackend.model.User.UserInfo;
 
@@ -26,16 +27,16 @@ public class UserServiceTest {
     private UserService userService;
 
     private UserDTO user1;
-    private UserDTO user2;
     private UserInfo userInfo;
+    private CreateUserDTO createUser;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
 
         user1 = new UserDTO(1, "john_doe", "password123", "admin");
-        user2 = new UserDTO(2, "jane_doe", "securePass", "user");
         userInfo = new UserInfo(1, "john_doe", "admin");
+        createUser = new CreateUserDTO("jane_doe", "securePass");
     }
 
     @Test
@@ -61,7 +62,7 @@ public class UserServiceTest {
         when(userDAL.save(user1)).thenReturn(user1);
 
         // Act
-        UserDTO createdUser = userService.createUser(user1);
+        UserDTO createdUser = userService.createUser(createUser);
 
         // Assert
         assertThat(createdUser).isNotNull();

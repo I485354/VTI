@@ -18,6 +18,12 @@ public class UserDTO {
         this.role = role;
     }
 
+    public UserDTO(long user_id, String username, String role) {
+        this.user_id = user_id;
+        this.username = username;
+        this.role = role;
+    }
+
     //Getters
     public long getUser_id() {
         return this.user_id;

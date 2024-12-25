@@ -8,6 +8,9 @@ import { Car } from './model/car.model';
 import {Revenue} from './model/Revenue.model';
 import { UpdateInvoiceStatus } from './model/UpdateInvoiceStatus.model';
 import { createCar } from './model/createCar.model';
+import { User } from './model/user.model';
+import { UserLogin } from './model/userLogin.model';
+import { AuthResponse } from './model/authResponse.model';
 
 @Injectable({
   providedIn: 'root'
@@ -64,5 +67,11 @@ export class ApiService {
   createCar(createcar: createCar): Observable<Car> {
     return this.http.post<Car>(`${this.apiUrl}/car`, createcar);
   }
-  // API voor andere data zoals betalingen, offertes, etc.
+
+  login(userLogin: UserLogin): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>(`${this.apiUrl}/user/login`, userLogin);
+  }
+  register(userDetails: UserLogin): Observable<User> {
+    return this.http.post<User>(`${this.apiUrl}/user/register`, userDetails);
+  }
 }

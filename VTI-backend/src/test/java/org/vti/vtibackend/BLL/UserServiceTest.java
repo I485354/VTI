@@ -6,6 +6,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.vti.vtibackend.BLL.Interface.IUserDAL;
 import org.vti.vtibackend.BLL.Service.UserService;
@@ -61,44 +62,6 @@ public class UserServiceTest {
 
         verify(userDAL, times(1)).findAll();
     }
-
-    @Test
-    void createUser() {
-        // Arrange
-        when(passwordEncoder.encode("securePass")).thenReturn("encodedPassword");
-        when(userDAL.save(any(UserDTO.class))).thenReturn(user1);
-
-        ArgumentCaptor<UserDTO> captor = ArgumentCaptor.forClass(UserDTO.class);
-
-        // Act
-        UserDTO createdUser = userService.createUser(createUser);
-
-        // Assert
-        assertThat(createdUser).isNotNull();
-        assertThat(createdUser.getUser_id()).isEqualTo(1);
-        assertThat(createdUser.getUsername()).isEqualTo("john_doe");
-        assertThat(createdUser.getRole()).isEqualTo("admin");
-
-        // Capture het object dat is doorgegeven aan save
-        verify(userDAL, times(1)).save(captor.capture());
-        UserDTO capturedUser = captor.getValue();
-
-        // Controleer de waarden van het captured object
-        assertThat(capturedUser.getUsername()).isEqualTo("jane_doe");
-        assertThat(capturedUser.getPassword()).isEqualTo("encodedPassword");
-    }
-
-
-    @Test
-    void createUser_NullInput() {
-        // Act & Assert
-        assertThatThrownBy(() -> userService.createUser(null))
-                .isInstanceOf(NullPointerException.class)
-                .hasMessage("User cannot be null");
-
-        verify(userDAL, never()).save(any());
-    }
-
     @Test
     void getAllUsers_EmptyList() {
         // Arrange
@@ -110,5 +73,66 @@ public class UserServiceTest {
         // Assert
         assertThat(users).isEmpty();
         verify(userDAL, times(1)).findAll();
+    }
+
+
+    @Test
+    void createUser_Success() {
+        // Arrange
+        // userDAL.findByUsername(...) => null (dus gebruiker bestaat niet)
+        when(userDAL.findByUsername(createUser.getUsername())).thenReturn(null);
+
+        // passwordEncoder.encode(...) => "encodedPassword"
+        when(passwordEncoder.encode("securePass")).thenReturn("encodedPassword");
+
+        // Stel in wat userDAL.save(...) moet retourneren
+        UserDTO savedUser = new UserDTO();
+        savedUser.setUser_id(2L);
+        savedUser.setUsername("jane_doe");
+        savedUser.setPassword("encodedPassword");
+        savedUser.setRole("admin");
+
+        when(userDAL.save(any(UserDTO.class))).thenReturn(savedUser);
+
+        // Act
+        UserDTO createdUser = userService.createUser(createUser);
+
+        // Assert
+        assertThat(createdUser).isNotNull();
+        assertThat(createdUser.getUser_id()).isEqualTo(2L);
+        assertThat(createdUser.getUsername()).isEqualTo("jane_doe");
+        assertThat(createdUser.getPassword()).isEqualTo("encodedPassword");
+        assertThat(createdUser.getRole()).isEqualTo("admin");
+
+        verify(userDAL).findByUsername("jane_doe");
+        verify(userDAL).save(any(UserDTO.class));
+        verify(passwordEncoder).encode("securePass");
+    }
+
+    @Test
+    void createUser_UserAlreadyExists() {
+        // Arrange
+        // Doe alsof userDAL.findByUsername(...) een bestaande user teruggeeft
+        UserDTO existing = new UserDTO(10L, "jane_doe", "someEncodedPass", "admin");
+        when(userDAL.findByUsername("jane_doe")).thenReturn(existing);
+
+        // Act & Assert
+        assertThatThrownBy(() -> userService.createUser(createUser))
+                .isInstanceOf(BadCredentialsException.class)
+                .hasMessage("Username already exists");
+
+        // verify dat er GEEN save is aangeroepen
+        verify(userDAL, never()).save(any());
+    }
+
+    @Test
+    void createUser_NullInput() {
+        // Act & Assert
+        assertThatThrownBy(() -> userService.createUser(null))
+                .isInstanceOf(NullPointerException.class)
+                .hasMessage("User cannot be null");
+
+        // verify dat er geen interactie is met save
+        verify(userDAL, never()).save(any());
     }
 }

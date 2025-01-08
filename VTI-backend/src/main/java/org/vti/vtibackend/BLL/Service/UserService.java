@@ -34,6 +34,9 @@ public class UserService  {
     }
 
     public UserDTO createUser(CreateUserDTO users) {
+        if (users == null) {
+            throw new NullPointerException("User cannot be null");
+        }
         UserDTO existingUser = userDAL.findByUsername(users.getUsername());
         if(existingUser == null) {
             return userDAL.save(makeUser(users));

@@ -82,13 +82,14 @@ public class InvoiceDAL implements IInvoiceDAL {
                 })
                 .collect(Collectors.toList());
     }
+
     public List<InvoiceAndCustomerDTO> findInvoices(){
         List<Object[]> results = invoiceRepo.findInvoices();
 
 
         return results.stream().map(result -> {
             InvoiceAndCustomerDTO dto = new InvoiceAndCustomerDTO();
-            dto.setCustomer_id(((Number) result[0]).longValue());
+            dto.setCustomer_id(((Number) result[0]).intValue());
             dto.setInvoice_date((Date) result[1]);
             dto.setDue_date((Date) result[2]);
             dto.setTotal_amount(((Number) result[3]).doubleValue());

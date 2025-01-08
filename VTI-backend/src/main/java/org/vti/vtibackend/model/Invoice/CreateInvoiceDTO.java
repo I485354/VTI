@@ -5,7 +5,7 @@ package org.vti.vtibackend.model.Invoice;
 import java.util.Date;
 
 public class CreateInvoiceDTO {
-    private long customer_id;
+    private int customer_id;
     private Integer car_id;
     private Date invoice_date;
     private Date due_date;
@@ -14,7 +14,7 @@ public class CreateInvoiceDTO {
     private String status;
 
     public CreateInvoiceDTO() {}
-    public CreateInvoiceDTO(long customer_id, Integer car_id, Date invoice_date, Date due_date, double total_amount, double total_btw, String status) {
+    public CreateInvoiceDTO(int customer_id, Integer car_id, Date invoice_date, Date due_date, double total_amount, double total_btw, String status) {
         this.customer_id = customer_id;
         this.car_id = car_id;
         this.invoice_date = invoice_date;
@@ -24,10 +24,10 @@ public class CreateInvoiceDTO {
         this.status = status;
 
     }
-    public long getCustomer_id() {
+    public int getCustomer_id() {
         return customer_id;
     }
-    public void setCustomer_id(long customer_id) {
+    public void setCustomer_id(int customer_id) {
         this.customer_id = customer_id;
     }
     public Integer getCar_id() {

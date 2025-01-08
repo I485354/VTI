@@ -10,7 +10,7 @@ import java.util.List;
 
 public class InvoiceAndCustomerDTO {
 
-    private long customer_id;
+    private int customer_id;
     private Date invoice_date;
     private Date due_date;
     private double total_amount;
@@ -22,7 +22,7 @@ public class InvoiceAndCustomerDTO {
 
     public InvoiceAndCustomerDTO() {}
 
-    public InvoiceAndCustomerDTO(long customer_id, Date invoice_date, Date due_date, double total_amount, double total_btw, String status, int invoice_number, String deleted, List<CustomerInfoDTO> customers) {
+    public InvoiceAndCustomerDTO(int customer_id, Date invoice_date, Date due_date, double total_amount, double total_btw, String status, int invoice_number, String deleted, List<CustomerInfoDTO> customers) {
         this.customer_id = customer_id;
         this.invoice_date = invoice_date;
         this.due_date = due_date;
@@ -34,10 +34,10 @@ public class InvoiceAndCustomerDTO {
         this.customers = customers;
     }
 
-    public long getCustomer_id() {
+    public int getCustomer_id() {
         return customer_id;
     }
-    public void setCustomer_id(long customer_id) {
+    public void setCustomer_id(int customer_id) {
         this.customer_id = customer_id;
     }
     public Date getInvoice_date() {

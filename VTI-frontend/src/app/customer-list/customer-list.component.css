@@ -1,56 +1,5 @@
 /* Algemene layout */
-/*.customer-list-container {
-  padding: 20px;
-  margin: auto;
-  max-width: 1200px;
-  background-color: #f9f9f9;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
 
-.title {
-  font-size: 24px;
-  color: #333;
-  margin-bottom: 20px;
-}
-
-!* Tabelstijl *!
-.customer-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 20px;
-  font-size: 16px;
-  color: #333;
-}
-
-.customer-table th, .customer-table td {
-  padding: 12px 15px;
-  border: 1px solid #ddd;
-  text-align: left;
-}
-
-.customer-table th {
-  background-color: #007BFF;
-  color: white;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-}
-
-.customer-table tr:nth-child(even) {
-  background-color: #f2f2f2;
-}
-
-.customer-table tr:hover {
-  background-color: #eaeaea;
-  cursor: pointer;
-}
-
-!* Geen data melding *!
-.no-data {
-  text-align: center;
-  font-size: 18px;
-  color: #777;
-}*/
 
 .customer-list-container {
   max-width: 95%;
@@ -156,7 +105,7 @@
 
 .confirmation-message {
   color: black;
-  background-color: yellow;
+  background-color: rgba(255, 255, 0, 0.45);
   padding: 15px;
   margin-bottom: 10px;
   border: 1px solid black;

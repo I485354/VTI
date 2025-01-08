@@ -34,17 +34,22 @@ public class UserService  {
     }
 
     public UserDTO createUser(CreateUserDTO users) {
-        if (users == null) {
-            throw new NullPointerException("User cannot be null");
+        UserDTO existingUser = userDAL.findByUsername(users.getUsername());
+        if(existingUser == null) {
+            return userDAL.save(makeUser(users));
         } else {
-            UserDTO userDTO = new UserDTO();
-            userDTO.setUsername(users.getUsername());
-            userDTO.setPassword(passwordEncoder.encode(users.getPassword()));
-            userDTO.setRole("admin");
-            users.setPassword(passwordEncoder.encode(users.getPassword()));
-            return userDAL.save(userDTO);
+            throw new BadCredentialsException("Username already exists");
         }
     }
+
+    private UserDTO makeUser(CreateUserDTO users) {
+        UserDTO userDTO = new UserDTO();
+        userDTO.setUsername(users.getUsername());
+        userDTO.setPassword(passwordEncoder.encode(users.getPassword()));
+        userDTO.setRole("admin");
+        return userDTO;
+    }
+
     public UserDTO findByUsername(String username) {
         return userDAL.findByUsername(username);
     }

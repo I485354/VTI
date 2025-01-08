@@ -45,7 +45,7 @@ public class UserDAL implements IUserDAL {
         return userRepo.findByUsername(username).stream()
                 .findFirst()
                 .map(userMapper::ToDTO)
-                .orElseThrow(() -> new UsernameNotFoundException("Gebruiker niet gevonden"));
+                .orElse(null);
     }
 
     @Override

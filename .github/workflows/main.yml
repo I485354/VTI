@@ -46,20 +46,14 @@ jobs:
             sleep 1
           done
 
-      # 4. (Optioneel) Database-import of extra scripts
-      # - name: Import DB from dump
-      #   run: |
-      #     sudo apt-get update && sudo apt-get install -y mysql-client
-      #     mysql -h 127.0.0.1 -u VTI -pVTI-database1234 VTI_database < VTI_database_backup.sql
-
-      # 5. Backend build + test + (optioneel) coverage
+      # 4. Backend build + test + (optioneel) coverage
       - name: Build and Test backend
         run: |
           cd VTI-backend
           # Zorg dat je tests NIET skipt, zodat je coverage krijgt
           mvn clean verify -Dspring.profiles.active=dev
 
-      # 6. SonarCloud-scan (optioneel)
+      # 5. SonarCloud-scan (optioneel)
       - name: SonarCloud Scan
         working-directory: VTI-backend
         env:
@@ -71,11 +65,11 @@ jobs:
           # Eventueel extra properties voor coverage, bv:
           # -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
 
-      # 7. Backend in de achtergrond starten
+      # 6. Backend in de achtergrond starten
       - name: Start backend (background)
         run: |
           cd VTI-backend
-          nohup mvn spring-boot:run -Dspring-boot.run.profiles=test &
+          nohup mvn spring-boot:run -Dspring-boot.run.profiles=dev &
 
       - name: Wait for backend
         run: |
@@ -88,20 +82,20 @@ jobs:
             sleep 2
           done
 
-      # 8. Node installeren voor frontend
+      # 7. Node installeren voor frontend
       - name: Set up Node
         uses: actions/setup-node@v3
         with:
           node-version: '20.17.0'
           
-      # 9. Frontend build
+      # 8. Frontend build
       - name: Install & Build frontend
         run: |
           cd VTI-frontend
           npm install
-          npm run build --prod
+          npm run build
 
-      # 10. Frontend starten (achtergrond)
+      # 9. Frontend starten (achtergrond)
       - name: Start frontend (background)
         run: |
           cd VTI-frontend
@@ -118,14 +112,22 @@ jobs:
             sleep 2
           done
 
-      # 11. Cypress tests
+      # 10. Cypress tests
       - name: Cypress tests
         run: |
           cd VTI-frontend
           npm install cypress
           npx cypress run
 
-      # 12. (Optioneel) Deploy naar Vercel
+      # 11. Build *production* for final deploy
+      - name: Build frontend for production
+        if: success()  # only if E2E passed
+        run: |
+          cd VTI-frontend
+          npm run build --prod
+
+
+      # 12. Deploy naar Vercel
       - name: Deploy to Vercel
         if: success() # alleen bij geslaagde tests
         env:

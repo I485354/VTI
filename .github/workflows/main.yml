@@ -57,7 +57,7 @@ jobs:
         run: |
           cd VTI-backend
           # Zorg dat je tests NIET skipt, zodat je coverage krijgt
-          mvn clean verify -Dspring.profiles.active=test
+          mvn clean verify -Dspring.profiles.active=dev
 
       # 6. SonarCloud-scan (optioneel)
       - name: SonarCloud Scan

@@ -123,7 +123,6 @@ describe('New Invoice Page', () => {
   });
 
   it('Should create an invoice successfully', function () {
-    // Selecteer klant en auto
     cy.get('select#customerId').select(this.customerId.toString());
     cy.get('select#carId').select(this.carId.toString());
 
@@ -135,12 +134,26 @@ describe('New Invoice Page', () => {
     cy.get('select#status').select('Betaald');
     cy.get('button[type="submit"]').click();
 
-    cy.request('GET', `https://vti-production.up.railway.app/api/invoice`).then((response) => {
-      const customerIdtest = this.customerId; // Zorg dat deze alias is ingesteld
-      const newInvoice = response.body.find((invoice) => invoice.customer_id === customerIdtest);
-      cy.wait(3000);
-      expect(newInvoice).to.exist;
-      expect(newInvoice.status).to.eq('Betaald');
-    });
+    // Retry logic for the GET request
+    const retryGetInvoice = (retries = 5) => {
+      cy.request('GET', `https://vti-production.up.railway.app/api/invoice`).then((response) => {
+        const newInvoice = response.body.find((invoice) => invoice.customer_id === this.customerId);
+
+        if (newInvoice) {
+          // Factuur gevonden, controleer de status
+          expect(newInvoice).to.exist;
+          expect(newInvoice.status).to.eq('Betaald');
+        } else if (retries > 0) {
+          // Factuur nog niet gevonden, probeer opnieuw
+          cy.wait(1000); // Wacht 1 seconde
+          retryGetInvoice(retries - 1);
+        } else {
+          // Geef op na 5 pogingen
+          throw new Error('Nieuwe factuur niet gevonden na meerdere pogingen.');
+        }
+      });
+    };
+
+    retryGetInvoice(); // Start de retry
   });
 });

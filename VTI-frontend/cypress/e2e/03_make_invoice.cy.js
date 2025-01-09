@@ -140,6 +140,7 @@ describe('New Invoice Page', () => {
       const newInvoice = response.body.find((invoice) => invoice.customer_id === customerId);
 
       // Controleer dat de factuur bestaat en de status correct is
+      cy.wait(1000);
       expect(newInvoice).to.exist;
       expect(newInvoice.status).to.eq('Betaald');
     });

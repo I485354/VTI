@@ -36,6 +36,17 @@ describe('Login', () => {
   it('should show an error if username already exists', () => {
     cy.request({
       method: 'POST',
+      url: 'https://vti-production.up.railway.app/api/user/register',
+      body: {
+        username: 'test2',
+        password: '1234',
+      },
+      failOnStatusCode: false
+    });
+    
+    cy.wait(1000);
+    cy.request({
+      method: 'POST',
       url: 'http://localhost:8080/api/user/register',
       body: {
         username: 'test2',
@@ -46,5 +57,6 @@ describe('Login', () => {
       expect(response.status).to.be.oneOf([403]);
       //expect(response.body).to.contain('Username already exists')
     });
+    
   });
 });

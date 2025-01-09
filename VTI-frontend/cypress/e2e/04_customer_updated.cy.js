@@ -17,7 +17,7 @@ describe('Customer List', () => {
   });
 
   it('Should add a new customer and display it in the list', () => {
-    // Klik op de "Klant Toevoegen" knop
+    cy.visit('/customer-list');
     cy.contains('Klant Toevoegen').click();
 
     // Vul het formulier in met klantinformatie
@@ -39,6 +39,7 @@ describe('Customer List', () => {
   });
 
   it('Should open the edit form with customer info filled in', () => {
+    cy.visit('/customer-list');
     cy.contains(testCustomer.name).parent().find('button.edit-button').click();
     cy.get('input#name').should('have.value', testCustomer.name);
     cy.get('input#email').should('have.value', testCustomer.email);
@@ -49,6 +50,7 @@ describe('Customer List', () => {
   });
 
   it('Should edit and save customer details', () => {
+    cy.visit('/customer-list');
     const updatedCustomer = {
       name: 'Jane Doe',
       email: 'jane.doe@example.com',
@@ -78,6 +80,7 @@ describe('Customer List', () => {
   });
 
   it('Should cancel editing customer details', () => {
+    cy.visit('/customer-list');
       cy.contains('Bewerken').should('be.visible').click();
       cy.contains('Annuleren').click();
       cy.wait(2000);
@@ -85,7 +88,7 @@ describe('Customer List', () => {
   });
 
   it('Should delete a customer', () => {
-    cy.request('POST' , 'http://localhost:8080/api/customer', {
+    cy.request('POST' , 'https://vti-production.up.railway.app/api/customer', {
         name: 'John Doe',
         email: 'john.doe@example.com',
         company: 'Doe Enterprises',

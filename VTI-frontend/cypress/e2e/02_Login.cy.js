@@ -3,7 +3,7 @@ describe('Login', () => {
     // Vul de gebruikersnaam en het wachtwoord in
     cy.request({
       method: 'POST',
-      url: 'http://localhost:8080/api/user/register',
+      url: 'https://vti-production.up.railway.app/api/user/register',
       body: {
         username: 'test2',
         password: '1234',

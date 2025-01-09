@@ -1,6 +1,6 @@
 describe('New Invoice Page', () => {
   beforeEach(() => {
-    const apiUrl = 'http://localhost:8080';
+    const apiUrl = 'https://vti-production.up.railway.app';
 
     cy.visit('/login');
     cy.get('input[name="username"]').type('test2');
@@ -135,7 +135,7 @@ describe('New Invoice Page', () => {
     cy.get('select#status').select('Betaald');
     cy.get('button[type="submit"]').click();
 
-    cy.request('GET', `http://localhost:8080/api/invoice`).then((response) => {
+    cy.request('GET', `https://vti-production.up.railway.app/api/invoice`).then((response) => {
       const customerId = this.customerId; // Zorg dat deze alias is ingesteld
       const newInvoice = response.body.find((invoice) => invoice.customer_id === customerId);
 

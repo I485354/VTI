@@ -5,10 +5,10 @@ describe('Dashboard Tests', () => {
     cy.get('input[name="username"]').type('test2');
     cy.get('input[name="password"]').type('1234');
     cy.get('button[type="submit"]').click();
-    cy.wait(500);
+    cy.wait(1000);
     cy.visit('/dashboard', { failOnStatusCode: false });
     // Eventueel een korte pauze, of liever iets als cy.wait('@someAlias') als je met intercept werkt.
-    cy.wait(1000);
+    cy.wait(2000);
   });
 
   it('Should load the dashboard page', () => {

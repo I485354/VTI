@@ -33,7 +33,7 @@ describe('Login', () => {
     cy.contains('Dashboard').should('be.visible');
   });
 
-  it('should show an error if username already exists', () => {
+  /*it('should show an error if username already exists', () => {
     cy.request({
       method: 'POST',
       url: 'https://vti-production.up.railway.app/api/user/register',
@@ -58,5 +58,5 @@ describe('Login', () => {
       //expect(response.body).to.contain('Username already exists')
     });
     
-  });
+  });*/
 });

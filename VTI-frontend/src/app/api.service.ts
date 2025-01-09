@@ -11,13 +11,15 @@ import { createCar } from './model/createCar.model';
 import { User } from './model/user.model';
 import { UserLogin } from './model/userLogin.model';
 import { AuthResponse } from './model/authResponse.model';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
 
-  private apiUrl = 'http://localhost:8080/api'; // API URL
+  private apiUrl = environment.apiUrl; 
+  
 
   constructor(private http: HttpClient) { }
 

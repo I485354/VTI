@@ -136,11 +136,9 @@ describe('New Invoice Page', () => {
     cy.get('button[type="submit"]').click();
 
     cy.request('GET', `https://vti-production.up.railway.app/api/invoice`).then((response) => {
-      const customerId = this.customerId; // Zorg dat deze alias is ingesteld
-      const newInvoice = response.body.find((invoice) => invoice.customer_id === customerId);
-
-      // Controleer dat de factuur bestaat en de status correct is
-      cy.wait(2000);
+      const customerIdtest = this.customerId; // Zorg dat deze alias is ingesteld
+      const newInvoice = response.body.find((invoice) => invoice.customer_id === customerIdtest);
+      cy.wait(3000);
       expect(newInvoice).to.exist;
       expect(newInvoice.status).to.eq('Betaald');
     });

@@ -14,5 +14,7 @@ RUN chmod +x ./mvnw
 
 RUN ./mvnw clean package -DskipTests
 
+ENV SPRING_PROFILES_ACTIVE=prod
+
 
 ENTRYPOINT ["java", "-jar", "target/VTI-backend-0.0.1-SNAPSHOT.jar"]

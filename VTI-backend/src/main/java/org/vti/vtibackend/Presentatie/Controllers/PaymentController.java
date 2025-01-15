@@ -9,7 +9,7 @@ import org.vti.vtibackend.model.Payment.PaymentDTO;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/payment")
+@RequestMapping("/api/admin/payment")
 public class PaymentController {
 
     private final PaymentService paymentService;

@@ -9,7 +9,7 @@ import org.vti.vtibackend.model.InvoiceItem.InvoiceitemDTO;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/invoiceitem")
+@RequestMapping("/api/admin/invoiceitem")
 public class InvoiceItemController {
 
     private final InvoiceItemService invoiceItemService;

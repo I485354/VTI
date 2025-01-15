@@ -26,17 +26,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             String token = authHeader.substring(7);
 
-            // Check of token ongeldig/verlopen is
+
             if (!jwtTokenProvider.validateToken(token)) {
-                // Token is niet geldig: stuur 401 en stop
+
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                 return;
             }
 
-            // Eventueel: Claims uit de token halen en in SecurityContext zetten
         }
 
-        // Ga verder in de chain
         filterChain.doFilter(request, response);
     }
 }

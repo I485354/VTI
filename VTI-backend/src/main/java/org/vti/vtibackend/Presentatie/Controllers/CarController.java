@@ -10,7 +10,7 @@ import org.vti.vtibackend.model.Car.CreateCarDTO;
 
 import java.util.List;
 @RestController
-@RequestMapping("/api/car")
+@RequestMapping("/api/admin/car")
 public class CarController {
     private final CarService carService;
 

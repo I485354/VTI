@@ -9,7 +9,7 @@ import org.vti.vtibackend.model.Accounting.AccountingentryDTO;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/accountingentry")
+@RequestMapping("/api/admin/accountingentry")
 public class AccountingEntryController {
 
     private final AccountingEntryService accountingEntryService;

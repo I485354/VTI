@@ -11,7 +11,7 @@ import org.vti.vtibackend.model.Invoice.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/invoice")
+@RequestMapping("/api/admin/invoice")
 public class InvoiceController {
 
     private final InvoiceService invoiceService;

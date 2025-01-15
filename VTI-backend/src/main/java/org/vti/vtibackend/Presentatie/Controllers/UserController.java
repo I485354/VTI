@@ -16,7 +16,7 @@ import org.vti.vtibackend.model.User.UserInfo;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping("/api")
 public class UserController {
 
     private final UserService userService;
@@ -33,17 +33,17 @@ public class UserController {
         return userService.getAllUsers();
     }
 
-    @PostMapping("/register")
+    @PostMapping("user/register")
     public ResponseEntity<UserDTO> createUser(@RequestBody CreateUserDTO users) {
         UserDTO userDTO = userService.createUser(users);
         return new ResponseEntity<>(userDTO, HttpStatus.CREATED);
     }
-    @GetMapping("/{username}")
+    @GetMapping("admin/user/{username}")
     public ResponseEntity<UserDTO> getUserByUsername(@PathVariable String username) {
         UserDTO userDTO = userService.findByUsername(username);
         return ResponseEntity.ok(userDTO);
     }
-    @PostMapping("/login")
+    @PostMapping("user/login")
     public ResponseEntity<?> authenticate(@RequestBody CreateUserDTO authRequest) {
         try {
             UserDTO userDTO = userService.authenticate(authRequest.getUsername(), authRequest.getPassword());

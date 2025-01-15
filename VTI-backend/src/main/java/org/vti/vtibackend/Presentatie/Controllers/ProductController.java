@@ -9,7 +9,7 @@ import org.vti.vtibackend.model.Product.ProductDTO;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/product")
+@RequestMapping("/api/admin/product")
 public class ProductController {
 
     private final ProductService productService;

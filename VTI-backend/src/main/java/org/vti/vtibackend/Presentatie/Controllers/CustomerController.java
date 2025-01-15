@@ -14,7 +14,7 @@ import org.vti.vtibackend.model.Customer.UpdatedCustomerDTO;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/customer")
+@RequestMapping("/api/admin/customer")
 public class CustomerController {
 
     private final CustomerService customerService;

@@ -69,7 +69,7 @@ jobs:
       - name: Start backend (background)
         run: |
           cd VTI-backend
-          nohup mvn spring-boot:run -Dspring-boot.run.profiles=test &
+          nohup mvn spring-boot:run -Dspring-boot.run.profiles=prod &
 
       - name: Wait for backend
         run: |

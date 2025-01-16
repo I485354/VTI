@@ -29,6 +29,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             FilterChain filterChain) throws ServletException, IOException {
 
         String token = jwtTokenProvider.resolveToken(request);
+        System.out.println("Token from request: " + token);
 
         if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
             response.setStatus(HttpServletResponse.SC_OK);
@@ -39,9 +40,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             String username = jwtTokenProvider.getUsername(token);
             String role = jwtTokenProvider.getRole(token);
 
+            System.out.println("JWT valid! user=" + username + ", role=" + role);
+
             UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(
                     username, null, List.of(new SimpleGrantedAuthority("ROLE_" + role.toUpperCase())));
             SecurityContextHolder.getContext().setAuthentication(auth);
+        } else {
+           System.out.println("JWT invalid");
         }
 
         filterChain.doFilter(request, response);

@@ -8,7 +8,7 @@ describe('New Invoice Page', () => {
     cy.get('button[type="submit"]').click();
     cy.wait(500);
     // Maak testdata via de API
-    cy.request('POST', `${apiUrl}/api/customer`, {
+    cy.request('POST', `${apiUrl}/api/admin/customer`, {
       name: 'Jan thees',
       company: 'Jan en Piet.',
       address: '123 Main Street',
@@ -17,14 +17,14 @@ describe('New Invoice Page', () => {
     }).then((response) => {
       const createdCustomerId = response.body.customer_id
       cy.wrap(createdCustomerId).as('createdCustomerId');
-      cy.request('GET', `${apiUrl}/api/customer/customerById/${createdCustomerId}`).then((response) => {
+      cy.request('GET', `${apiUrl}/api/admin/customer/customerById/${createdCustomerId}`).then((response) => {
         const customerId = response.body.customer_id
         cy.wrap(customerId).as('customerId');
 
         const uniqueChasiNumber = `XYZ123-${Date.now()}`; // Uniek chassisnummer
         const uniquePlateNumber = `PLATE-${Date.now()}`; // Uniek kenteken
 
-        cy.request('POST', `${apiUrl}/api/car`, {
+        cy.request('POST', `${apiUrl}/api/admin/car`, {
           customer_id: customerId,
           plate_number: uniquePlateNumber,
           brand: 'Nissan',
@@ -36,17 +36,17 @@ describe('New Invoice Page', () => {
           cy.wrap(carId).as('carId');
         });
 
-        cy.request('GET', `${apiUrl}/api/car/${customerId}`).then((getCarsResponse) => {
+        cy.request('GET', `${apiUrl}/api/admin/car/${customerId}`).then((getCarsResponse) => {
           cy.wrap(getCarsResponse.body).as('cars');
         });
       });
     });
-    cy.request('GET', `${apiUrl}/api/invoice`).then((response) => {
+    cy.request('GET', `${apiUrl}/api/admin/invoice`).then((response) => {
       cy.log(JSON.stringify(response.body));
     });
 
     // Voeg producten toe
-    cy.request('POST', `${apiUrl}/api/product`, {
+    cy.request('POST', `${apiUrl}/api/admin/product`, {
       product_id: 1,
       name: 'Product A',
       description: 'Product A new',

@@ -17,6 +17,7 @@ export class AuthInterceptor implements HttpInterceptor {
   constructor(private router: Router) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    console.log('Intercepting URL:', req.url);
     // 1) Kijk of het om login/register gaat:
     //    Die wil je meestal NIET onderscheppen (want je hebt nog geen token).
     //    Heb je custom paths, pas dit filter gerust aan:
@@ -31,7 +32,8 @@ export class AuthInterceptor implements HttpInterceptor {
       const authReq = req.clone({
         headers: new HttpHeaders({
           'Authorization':`${token}`
-        })
+        }),
+
       });
 
       // 4) Handel de request af en afvangen van evt. 401/403 errors

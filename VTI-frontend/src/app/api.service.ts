@@ -25,46 +25,46 @@ export class ApiService {
 
 
   getCustomers(): Observable<Customers[]> {
-    return this.http.get<Customers[]>(`${this.apiUrl}/customer`);
+    return this.http.get<Customers[]>(`${this.apiUrl}/admin/customer`);
   }
   getCustomerById(id: number): Observable<Customers> {
-    return this.http.get<Customers>(`${this.apiUrl}/customer/customerById/${id}`);
+    return this.http.get<Customers>(`${this.apiUrl}/admin/customer/customerById/${id}`);
   }
   getInvoices(): Observable<Invoice[]> {
-    return this.http.get<Invoice[]>(`${this.apiUrl}/invoice`);
+    return this.http.get<Invoice[]>(`${this.apiUrl}/admin/invoice`);
   }
   addInvoice(invoice: Invoice): Observable<Invoice> {
-    return this.http.post<Invoice>(`${this.apiUrl}/invoice/create_invoice`, invoice);
+    return this.http.post<Invoice>(`${this.apiUrl}/admin/invoice/create_invoice`, invoice);
   }
   updateInvoiceStatus(invoiceId: number, updateStatus: UpdateInvoiceStatus): Observable<Invoice> {
-    return this.http.put<Invoice>(`${this.apiUrl}/invoice/${invoiceId}/status`, updateStatus);
+    return this.http.put<Invoice>(`${this.apiUrl}/admin/invoice/${invoiceId}/status`, updateStatus);
   }
   addCustomer(customer: Customers): Observable<Customers> {
-    return this.http.post<Customers>(`${this.apiUrl}/customer`, customer);
+    return this.http.post<Customers>(`${this.apiUrl}/admin/customer`, customer);
   }
   deleteCustomer(customerId: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/customer/${customerId}`);
+    return this.http.delete<void>(`${this.apiUrl}/admin/customer/${customerId}`);
   }
   updateCustomer(customer: Customers): Observable<Customers> {
-    return this.http.put<Customers>(`${this.apiUrl}/customer/${customer.customer_id}`, customer);
+    return this.http.put<Customers>(`${this.apiUrl}/admin/customer/${customer.customer_id}`, customer);
   }
   getProducts(): Observable<Products[]> {
-  return this.http.get<Products[]>(`${this.apiUrl}/product`);
+  return this.http.get<Products[]>(`${this.apiUrl}/admin/product`);
   }
   addProduct(product: Products): Observable<Products> {
-    return this.http.post<Products>(`${this.apiUrl}/product`, product );
+    return this.http.post<Products>(`${this.apiUrl}/admin/product`, product );
   }
   getCarsByCustomerId(customerId: number): Observable<Car[]> {
-    return this.http.get<Car[]>(`${this.apiUrl}/car/${customerId}`);
+    return this.http.get<Car[]>(`${this.apiUrl}/admin/car/${customerId}`);
   }
   getOpenInvoicesCount(){
-    return this.http.get<number>(`${this.apiUrl}/invoice/open-invoices`);
+    return this.http.get<number>(`${this.apiUrl}/admin/invoice/open-invoices`);
   }
   getRevenue(year: number){
-    return this.http.get<Revenue[]>(`${this.apiUrl}/invoice/revenue?year=${year}`);
+    return this.http.get<Revenue[]>(`${this.apiUrl}/admin/invoice/revenue?year=${year}`);
   }
   createCar(createcar: createCar): Observable<Car> {
-    return this.http.post<Car>(`${this.apiUrl}/car`, createcar);
+    return this.http.post<Car>(`${this.apiUrl}/admin/car`, createcar);
   }
 
   login(userLogin: UserLogin): Observable<AuthResponse> {

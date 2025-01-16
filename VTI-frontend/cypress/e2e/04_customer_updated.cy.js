@@ -88,7 +88,7 @@ describe('Customer List', () => {
   });
 
   it('Should delete a customer', () => {
-    cy.request('POST' , 'https://vti-production.up.railway.app/api/customer', {
+    cy.request('POST' , 'https://vti-production.up.railway.app/api/admin/customer', {
         name: 'John Doe',
         email: 'john.doe@example.com',
         company: 'Doe Enterprises',

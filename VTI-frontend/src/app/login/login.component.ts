@@ -35,9 +35,9 @@ export class LoginComponent {
         this.startTokenExpiryTimer(expiryTime);
 
         const role = response.user.role;
-        if (role === 'admin') {
+        if (role === 'ADMIN') {
           this.router.navigate(['/dashboard']); // Admin gebruikers
-        } else if (role === 'customer') {
+        } else if (role === 'CUSTOMER') {
           window.location.href = 'https://andere-frontend-url.com'; // Klanten
         } else {
           alert('Onbekende rol: ' + role);

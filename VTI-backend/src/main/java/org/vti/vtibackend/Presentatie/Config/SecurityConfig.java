@@ -43,7 +43,7 @@ public class SecurityConfig {
                                 "/api/user/login",
                                 "/api/user/register"
                                 ).permitAll()
-                        .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/admin/**").hasRole("admin")
                         .anyRequest().authenticated()
                 )
                 .headers(headers -> headers.frameOptions(frameOptions -> frameOptions.disable()))  // Disable frame options for H2-console

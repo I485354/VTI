@@ -29,6 +29,7 @@ export class LoginComponent {
     this.apiService.login(userLogin).subscribe(
       (response: AuthResponse) => {
         localStorage.setItem('token', response.token);
+        console.log('Saved token:', response.token);
 
         const expiryTime = this.getTokenExpiry(response.token);
         this.startTokenExpiryTimer(expiryTime);

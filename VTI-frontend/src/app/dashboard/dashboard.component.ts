@@ -36,6 +36,7 @@ export class DashboardComponent implements OnInit {
 
     this.apiService.getRevenue(this.selectedYear).subscribe(
       (data) => {
+        
         // Normalizeer en vul ontbrekende velden aan
         const normalizedData: Revenue[] = [1, 2, 3, 4].map((quarter) => {
           const found = data.find((item) => item.quarter === quarter);

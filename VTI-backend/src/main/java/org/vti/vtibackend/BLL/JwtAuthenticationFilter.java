@@ -27,35 +27,23 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             HttpServletRequest request,
             HttpServletResponse response,
             FilterChain filterChain) throws ServletException, IOException {
-        // Haal de Authorization-header op
-        String authHeader = request.getHeader("Authorization");
 
-        if (authHeader != null && authHeader.startsWith("Bearer ")) {
-            String token = authHeader.substring(7);
+        String token = jwtTokenProvider.resolveToken(request);
 
-            // Valideer het token
-            if (jwtTokenProvider.validateToken(token)) {
-                // Haal de claims (bijv. username en rol) uit het token
-                Claims claims = jwtTokenProvider.getClaims(token);
-                String username = claims.getSubject();
-                String role = claims.get("role", String.class);
-
-                // Maak een Authentication-object met de juiste rollen
-                List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority("ROLE_" + role));
-                UsernamePasswordAuthenticationToken authentication =
-                        new UsernamePasswordAuthenticationToken(username, null, authorities);
-
-                // Voeg de authenticatie toe aan de SecurityContext
-                SecurityContextHolder.getContext().setAuthentication(authentication);
-            } else {
-                // Ongeldig token
-                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                response.getWriter().write("Invalid JWT token");
-                return;
-            }
+        if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
+            response.setStatus(HttpServletResponse.SC_OK);
+            return;
         }
 
-        // Ga verder met de filterketen
+        if (token != null && jwtTokenProvider.validateToken(token)) {
+            String username = jwtTokenProvider.getUsername(token);
+            String role = jwtTokenProvider.getRole(token);
+
+            UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(
+                    username, null, List.of(new SimpleGrantedAuthority("ROLE_" + role.toUpperCase())));
+            SecurityContextHolder.getContext().setAuthentication(auth);
+        }
+
         filterChain.doFilter(request, response);
     }
 }

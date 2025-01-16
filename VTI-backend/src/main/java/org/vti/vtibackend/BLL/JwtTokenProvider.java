@@ -1,6 +1,7 @@
 package org.vti.vtibackend.BLL;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
@@ -9,7 +10,7 @@ import java.util.Date;
 @Component
 public class JwtTokenProvider {
 
-    private final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS512); // Gebruik een veilige sleutel
+    private final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256); // Gebruik een veilige sleutel
 
     // Genereer een JWT-token
     public String generateToken(String username, String role) {
@@ -23,6 +24,13 @@ public class JwtTokenProvider {
                 .signWith(key)
                 .compact();
     }
+    public String resolveToken(HttpServletRequest request) {
+        String bearerToken = request.getHeader("Authorization");
+        if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
+            return bearerToken.substring(7);
+        }
+        return null;
+    }
 
     // Valideer de token
     public boolean validateToken(String token) {
@@ -35,7 +43,21 @@ public class JwtTokenProvider {
     }
 
     // Haal claims uit de token
-    public Claims getClaims(String token) {
-        return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
+    public String getUsername(String token) {
+        return Jwts.parserBuilder()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(token)
+                .getBody()
+                .getSubject();
+    }
+
+    public String getRole(String token) {
+        return Jwts.parserBuilder()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(token)
+                .getBody()
+                .get("role", String.class);
     }
 }

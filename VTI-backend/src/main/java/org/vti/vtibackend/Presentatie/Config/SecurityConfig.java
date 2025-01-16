@@ -1,7 +1,10 @@
 package org.vti.vtibackend.Presentatie.Config;
 
 
+import io.swagger.v3.oas.models.security.SecurityRequirement;
+import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.servers.Server;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -25,8 +28,14 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authz -> authz
-                        .requestMatchers("/api/user/login", "/api/user/register").permitAll()
-                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                        .requestMatchers(
+                                "/v3/api-docs/**",
+                                "/swagger-ui/**",
+                                "/swagger-ui.html",
+                                "/api/user/login",
+                                "/api/user/register"
+                                ).permitAll()
+                        /*.requestMatchers().hasRole("admin") */
                         .anyRequest().authenticated()
                 )
                 .headers(headers -> headers.frameOptions(frameOptions -> frameOptions.disable()))  // Disable frame options for H2-console
@@ -46,7 +55,7 @@ public class SecurityConfig {
                 registry.addMapping("/api/**")
                         .allowedOriginPatterns("http://localhost:4200", "https://vti-frontend.vercel.app",
                                 "https://vti-frontend-*-i485354s-projects.vercel.app")
-                        .allowedMethods("GET", "POST", "PUT", "DELETE")
+                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         .allowedHeaders("*")
                         .allowCredentials(true);
             }
@@ -56,7 +65,19 @@ public class SecurityConfig {
     @Bean
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
-                .addServersItem(new Server().url("https://vti-production.up.railway.app"));
+                .addServersItem(new Server().url("https://vti-production.up.railway.app"))
+                .addServersItem(new Server().url("http://localhost:8080"))
+                .components(new Components()
+                .addSecuritySchemes("bearerAuth",
+                        new SecurityScheme()
+                                .type(SecurityScheme.Type.HTTP)
+                                .scheme("bearer")
+                                .bearerFormat("JWT")
+                )
+        )
+                .addSecurityItem(new SecurityRequirement().addList("bearerAuth"));
+
+
     }
 
     @Bean

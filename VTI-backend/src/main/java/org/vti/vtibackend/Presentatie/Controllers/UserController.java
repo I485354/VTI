@@ -38,7 +38,7 @@ public class UserController {
         UserDTO userDTO = userService.createUser(users);
         return new ResponseEntity<>(userDTO, HttpStatus.CREATED);
     }
-    @GetMapping("admin/user/{username}")
+    @GetMapping("user/{username}")
     public ResponseEntity<UserDTO> getUserByUsername(@PathVariable String username) {
         UserDTO userDTO = userService.findByUsername(username);
         return ResponseEntity.ok(userDTO);

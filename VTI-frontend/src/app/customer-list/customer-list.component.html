@@ -1,48 +1,59 @@
 <div class="customer-list-container">
-  <h2 class="title">Klantenlijst</h2>
+  <h2 class="title">{{ isViewingCustomers ? 'Klantenlijst' : 'Gebruikerslijst' }}</h2>
 
-  <div *ngIf="!isFormVisible">
-    <div class="actions">
-      <button (click)="onAddCustomer()" class="add-button">Klant Toevoegen</button>
-    </div>
-    <div *ngIf="customers.length > 0; else noData">
-      <table class="customer-table">
-        <thead>
-        <tr>
-          <th>Klant ID</th>
-          <th>Naam</th>
-          <th>Email</th>
-          <th>Bedrijf</th>
-          <th>Telefoonnummer</th>
-          <th>Adres</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr *ngFor="let customer of customers">
-          <td>{{ customer.customer_id }}</td>
-          <td>{{ customer.name }}</td>
-          <td>{{ customer.email }}</td>
-          <td>{{ customer.company || 'N/A' }}</td>
-          <td>{{ customer.phone || 'N/A' }}</td>
-          <td>{{ customer.address }} </td>
-          <td>
-            <button (click)="onEditCustomer(customer)" class="edit-button">Bewerken</button>
-          </td>
-          <td>
-            <button (click)="requestDeleteCustomer(customer)" class="delete-button">Verwijderen</button>
-          </td>
-        </tr>
-        </tbody>
-      </table>
-      <div *ngIf="confirmationMessage" class="confirmation-message">
-        <p>{{ confirmationMessage }}</p>
-        <button (click)="confirmDelete()" class="confirm-button">Ja</button>
-        <button (click)="cancelConfirmation()" class="cancel-button">Nee</button>
-      </div>
-      <div *ngIf="successMessage" class="success-message">
-        {{ successMessage }}
-      </div>
+  <!-- Navigatie (Tabs of Toggle) -->
+  <div class="toggle-buttons">
+    <button
+      [class.active]="isViewingCustomers"
+      (click)="toggleView(true)">Klanten</button>
+    <button
+      [class.active]="!isViewingCustomers"
+      (click)="toggleView(false)">Gebruikers</button>
+  </div>
 
+  <div *ngIf="isViewingCustomers">
+    <div *ngIf="!isFormVisible">
+      <div class="actions">
+        <button (click)="onAddCustomer()" class="add-button">Klant Toevoegen</button>
+      </div>
+      <div *ngIf="customers.length > 0; else noData">
+        <table class="customer-table">
+          <thead>
+          <tr>
+            <th>Klant ID</th>
+            <th>Naam</th>
+            <th>Email</th>
+            <th>Bedrijf</th>
+            <th>Telefoonnummer</th>
+            <th>Adres</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let customer of customers">
+            <td>{{ customer.customer_id }}</td>
+            <td>{{ customer.name }}</td>
+            <td>{{ customer.email }}</td>
+            <td>{{ customer.company || 'N/A' }}</td>
+            <td>{{ customer.phone || 'N/A' }}</td>
+            <td>{{ customer.address }} </td>
+            <td>
+              <button (click)="onEditCustomer(customer)" class="edit-button">Bewerken</button>
+            </td>
+            <td>
+              <button (click)="requestDeleteCustomer(customer)" class="delete-button">Verwijderen</button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+        <div *ngIf="confirmationMessage" class="confirmation-message">
+          <p>{{ confirmationMessage }}</p>
+          <button (click)="confirmDelete()" class="confirm-button">Ja</button>
+          <button (click)="cancelConfirmation()" class="cancel-button">Nee</button>
+        </div>
+        <div *ngIf="successMessage" class="success-message">
+          {{ successMessage }}
+        </div>
+      </div>
     </div>
   </div>
 
@@ -54,7 +65,31 @@
     (customerCancel)="onCancel()">
   </app-customer-form>
 
+  <div *ngIf="!isViewingCustomers">
+    <div *ngIf="users.length > 0; else noUsers">
+      <table class="user-table">
+        <thead>
+        <tr>
+          <th>Gebruikersnaam</th>
+          <th>Rol</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let user of users">
+          <td>{{ user.username }}</td>
+          <td>{{ user.role }}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+
+
   <ng-template #noData>
     <p class="no-data">Geen klanten gevonden</p>
+  </ng-template>
+  <ng-template #noUsers>
+    <p class="no-data">Geen gebruikers gevonden</p>
   </ng-template>
 </div>

@@ -15,7 +15,7 @@ public class JwtTokenProvider {
     // Genereer een JWT-token
     public String generateToken(String username, String role) {
         // 1 uur
-        long validityInMilliseconds = 300000;
+        long validityInMilliseconds = 3000000;
         return Jwts.builder()
                 .setSubject(username)
                 .claim("role", role)

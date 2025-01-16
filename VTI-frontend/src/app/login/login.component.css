@@ -36,3 +36,19 @@ h2 {
   cursor: pointer;
   border-radius: 4px;
 }
+
+.btn-primary:hover {
+  background-color: #036dcd;
+}
+
+
+.register-link {
+  display: block;
+  margin-top: 15px;
+  text-decoration: none;
+  color: #0aa7b5;
+}
+
+.register-link:hover {
+  text-decoration: underline;
+}

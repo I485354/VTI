@@ -10,7 +10,9 @@ import org.vti.vtibackend.model.User.CreateUserDTO;
 import org.vti.vtibackend.model.User.UserDTO;
 import org.vti.vtibackend.model.User.UserInfo;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -49,7 +51,7 @@ public class UserService  {
         UserDTO userDTO = new UserDTO();
         userDTO.setUsername(users.getUsername());
         userDTO.setPassword(passwordEncoder.encode(users.getPassword()));
-        userDTO.setRole("admin");
+        userDTO.setRole("ADMIN");
         return userDTO;
     }
 
@@ -64,4 +66,14 @@ public class UserService  {
         }
         return new UserDTO(userDTO.getUser_id(), userDTO.getUsername(), userDTO.getRole());
     }
+
+    public List<UserInfo> getUserInfo(){
+        List<UserDTO> users = userDAL.getUsernamesAndRoles();
+
+        // Converteer elke UserDTO naar een UserInfo
+        return users.stream()
+                .map(user -> new UserInfo(user.getUser_id(), user.getUsername(), user.getRole()))
+                .collect(Collectors.toList());
+    }
+
 }

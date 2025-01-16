@@ -1,72 +1,140 @@
 describe('New Invoice Page', () => {
+  const apiUrl = 'https://vti-production.up.railway.app';
+  let token = null;
+
+  // 1) Login vóór de tests (zet token in variabele)
+  before(() => {
+    cy.request('POST', `${apiUrl}/api/user/login`, {
+      username: 'test2',
+      password: '1234'
+    }).then((res) => {
+      token = res.body.token; // hier bewaren we de JWT
+    });
+  });
+
   beforeEach(() => {
-    const apiUrl = 'https://vti-production.up.railway.app';
+    cy.window().then((win) => {
+      const token = win.localStorage.getItem('token');
 
-    cy.visit('/login');
-    cy.get('input[name="username"]').type('test2');
-    cy.get('input[name="password"]').type('1234');
-    cy.get('button[type="submit"]').click();
-    cy.wait(500);
-    // Maak testdata via de API
-    cy.request('POST', `${apiUrl}/api/admin/customer`, {
-      name: 'Jan thees',
-      company: 'Jan en Piet.',
-      address: '123 Main Street',
-      email: 'theesses@example.com',
-      phone: '1234567890'
-    }).then((response) => {
-      const createdCustomerId = response.body.customer_id
-      cy.wrap(createdCustomerId).as('createdCustomerId');
-      cy.request('GET', `${apiUrl}/api/admin/customer/customerById/${createdCustomerId}`).then((response) => {
-        const customerId = response.body.customer_id
-        cy.wrap(customerId).as('customerId');
+      console.log(token);
 
-        const uniqueChasiNumber = `XYZ123-${Date.now()}`; // Uniek chassisnummer
-        const uniquePlateNumber = `PLATE-${Date.now()}`; // Uniek kenteken
+      // 2) Maak customer aan via de beveiligde endpoint
+      cy.request({
+        method: 'POST',
+        url: `${apiUrl}/api/admin/customer`,
+        headers: {
+          Authorization: `Bearer ${token}` // Token meesturen!
+        },
+        body: {
+          name: 'Jan thees',
+          company: 'Jan en Piet.',
+          address: '123 Main Street',
+          email: 'theesses@example.com',
+          phone: '1234567890'
+        }
+      }).then((response) => {
+        const createdCustomerId = response.body.customer_id;
+        cy.wrap(createdCustomerId).as('createdCustomerId'); // alias opslaan
 
-        cy.request('POST', `${apiUrl}/api/admin/car`, {
-          customer_id: customerId,
-          plate_number: uniquePlateNumber,
-          brand: 'Nissan',
-          model: 'GT-R',
-          year: 2020,
-          chasi_number: uniqueChasiNumber
-        }).then((carResponse) => {
-          const carId = carResponse.body.car_id;
-          cy.wrap(carId).as('carId');
-        });
+        // 3) Haal die nieuwe customer op
+        cy.request({
+          method: 'GET',
+          url: `${apiUrl}/api/admin/customer/customerById/${createdCustomerId}`,
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }).then((res2) => {
+          const customerId = res2.body.customer_id;
+          cy.wrap(customerId).as('customerId');
 
-        cy.request('GET', `${apiUrl}/api/admin/car/${customerId}`).then((getCarsResponse) => {
-          cy.wrap(getCarsResponse.body).as('cars');
+          // Een paar unieke waarden voor testdata
+          const uniqueChasiNumber = `XYZ123-${Date.now()}`;
+          const uniquePlateNumber = `PLATE-${Date.now()}`;
+
+          // 4) Maak een auto aan voor deze klant
+          cy.request({
+            method: 'POST',
+            url: `${apiUrl}/api/admin/car`,
+            headers: {
+              Authorization: `Bearer ${token}`
+            },
+            body: {
+              customer_id: customerId,
+              plate_number: uniquePlateNumber,
+              brand: 'Nissan',
+              model: 'GT-R',
+              year: 2020,
+              chasi_number: uniqueChasiNumber
+            }
+          }).then((carResponse) => {
+            const carId = carResponse.body.car_id;
+            cy.wrap(carId).as('carId');
+          });
+
+          // 5) Haal alle auto’s van deze klant op
+          cy.request({
+            method: 'GET',
+            url: `${apiUrl}/api/admin/car/${customerId}`,
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          }).then((getCarsResponse) => {
+            cy.wrap(getCarsResponse.body).as('cars');
+          });
         });
       });
-    });
-    cy.request('GET', `${apiUrl}/api/admin/invoice`).then((response) => {
-      cy.log(JSON.stringify(response.body));
-    });
 
-    // Voeg producten toe
-    cy.request('POST', `${apiUrl}/api/admin/product`, {
-      product_id: 1,
-      name: 'Product A',
-      description: 'Product A new',
-      price: 25,
-      quantity: 1,
-      btw: 21
+      // 6) Haal alle facturen op (optioneel, voor debug)
+      cy.request({
+        method: 'GET',
+        url: `${apiUrl}/api/admin/invoice`,
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }).then((response) => {
+        cy.log(JSON.stringify(response.body));
+      });
+
+      // 7) Maak wat testproducten aan (ook beveiligde endpoint)
+      cy.request({
+        method: 'POST',
+        url: `${apiUrl}/api/admin/product`,
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
+        body: {
+          product_id: 1,
+          name: 'Product A',
+          description: 'Product A new',
+          price: 25,
+          quantity: 1,
+          btw: 21
+        }
+      });
+
+      cy.request({
+        method: 'POST',
+        url: `${apiUrl}/api/product`, // Let op of dit endpoint ook admin vereist
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
+        body: {
+          product_id: 2,
+          name: 'Product B',
+          description: 'Product B new',
+          price: 50,
+          quantity: 1,
+          btw: 9
+        }
+      });
+
+      // 8) Navigeer naar je front-end pagina
+      // De Angular-app heeft een eigen interceptor voor /new-invoice,
+      // maar we loggen hier al via de backend in. Dat is prima.
+      cy.visit('/new-invoice', {failOnStatusCode: false});
     });
-
-    cy.request('POST', `${apiUrl}/api/product`, {
-      product_id: 2,
-      name: 'Product B',
-      description: 'Product B new',
-      price: 50,
-      quantity: 1,
-      btw: 9
-    });
-
-
-    cy.visit('/new-invoice', {failOnStatusCode: false});
   });
+
 
   it('Should load customers and allow customer selection', function () {
     // Gebruik de alias voor customerId
@@ -136,7 +204,7 @@ describe('New Invoice Page', () => {
 
     // Retry logic for the GET request
     const retryGetInvoice = (retries = 5) => {
-      cy.request('GET', `https://vti-production.up.railway.app/api/invoice`).then((response) => {
+      cy.request('GET', `https://vti-production.up.railway.app/api/admin/invoice`).then((response) => {
         const newInvoice = response.body.find((invoice) => invoice.customer_id === this.customerId);
 
         if (newInvoice) {

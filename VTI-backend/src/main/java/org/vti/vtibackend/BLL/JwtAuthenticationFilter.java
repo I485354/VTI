@@ -28,8 +28,21 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             HttpServletResponse response,
             FilterChain filterChain) throws ServletException, IOException {
 
-        String token = jwtTokenProvider.resolveToken(request);
-        System.out.println("Token from request: " + token);
+        String token = request.getHeader("Authorization");
+        System.out.println("authHeader = " + token);
+
+        if (token != null && token.startsWith("Bearer ")) {
+            String bearerToken = token.substring(7);
+            token = bearerToken;
+
+            if (jwtTokenProvider.validateToken(bearerToken)) {
+                System.out.println("JWT valid! user = " + jwtTokenProvider.getUsername(bearerToken));
+            } else {
+                System.out.println("JWT invalid");
+            }
+        } else {
+            System.out.println("Authorization header ontbreekt of is niet correct geformatteerd");
+        }
 
         if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
             response.setStatus(HttpServletResponse.SC_OK);

@@ -38,7 +38,7 @@ public class UserController {
         UserDTO userDTO = userService.createUser(users);
         return new ResponseEntity<>(userDTO, HttpStatus.CREATED);
     }
-    @GetMapping("user/{username}")
+    @GetMapping("/admin/user/{username}")
     public ResponseEntity<UserDTO> getUserByUsername(@PathVariable String username) {
         UserDTO userDTO = userService.findByUsername(username);
         return ResponseEntity.ok(userDTO);
@@ -52,5 +52,10 @@ public class UserController {
         } catch (BadCredentialsException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Ongeldige inloggegevens");
         }
+    }
+    @GetMapping("admin/user/info")
+    public ResponseEntity<List<UserInfo>> getUserInfo() {
+        List<UserInfo> userInfo = userService.getUserInfo();
+        return ResponseEntity.ok(userInfo);
     }
 }

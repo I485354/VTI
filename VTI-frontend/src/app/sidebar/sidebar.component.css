@@ -78,3 +78,34 @@
   top: 5px;
   left: 5px; /* Plaats de toggle knop correct */
 }
+
+.logout-container {
+  margin-top: 20px;
+  width: 100%;
+}
+
+.logout-button {
+  text-decoration: none;
+  background-color: transparent;
+  color: white;
+  border: none;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  padding: 10px 20px;
+  transition: padding 0.3s ease;
+}
+
+.sidebar.collapsed .logout-button {
+  justify-content: center; /* Icoontjes gecentreerd in ingeklapte zijbalk */
+}
+
+.logout-button:hover {
+  background-color: #1A242F;
+}
+
+.logout-button .nav-text {
+  margin-left: 10px;
+}
+

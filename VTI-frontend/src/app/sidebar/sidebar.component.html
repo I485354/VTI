@@ -38,4 +38,10 @@
       </a>
     </li>
   </ul>
+  <div class="logout-container">
+    <button class="logout-button" (click)="logout()">
+      <fa-icon [icon]="faSignOutAlt"></fa-icon>
+      <span class="nav-text" *ngIf="!collapsed"> Uitloggen</span>
+    </button>
+  </div>
 </nav>

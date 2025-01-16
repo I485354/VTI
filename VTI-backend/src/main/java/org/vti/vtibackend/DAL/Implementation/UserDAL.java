@@ -56,4 +56,16 @@ public class UserDAL implements IUserDAL {
                 .orElseThrow(() -> new UsernameNotFoundException("gebruiker niet gevonden"));
     }
 
+    @Override
+    public List<UserDTO> getUsernamesAndRoles(){
+        return userRepo.getUsernamesAndRoles()
+                .stream()
+                .map(row -> new UserDTO(
+                        ((Number) row[0]).longValue(), // user_id
+                        (String) row[1],              // username
+                        (String) row[2]               // role
+                ))
+                .collect(Collectors.toList());
+    }
+
 }

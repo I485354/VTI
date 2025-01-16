@@ -66,6 +66,10 @@ export class ApiService {
   createCar(createcar: createCar): Observable<Car> {
     return this.http.post<Car>(`${this.apiUrl}/admin/car`, createcar);
   }
+  
+  getUserInfo(): Observable<User[]> {
+    return this.http.get<User[]>(`${this.apiUrl}/admin/user/info`);
+  }
 
   login(userLogin: UserLogin): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(`${this.apiUrl}/user/login`, userLogin);

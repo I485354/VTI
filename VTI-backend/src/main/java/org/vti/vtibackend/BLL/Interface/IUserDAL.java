@@ -10,4 +10,5 @@ public interface IUserDAL {
     List<UserInfo> findAll();
     UserDTO findByUsername(String username);
     UserDTO authenticateUser(String username, String password);
+    List<UserDTO> getUsernamesAndRoles();
 }

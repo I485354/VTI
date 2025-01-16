@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ApiService } from '../api.service';
 import { Customers } from '../model/customer.model';
 import { CustomerFormComponent } from '../customer-form/customer-form.component';
+import { User } from '../model/user.model';
 
 @Component({
   selector: 'app-customer-list',
@@ -16,8 +17,13 @@ export class CustomerListComponent implements OnInit {
 
   customers: Customers[] = [];
   selectedCustomer: Customers = { customer_id: 0, name: '', address: '', phone: '', email: '', company: ''};
+
+  users: User[] = [];
+
   isFormVisible = false;
   isEditing = false;
+
+  isViewingCustomers = true;
   successMessage: string | null = null;
   confirmationMessage: string | null = null;
 
@@ -28,7 +34,15 @@ export class CustomerListComponent implements OnInit {
     this.apiService.getCustomers().subscribe((data: Customers[]) => {
       this.customers = data;
     });
+    this.apiService.getUserInfo().subscribe((data: User[]) => {
+      this.users = data;
+    })
   }
+
+  toggleView(viewCustomers: boolean) {
+    this.isViewingCustomers = viewCustomers;
+  }
+
   onAddCustomer(): void {
     this.selectedCustomer = { customer_id: 0, name: '', address: '', phone: '', email: '', company: '' };
     this.isFormVisible = true;

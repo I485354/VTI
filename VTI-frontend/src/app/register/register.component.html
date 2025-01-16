@@ -1,0 +1,28 @@
+<div class="register-container">
+  <h2>Registreren</h2>
+  <form (ngSubmit)="register()">
+    <div class="form-group">
+      <label for="username">Gebruikersnaam:</label>
+      <input
+        id="username"
+        [(ngModel)]="username"
+        name="username"
+        placeholder="Gebruikersnaam"
+        required
+      />
+    </div>
+    <div class="form-group">
+      <label for="password">Wachtwoord:</label>
+      <input
+        id="password"
+        [(ngModel)]="password"
+        name="password"
+        type="password"
+        placeholder="Wachtwoord"
+        required
+      />
+    </div>
+    <button type="submit" class="register-button">Registreer</button>
+  </form>
+  <a routerLink="/login" class="back-to-login">Terug naar login</a>
+</div>

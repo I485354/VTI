@@ -135,4 +135,145 @@ public class UserServiceTest {
         // verify dat er geen interactie is met save
         verify(userDAL, never()).save(any());
     }
+    @Test
+    void findByUsername_Found() {
+        when(userDAL.findByUsername("john_doe")).thenReturn(user1);
+
+        UserDTO result = userService.findByUsername("john_doe");
+
+        assertThat(result).isNotNull();
+        assertThat(result.getUsername()).isEqualTo("john_doe");
+        verify(userDAL).findByUsername("john_doe");
+    }
+
+    @Test
+    void findByUsername_NotFound() {
+        when(userDAL.findByUsername("unknown_user")).thenReturn(null);
+
+        UserDTO result = userService.findByUsername("unknown_user");
+
+        assertThat(result).isNull();
+        verify(userDAL).findByUsername("unknown_user");
+    }
+
+    // 2) authenticate
+    @Test
+    void authenticate_Success() {
+        // The service calls userDAL.authenticateUser(username, passwordEncoder.encode(password))
+        // Then checks if passwordEncoder.matches(password, userDTO.getPassword()) is true
+
+        // Arrange
+        String rawPassword = "plainTextPass";
+        String encodedPass = "encodedPass123";
+
+        // userDAL will return a user with an encoded password
+        UserDTO dbUser = new UserDTO(1L, "john_doe", encodedPass, "admin");
+        // simulate userDAL returning that user
+        when(userDAL.authenticateUser("john_doe", encodedPass)).thenReturn(dbUser);
+
+        // Also mock the passwordEncoder
+        when(passwordEncoder.encode(rawPassword)).thenReturn(encodedPass);
+        when(passwordEncoder.matches(rawPassword, encodedPass)).thenReturn(true);
+
+        // Act
+        UserDTO authenticatedUser = userService.authenticate("john_doe", rawPassword);
+
+        // Assert
+        assertThat(authenticatedUser.getUser_id()).isEqualTo(1L);
+        assertThat(authenticatedUser.getUsername()).isEqualTo("john_doe");
+        // service returns a new DTO without password in the final object
+        assertThat(authenticatedUser.getPassword()).isNull();
+        // or if your code returns the same userDTO, check if it still has the password
+
+        verify(userDAL).authenticateUser("john_doe", encodedPass);
+        verify(passwordEncoder).matches(rawPassword, encodedPass);
+    }
+
+    @Test
+    void authenticate_WrongPassword() {
+        String rawPassword = "wrongPass";
+        String encodedPass = "encodedPass123";
+
+        // The user in DB
+        UserDTO dbUser = new UserDTO(1L, "john_doe", encodedPass, "admin");
+
+        when(passwordEncoder.encode(rawPassword)).thenReturn(encodedPass);
+        when(userDAL.authenticateUser("john_doe", encodedPass)).thenReturn(dbUser);
+
+        // But now the "matches" call fails
+        when(passwordEncoder.matches(rawPassword, encodedPass)).thenReturn(false);
+
+        // Act & Assert
+        assertThatThrownBy(() -> userService.authenticate("john_doe", rawPassword))
+                .isInstanceOf(BadCredentialsException.class)
+                .hasMessage("Ongeldige inloggegevens");
+
+        verify(userDAL).authenticateUser("john_doe", encodedPass);
+        verify(passwordEncoder).matches(rawPassword, encodedPass);
+    }
+
+    // 3) getUserInfo
+    @Test
+    void getUserInfo_Success() {
+        // The method calls userDAL.getUsernamesAndRoles()
+        // Then maps each UserDTO -> UserInfo
+        UserDTO u1 = new UserDTO(1L, "alice", "pass", "ADMIN");
+        UserDTO u2 = new UserDTO(2L, "bob", "pass2", "USER");
+
+        when(userDAL.getUsernamesAndRoles()).thenReturn(List.of(u1, u2));
+
+        List<UserInfo> result = userService.getUserInfo();
+
+        assertThat(result).hasSize(2);
+        assertThat(result.get(0).getUsername()).isEqualTo("alice");
+        assertThat(result.get(0).getRole()).isEqualTo("ADMIN");
+        assertThat(result.get(1).getUsername()).isEqualTo("bob");
+        assertThat(result.get(1).getRole()).isEqualTo("USER");
+
+        verify(userDAL).getUsernamesAndRoles();
+    }
+
+    @Test
+    void getUserInfo_Empty() {
+        when(userDAL.getUsernamesAndRoles()).thenReturn(List.of());
+
+        List<UserInfo> result = userService.getUserInfo();
+
+        assertThat(result).isEmpty();
+        verify(userDAL).getUsernamesAndRoles();
+    }
+
+    // 4) updateUser
+    @Test
+    void updateUser_Success() {
+        UserInfo inputUser = new UserInfo(2, "new_username", "USER");
+
+        // userDAL.UpdateUser(...) returns a UserDTO
+        UserDTO updatedDTO = new UserDTO(2L, "new_username", null, "USER");
+        when(userDAL.UpdateUser(2, inputUser)).thenReturn(updatedDTO);
+
+        UserInfo result = userService.updateUser(2, inputUser);
+
+        assertThat(result.getUser_id()).isEqualTo(2);
+        assertThat(result.getUsername()).isEqualTo("new_username");
+        assertThat(result.getRole()).isEqualTo("USER");
+
+        verify(userDAL).UpdateUser(2, inputUser);
+    }
+
+    @Test
+    void updateUser_NotFoundScenario() {
+        // Suppose your DAL throws an exception if user isn't found
+        // Example: new EntityNotFoundException("Gebruiker met ID 2 niet gevonden")
+        doThrow(new RuntimeException("Gebruiker niet gevonden"))
+                .when(userDAL).UpdateUser(eq(2), any());
+
+        UserInfo inputUser = new UserInfo(2, "new_username", "USER");
+
+        assertThatThrownBy(() -> userService.updateUser(2, inputUser))
+                .isInstanceOf(RuntimeException.class)
+                .hasMessage("Gebruiker niet gevonden");
+
+        verify(userDAL).UpdateUser(2, inputUser);
+    }
 }

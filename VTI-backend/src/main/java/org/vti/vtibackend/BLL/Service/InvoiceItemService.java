@@ -20,8 +20,8 @@ public class InvoiceItemService {
     }
 
     public List<InvoiceitemDTO> getAllItems(){
-        List<InvoiceitemDTO> Item = invoiceItemDAL.findAll();
-        return Item.stream().toList();
+        List<InvoiceitemDTO> item = invoiceItemDAL.findAll();
+        return item.stream().toList();
     }
 
     public InvoiceitemDTO createItems(InvoiceitemDTO item){

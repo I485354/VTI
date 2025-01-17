@@ -9,12 +9,12 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.vti.vtibackend.BLL.Service.InvoiceService;
 import org.vti.vtibackend.BLL.Interface.IInvoiceDAL;
-import org.vti.vtibackend.model.Invoice.CreateInvoiceDTO;
-import org.vti.vtibackend.model.Invoice.InvoiceDTO;
-import org.vti.vtibackend.model.Invoice.UpdateInvoiceStatusDTO;
+import org.vti.vtibackend.model.Invoice.*;
 
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 
@@ -71,6 +71,88 @@ public class InvoiceServiceTest {
     }
 
     @Test
+    void shouldThrowExceptionWhenDueDateIsNull() {
+        validCreateInvoiceDTO.setDue_date(null);
+        assertThrows(IllegalArgumentException.class,
+                () -> invoiceService.createInvoice(validCreateInvoiceDTO),
+                "Due date is required.");
+    }
+
+    @Test
+    void shouldThrowExceptionWhenCustomerIdIsZero() {
+        validCreateInvoiceDTO.setCustomer_id(0);
+        assertThrows(IllegalArgumentException.class,
+                () -> invoiceService.createInvoice(validCreateInvoiceDTO),
+                "Customer ID must be greater than 0.");
+    }
+
+    @Test
+    void shouldThrowExceptionWhenTotalAmountIsZeroOrLess() {
+        validCreateInvoiceDTO.setTotal_amount(0);
+        assertThrows(IllegalArgumentException.class,
+                () -> invoiceService.createInvoice(validCreateInvoiceDTO),
+                "Total amount must be greater than 0.");
+    }
+
+    @Test
+    void shouldThrowExceptionWhenTotalBtwIsZeroOrLess() {
+        validCreateInvoiceDTO.setTotal_btw(0);
+        assertThrows(IllegalArgumentException.class,
+                () -> invoiceService.createInvoice(validCreateInvoiceDTO),
+                "Total BTW must be greater than 0.");
+    }
+
+    @Test
+    void shouldHandleExceptionFromHighestInvoiceNumber() {
+        // Suppose invoiceDAL.findHighestInvoiceNumber() throws an exception
+        when(invoiceDAL.findHighestInvoiceNumber()).thenThrow(new RuntimeException("DB error"));
+
+        InvoiceDTO fallbackInvoice = new InvoiceDTO();
+        fallbackInvoice.setInvoice_number(1);
+        when(invoiceDAL.save(any(InvoiceDTO.class))).thenReturn(fallbackInvoice);
+
+        // No fields missing, so validation passes
+        InvoiceDTO result = invoiceService.createInvoice(validCreateInvoiceDTO);
+
+        // We expect the code to catch the exception, set invoice_number to 1
+        assertNotNull(result);
+        assertEquals(1, result.getInvoice_number());
+        verify(invoiceDAL).findHighestInvoiceNumber(); // throws
+        verify(invoiceDAL).save(any(InvoiceDTO.class));
+    }
+
+    // --------------------------------------------------
+    // getAllInvoices
+    // --------------------------------------------------
+
+    @Test
+    void shouldReturnAllInvoices() {
+        // Arrange
+        InvoiceDTO inv1 = new InvoiceDTO();
+        inv1.setInvoice_id(1L);
+        InvoiceDTO inv2 = new InvoiceDTO();
+        inv2.setInvoice_id(2L);
+        when(invoiceDAL.findAll()).thenReturn(List.of(inv1, inv2));
+
+        // Act
+        List<InvoiceDTO> allInvoices = invoiceService.getAllInvoices();
+
+        // Assert
+        assertEquals(2, allInvoices.size());
+        assertEquals(1L, allInvoices.get(0).getInvoice_id());
+        verify(invoiceDAL).findAll();
+    }
+
+    @Test
+    void shouldReturnEmptyListWhenNoInvoices() {
+        when(invoiceDAL.findAll()).thenReturn(new ArrayList<>());
+
+        List<InvoiceDTO> allInvoices = invoiceService.getAllInvoices();
+        assertTrue(allInvoices.isEmpty());
+        verify(invoiceDAL).findAll();
+    }
+
+    @Test
     void shouldThrowExceptionWhenMissingRequiredFields() {
         // Arrange
         validCreateInvoiceDTO.setInvoice_date(null);
@@ -116,5 +198,61 @@ public class InvoiceServiceTest {
             invoiceService.updateStatus(1L, updateStatusDTO);
         });
         assertEquals("Invoice not found", exception.getMessage());
+    }
+    @Test
+    void shouldReturnOpenInvoicesCount() {
+        when(invoiceDAL.countOpenInvoices()).thenReturn(5);
+        int result = invoiceService.getOpenInvoicesCount();
+        assertEquals(5, result);
+        verify(invoiceDAL).countOpenInvoices();
+    }
+
+    @Test
+    void shouldReturnZeroWhenNoOpenInvoices() {
+        when(invoiceDAL.countOpenInvoices()).thenReturn(0);
+        int result = invoiceService.getOpenInvoicesCount();
+        assertEquals(0, result);
+    }
+
+    @Test
+    void shouldReturnInvoicesByYear() {
+        int year = 2025;
+        InvoiceYearSummaryDTO summary1 = new InvoiceYearSummaryDTO();
+        summary1.setYear(year);
+        summary1.setInvoice_count(10);
+
+        when(invoiceDAL.findInvoicesByYear(year)).thenReturn(List.of(summary1));
+
+        List<InvoiceYearSummaryDTO> result = invoiceService.getInvoicesByYear(year);
+        assertEquals(1, result.size());
+        assertEquals(2025, result.get(0).getYear());
+        assertEquals(10, result.get(0).getInvoice_count());
+        verify(invoiceDAL).findInvoicesByYear(year);
+    }
+
+    @Test
+    void shouldReturnEmptyListIfNoInvoicesForYear() {
+        when(invoiceDAL.findInvoicesByYear(2025)).thenReturn(List.of());
+        List<InvoiceYearSummaryDTO> result = invoiceService.getInvoicesByYear(2025);
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void shouldFindInvoicesWithCustomer() {
+        InvoiceAndCustomerDTO dto1 = new InvoiceAndCustomerDTO();
+        InvoiceAndCustomerDTO dto2 = new InvoiceAndCustomerDTO();
+        when(invoiceDAL.findInvoices()).thenReturn(List.of(dto1, dto2));
+
+        List<InvoiceAndCustomerDTO> result = invoiceService.findInvoicesWithCustomer();
+        assertEquals(2, result.size());
+        verify(invoiceDAL).findInvoices();
+    }
+
+    @Test
+    void shouldReturnEmptyWhenNoInvoicesWithCustomer() {
+        when(invoiceDAL.findInvoices()).thenReturn(List.of());
+
+        List<InvoiceAndCustomerDTO> result = invoiceService.findInvoicesWithCustomer();
+        assertTrue(result.isEmpty());
     }
 }

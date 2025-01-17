@@ -119,7 +119,7 @@ jobs:
       - name: Lighthouse Performance Tests
         run: |
           npm install -g lighthouse
-          lighthouse http://localhost:3000 \
+          lighthouse https://vti-frontend.vercel.app \
             --only-categories=performance \
             --emulated-form-factor=desktop \
             --output=html \

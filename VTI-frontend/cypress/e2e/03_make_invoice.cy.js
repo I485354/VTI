@@ -23,7 +23,7 @@ describe('New Invoice Page', () => {
         method: 'POST',
         url: `${apiUrl}/api/admin/customer`,
         headers: {
-          Authorization: `Bearer ${token}` // Token meesturen!
+          Authorization: `${token}` // Token meesturen!
         },
         body: {
           name: 'Jan thees',
@@ -41,7 +41,7 @@ describe('New Invoice Page', () => {
           method: 'GET',
           url: `${apiUrl}/api/admin/customer/customerById/${createdCustomerId}`,
           headers: {
-            Authorization: `Bearer ${token}`
+            Authorization: `${token}`
           }
         }).then((res2) => {
           const customerId = res2.body.customer_id;
@@ -56,7 +56,7 @@ describe('New Invoice Page', () => {
             method: 'POST',
             url: `${apiUrl}/api/admin/car`,
             headers: {
-              Authorization: `Bearer ${token}`
+              Authorization: `${token}`
             },
             body: {
               customer_id: customerId,
@@ -76,7 +76,7 @@ describe('New Invoice Page', () => {
             method: 'GET',
             url: `${apiUrl}/api/admin/car/${customerId}`,
             headers: {
-              Authorization: `Bearer ${token}`
+              Authorization: `${token}`
             }
           }).then((getCarsResponse) => {
             cy.wrap(getCarsResponse.body).as('cars');
@@ -89,7 +89,7 @@ describe('New Invoice Page', () => {
         method: 'GET',
         url: `${apiUrl}/api/admin/invoice`,
         headers: {
-          Authorization: `Bearer ${token}`
+          Authorization: `${token}`
         }
       }).then((response) => {
         cy.log(JSON.stringify(response.body));
@@ -100,7 +100,7 @@ describe('New Invoice Page', () => {
         method: 'POST',
         url: `${apiUrl}/api/admin/product`,
         headers: {
-          Authorization: `Bearer ${token}`
+          Authorization: `${token}`
         },
         body: {
           product_id: 1,

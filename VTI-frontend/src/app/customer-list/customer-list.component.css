@@ -1,4 +1,4 @@
-/* Algemene layout */
+
 .customer-list-container {
   max-width: 95%;
   margin: 20px auto;
@@ -8,7 +8,7 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Titels */
+
 .title {
   font-size: 24px;
   color: #333;
@@ -17,7 +17,6 @@
   font-family: 'Roboto', sans-serif;
 }
 
-/* Tabbladen navigatie */
 .toggle-buttons {
   display: flex;
   justify-content: start;
@@ -45,7 +44,7 @@
   background-color: #4169E1;
 }
 
-/* Tabel layout */
+
 .customer-table, .user-table {
   width: 100%;
   border-collapse: collapse;
@@ -80,7 +79,6 @@
   background-color: #f1f1f1;
 }
 
-/* Knoppen: Algemeen */
 .add-button, .edit-button, .delete-button {
   display: inline-block;
   padding: 6px 12px;
@@ -119,7 +117,7 @@
   background-color: #ff0000;
 }
 
-/* Formulier-gebieden */
+
 .customer-form-container, .user-form-container {
   margin: 20px auto;
   padding: 20px;
@@ -137,7 +135,7 @@
   text-align: center;
 }
 
-/* Succes- en foutmeldingen */
+
 .success-message {
   color: white;
   background-color: #28a745;

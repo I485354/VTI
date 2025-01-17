@@ -104,26 +104,21 @@ public class InvoiceServiceTest {
 
     @Test
     void shouldHandleExceptionFromHighestInvoiceNumber() {
-        // Suppose invoiceDAL.findHighestInvoiceNumber() throws an exception
+
         when(invoiceDAL.findHighestInvoiceNumber()).thenThrow(new RuntimeException("DB error"));
 
         InvoiceDTO fallbackInvoice = new InvoiceDTO();
         fallbackInvoice.setInvoice_number(1);
         when(invoiceDAL.save(any(InvoiceDTO.class))).thenReturn(fallbackInvoice);
 
-        // No fields missing, so validation passes
+
         InvoiceDTO result = invoiceService.createInvoice(validCreateInvoiceDTO);
 
-        // We expect the code to catch the exception, set invoice_number to 1
         assertNotNull(result);
         assertEquals(1, result.getInvoice_number());
         verify(invoiceDAL).findHighestInvoiceNumber(); // throws
         verify(invoiceDAL).save(any(InvoiceDTO.class));
     }
-
-    // --------------------------------------------------
-    // getAllInvoices
-    // --------------------------------------------------
 
     @Test
     void shouldReturnAllInvoices() {

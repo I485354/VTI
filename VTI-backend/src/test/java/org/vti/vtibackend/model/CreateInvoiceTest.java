@@ -13,21 +13,20 @@ class CreateInvoiceTest {
 
     @BeforeEach
     void setUp() {
-        // Initialiseer een nieuw object met de constructor
         createInvoiceDTO = new CreateInvoiceDTO(
-                1,                         // customer_id
-                2,                         // car_id
-                new Date(),                // invoice_date
-                new Date(System.currentTimeMillis() + 86400000), // due_date
-                1000.50,                   // total_amount
-                210.00,                    // total_btw
-                "Pending"                  // status
+                1,
+                2,
+                new Date(),
+                new Date(System.currentTimeMillis() + 86400000),
+                1000.50,
+                210.00,
+                "Pending"
         );
     }
 
     @Test
     void testConstructorAndGetters() {
-        // Controleer of de constructorwaarden correct worden opgehaald
+
         assertEquals(1, createInvoiceDTO.getCustomer_id());
         assertEquals(2, createInvoiceDTO.getCar_id());
         assertNotNull(createInvoiceDTO.getInvoice_date());
@@ -39,7 +38,7 @@ class CreateInvoiceTest {
 
     @Test
     void testSetters() {
-        // Wijzig waarden met setters
+
         createInvoiceDTO.setCustomer_id(3);
         createInvoiceDTO.setCar_id(4);
         createInvoiceDTO.setInvoice_date(new Date(System.currentTimeMillis() - 86400000));
@@ -48,7 +47,7 @@ class CreateInvoiceTest {
         createInvoiceDTO.setTotal_btw(420.00);
         createInvoiceDTO.setStatus("Paid");
 
-        // Controleer of de waarden correct zijn ingesteld
+
         assertEquals(3, createInvoiceDTO.getCustomer_id());
         assertEquals(4, createInvoiceDTO.getCar_id());
         assertNotNull(createInvoiceDTO.getInvoice_date());
@@ -60,10 +59,10 @@ class CreateInvoiceTest {
 
     @Test
     void testDefaultConstructor() {
-        // Maak een nieuw object met de default constructor
+
         CreateInvoiceDTO defaultInvoiceDTO = new CreateInvoiceDTO();
 
-        // Controleer of alle velden de standaardwaarden hebben
+
         assertEquals(0, defaultInvoiceDTO.getCustomer_id());
         assertNull(defaultInvoiceDTO.getCar_id());
         assertNull(defaultInvoiceDTO.getInvoice_date());

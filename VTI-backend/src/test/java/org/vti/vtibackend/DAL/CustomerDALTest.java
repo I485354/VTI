@@ -92,7 +92,6 @@ class CustomerDALTest {
 
         when(customerRepo.findById(id)).thenReturn(Optional.of(customerEntity));
 
-        // Mock de save()
         Customer updatedEntity = new Customer();
         updatedEntity.setCustomer_id(1);
         updatedEntity.setName("New Name");
@@ -103,7 +102,7 @@ class CustomerDALTest {
 
         when(customerRepo.save(any(Customer.class))).thenReturn(updatedEntity);
 
-        // Stub de mapper
+
         CustomerDTO updatedDTO = new CustomerDTO();
         updatedDTO.setCustomer_id(1);
         updatedDTO.setName("New Name");
@@ -185,7 +184,6 @@ class CustomerDALTest {
     @Test
     void testDeleteById() {
         int id = 1;
-        // Er is geen return bij deleteById, we checken alleen of hij aangeroepen wordt
         doNothing().when(customerRepo).deleteById(id);
 
         customerDAL.deleteById(id);
@@ -209,7 +207,7 @@ class CustomerDALTest {
 
         when(customerRepo.findAll()).thenReturn(entities);
 
-        // Stel je mapper maakt er een CustomerInfoDTO van
+
         CustomerInfoDTO infoDTO = new CustomerInfoDTO();
         infoDTO.setName("ACME Inc");
         when(customerMapper.ToInfoDTO(customerEntity)).thenReturn(infoDTO);

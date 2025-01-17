@@ -39,7 +39,7 @@ class UserDALTest {
 
     @BeforeEach
     void setUp() {
-        // Voorbeeld-data
+
         userEntity = new User();
         userEntity.setUser_id(1L);
         userEntity.setUsername("john_doe");
@@ -71,11 +71,11 @@ class UserDALTest {
     @Test
     void testFindAll() {
         // Arrange
-        // Stel je repo geeft een lijst van Users terug
+
         List<User> userList = Collections.singletonList(userEntity);
         when(userRepo.findAll()).thenReturn(userList);
 
-        // Mock de mapping naar UserInfo
+
         when(userMapper.ToUserInfo(userEntity)).thenReturn(userInfo);
 
         // Act
@@ -91,7 +91,6 @@ class UserDALTest {
     @Test
     void testGetUsernamesAndRoles() {
         // Arrange
-        // Stel je repo geeft een lijst van Object[] terug
         List<Object[]> rawData = new ArrayList<>();
         rawData.add(new Object[]{1, "john_doe", "ADMIN"});
         rawData.add(new Object[]{2, "jane_doe", "USER"});
@@ -116,7 +115,6 @@ class UserDALTest {
         Optional<User> optionalUser = Optional.of(userEntity);
 
         when(userRepo.findById(userId)).thenReturn(optionalUser);
-        // Mock de save
         User updatedEntity = new User();
         updatedEntity.setUser_id(1L);
         updatedEntity.setUsername("new_username");

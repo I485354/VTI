@@ -38,7 +38,7 @@ class InvoiceAndCustomerDTOTest {
 
     @Test
     void testGetters() {
-        // Controleer of de gegevens correct zijn ingesteld
+
         assertEquals(1, invoiceAndCustomerDTO.getCustomer_id());
         assertNotNull(invoiceAndCustomerDTO.getInvoice_date());
         assertNotNull(invoiceAndCustomerDTO.getDue_date());
@@ -52,7 +52,7 @@ class InvoiceAndCustomerDTOTest {
 
     @Test
     void testSetters() {
-        // Wijzig de waarden via setters
+
         invoiceAndCustomerDTO.setCustomer_id(2);
         invoiceAndCustomerDTO.setInvoice_date(new Date(System.currentTimeMillis() - 86400000));
         invoiceAndCustomerDTO.setDue_date(new Date(System.currentTimeMillis() + 172800000));
@@ -66,7 +66,7 @@ class InvoiceAndCustomerDTOTest {
         newCustomerList.add(new CustomerInfoDTO("Emily Johnson", "Johnson Co.", "john.doe@example.com", "123 Main St", "1234567890", 3));
         invoiceAndCustomerDTO.setCustomers(newCustomerList);
 
-        // Controleer of de wijzigingen correct zijn toegepast
+
         assertEquals(2, invoiceAndCustomerDTO.getCustomer_id());
         assertNotNull(invoiceAndCustomerDTO.getInvoice_date());
         assertNotNull(invoiceAndCustomerDTO.getDue_date());
@@ -81,10 +81,10 @@ class InvoiceAndCustomerDTOTest {
 
     @Test
     void testDefaultConstructor() {
-        // Maak een nieuw object aan met de default constructor
+
         InvoiceAndCustomerDTO emptyDTO = new InvoiceAndCustomerDTO();
 
-        // Controleer of alle waarden null of standaard zijn
+
         assertEquals(0, emptyDTO.getCustomer_id());
         assertNull(emptyDTO.getInvoice_date());
         assertNull(emptyDTO.getDue_date());

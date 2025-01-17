@@ -69,10 +69,9 @@ public class CustomerServiceTest {
         customerDTO.setCompany("Doe Enterprises");
         customerDTO.setCustomer_number(1);
 
-        // Simuleer dat het DAL de hoogste klantnummer vindt en incrementeert
         when(customerDAL.findHighestCustomerNumber()).thenReturn(0);
 
-        // Simuleer dat de klant wordt opgeslagen
+
         when(customerDAL.createCustomer(any(CustomerDTO.class))).thenReturn(customerDTO);
 
         // Act
@@ -87,7 +86,7 @@ public class CustomerServiceTest {
         assertThat(result.getCompany()).isEqualTo("Doe Enterprises");
         assertThat(result.getCustomer_number()).isEqualTo(1);
 
-        // Verifieer dat de juiste methodes in de DAL zijn aangeroepen
+
         verify(customerDAL, times(1)).findHighestCustomerNumber();
         verify(customerDAL, times(1)).createCustomer(any(CustomerDTO.class));
     }
@@ -96,7 +95,7 @@ public class CustomerServiceTest {
         // Arrange
         int customerId = 1;
 
-        // Simuleer de bestaande klant (CustomerDTO die uit de DAL komt)
+
         CustomerDTO existingCustomerDTO = new CustomerDTO(
                 customerId,
                 "John Doe",
@@ -107,7 +106,7 @@ public class CustomerServiceTest {
                 2
         );
 
-        // Nieuwe gegevens (UpdatedCustomerDTO die wordt meegegeven voor update)
+
         UpdatedCustomerDTO updatedCustomerDTO = new UpdatedCustomerDTO();
         updatedCustomerDTO.setName("John Updated");
         updatedCustomerDTO.setCompany("Updated Company");
@@ -115,7 +114,7 @@ public class CustomerServiceTest {
         updatedCustomerDTO.setPhone("9876543210");
         updatedCustomerDTO.setAddress("789 Oak St");
 
-        // Het verwachte resultaat na de update
+
         CustomerDTO updatedResultDTO = new CustomerDTO(
                 customerId,
                 "John Updated",
@@ -126,7 +125,6 @@ public class CustomerServiceTest {
                 2
         );
 
-        // Mock het gedrag van de DAL
         when(customerDAL.findById(customerId)).thenReturn(Optional.of(existingCustomerDTO));
         when(customerDAL.updateCustomer(customerId, existingCustomerDTO)).thenReturn(updatedResultDTO);
 
@@ -149,7 +147,7 @@ public class CustomerServiceTest {
         // Arrange
         int customerId = 1;
 
-        // Nieuwe gegevens (UpdatedCustomerDTO die wordt meegegeven voor update)
+
         UpdatedCustomerDTO updatedCustomerDTO = new UpdatedCustomerDTO();
         updatedCustomerDTO.setName("John Updated");
         updatedCustomerDTO.setCompany("Updated Company");
@@ -157,7 +155,6 @@ public class CustomerServiceTest {
         updatedCustomerDTO.setPhone("9876543210");
         updatedCustomerDTO.setAddress("789 Oak St");
 
-        // Simuleer dat de klant niet wordt gevonden
         when(customerDAL.findById(customerId)).thenReturn(Optional.empty());
 
         // Act & Assert
@@ -165,10 +162,10 @@ public class CustomerServiceTest {
             customerService.updateCustomer(customerId, updatedCustomerDTO);
         });
 
-        // Verifieer de foutmelding
+
         assertThat(exception.getMessage()).isEqualTo("Customer not found");
 
-        // Verifieer interacties
+
         verify(customerDAL, times(1)).findById(customerId);
         verify(customerDAL, times(0)).updateCustomer(anyInt(), any(CustomerDTO.class));
     }

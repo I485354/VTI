@@ -66,7 +66,6 @@ class JwtTokenProviderTest {
         JwtTokenProvider providerWithShortExpiry = new JwtTokenProvider() {
             @Override
             public String generateToken(String username, String role) {
-                // Override expiration to 1 ms for test
                 long validityInMilliseconds = 1;
                 return Jwts.builder()
                         .setSubject(username)
@@ -80,14 +79,14 @@ class JwtTokenProviderTest {
 
         String expiredToken = providerWithShortExpiry.generateToken("testuser", "ADMIN");
 
-        // Sleep to ensure the token is expired
+
         try {
             Thread.sleep(10);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
 
-        // Act & Assert
+
         assertFalse(providerWithShortExpiry.validateToken(expiredToken), "Expired token should be invalid");
     }
 

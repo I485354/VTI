@@ -93,7 +93,9 @@ jobs:
         run: |
           cd VTI-frontend
           npm install
-          npm run build
+          npm run lint
+          npm run build 
+          
 
       # 9. Frontend starten (achtergrond)
       - name: Start frontend (background)
@@ -111,6 +113,24 @@ jobs:
             echo "Waiting for frontend..."
             sleep 2
           done
+
+          
+   # Lighthouse Tests
+      - name: Lighthouse Performance Tests
+        run: |
+          npm install -g lighthouse
+          lighthouse http://localhost:3000 \
+            --only-categories=performance \
+            --emulated-form-factor=desktop \
+            --output=html \
+            --output-path=./lighthouse-report.html
+      
+      # Optioneel: Upload Lighthouse rapport
+      - name: Upload Lighthouse Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: lighthouse-report
+          path: ./lighthouse-report.html
 
       # 10. Cypress tests
       - name: Cypress tests

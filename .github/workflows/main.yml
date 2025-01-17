@@ -119,18 +119,12 @@ jobs:
       - name: Lighthouse Performance Tests
         run: |
           npm install -g lighthouse
-          lighthouse http://localhost:3000 \
+          lighthouse https://vti-frontend.vercel.app \
             --only-categories=performance \
             --emulated-form-factor=desktop \
+            --chrome-flags="--headless --no-sandbox" \
             --output=html \
             --output-path=./lighthouse-report.html
-      
-      # Optioneel: Upload Lighthouse rapport
-      - name: Upload Lighthouse Report
-        uses: actions/upload-artifact@v3
-        with:
-          name: lighthouse-report
-          path: ./lighthouse-report.html
 
       # 10. Cypress tests
       - name: Cypress tests

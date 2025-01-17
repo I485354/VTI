@@ -34,15 +34,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         if (token != null && token.startsWith("Bearer ")) {
             String bearerToken = token.substring(7);
             token = bearerToken;
-
-            if (jwtTokenProvider.validateToken(bearerToken)) {
-                System.out.println("JWT valid! user = " + jwtTokenProvider.getUsername(bearerToken));
-            } else {
-                System.out.println("JWT invalid");
-            }
-        } else {
-            System.out.println("Authorization header ontbreekt of is niet correct geformatteerd");
+            jwtTokenProvider.validateToken(bearerToken);
         }
+
+
 
         if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
             response.setStatus(HttpServletResponse.SC_OK);

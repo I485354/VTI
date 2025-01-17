@@ -1,5 +1,6 @@
 package org.vti.vtibackend.DAL.Implementation;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Repository;
@@ -11,6 +12,7 @@ import org.vti.vtibackend.model.User.UserDTO;
 import org.vti.vtibackend.model.User.UserInfo;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Repository
@@ -66,6 +68,19 @@ public class UserDAL implements IUserDAL {
                         (String) row[2]               // role
                 ))
                 .collect(Collectors.toList());
+    }
+    @Override
+    public UserDTO UpdateUser(int user_id, UserInfo user){
+        Optional<User> optionalUser = userRepo.findById(user_id);
+        if(optionalUser.isPresent()){
+            User userToUpdate = optionalUser.get();
+            userToUpdate.setUsername(user.getUsername());
+            userToUpdate.setRole(user.getRole());
+            User updatedUser = userRepo.save(userToUpdate);
+            return new UserDTO(updatedUser.getUser_id(), updatedUser.getUsername(), updatedUser.getRole());
+        } else {
+            throw new EntityNotFoundException("Gebruiker met ID " + user_id + " niet gevonden");
+        }
     }
 
 }

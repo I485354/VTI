@@ -1,5 +1,6 @@
 package org.vti.vtibackend.Presentatie.Controllers;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -8,12 +9,10 @@ import org.springframework.web.bind.annotation.*;
 
 import org.vti.vtibackend.BLL.JwtTokenProvider;
 import org.vti.vtibackend.BLL.Service.UserService;
-import org.vti.vtibackend.model.User.AuthUserResponse;
-import org.vti.vtibackend.model.User.CreateUserDTO;
-import org.vti.vtibackend.model.User.UserDTO;
-import org.vti.vtibackend.model.User.UserInfo;
+import org.vti.vtibackend.model.User.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
@@ -57,5 +56,20 @@ public class UserController {
     public ResponseEntity<List<UserInfo>> getUserInfo() {
         List<UserInfo> userInfo = userService.getUserInfo();
         return ResponseEntity.ok(userInfo);
+    }
+
+    @PutMapping("/{userId}")
+    public ResponseEntity<UserInfo> updateUser(
+            @PathVariable int userId,
+            @RequestBody UpdatedUser user) {
+        try {
+            UserInfo userInfo = new UserInfo(userId, user.getUsername(), user.getRole());
+            UserInfo updatedUser = userService.updateUser(userId, userInfo);
+            return ResponseEntity.ok(updatedUser);
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null); // Gebruiker niet gevonden
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null); // Andere fout
+        }
     }
 }

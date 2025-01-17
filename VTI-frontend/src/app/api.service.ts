@@ -12,6 +12,7 @@ import { User } from './model/user.model';
 import { UserLogin } from './model/userLogin.model';
 import { AuthResponse } from './model/authResponse.model';
 import { environment } from 'src/environments/environment';
+import { UserInfo } from './model/userInfo';
 
 @Injectable({
   providedIn: 'root'
@@ -66,9 +67,13 @@ export class ApiService {
   createCar(createcar: createCar): Observable<Car> {
     return this.http.post<Car>(`${this.apiUrl}/admin/car`, createcar);
   }
-  
-  getUserInfo(): Observable<User[]> {
-    return this.http.get<User[]>(`${this.apiUrl}/admin/user/info`);
+
+  getUserInfo(): Observable<UserInfo[]> {
+    return this.http.get<UserInfo[]>(`${this.apiUrl}/admin/user/info`);
+  }
+
+  updateUser(user: UserInfo): Observable<UserInfo> {
+    return this.http.put<UserInfo>(`${this.apiUrl}/admin/users/${user.user_id}`, user);
   }
 
   login(userLogin: UserLogin): Observable<AuthResponse> {

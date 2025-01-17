@@ -1,0 +1,48 @@
+.user-form {
+  background-color: #f9f9f9;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.user-form h2 {
+  margin-bottom: 20px;
+}
+
+.user-form label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.user-form input,
+.user-form select {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.user-form .form-actions {
+  display: flex;
+  justify-content: space-between;
+}
+
+.user-form .save-button {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.user-form .cancel-button {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+}

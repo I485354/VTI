@@ -1,6 +1,4 @@
 /* Algemene layout */
-
-
 .customer-list-container {
   max-width: 95%;
   margin: 20px auto;
@@ -10,93 +8,139 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+/* Titels */
 .title {
   font-size: 24px;
   color: #333;
   margin-bottom: 20px;
   text-align: left;
+  font-family: 'Roboto', sans-serif;
 }
 
-.customer-table {
+/* Tabbladen navigatie */
+.toggle-buttons {
+  display: flex;
+  justify-content: start;
+  margin-bottom: 20px;
+}
+
+.toggle-buttons button {
+  background-color: #1E90FF;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 5px 5px 0 0;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-right: 5px;
+}
+
+.toggle-buttons button.active {
+  background-color: #4682B4; /* Actief tabblad */
+  font-weight: bold;
+}
+
+.toggle-buttons button:hover {
+  background-color: #4169E1;
+}
+
+/* Tabel layout */
+.customer-table, .user-table {
   width: 100%;
   border-collapse: collapse;
   font-size: 16px;
+  margin-bottom: 20px;
 }
 
-.customer-table th {
-  background-color: #1E90FF; /* Primary blue color */
+.customer-table th, .user-table th {
+  background-color: #1E90FF;
   color: #ffffff;
   padding: 12px;
   text-align: left;
-  font-weight: normal;
-  font-family: Arial, sans-serif;
+  font-weight: bold;
+  font-family: 'Roboto', sans-serif;
   text-transform: uppercase;
 }
 
-.customer-table td {
+.customer-table td, .user-table td {
   padding: 10px;
   border-bottom: 1px solid #dddddd;
   color: #555;
-  font-family: Arial, sans-serif;
+  font-family: 'Arial', sans-serif;
 }
 
-.customer-table tr:nth-child(even) {
+.customer-table tr:nth-child(even),
+.user-table tr:nth-child(even) {
   background-color: #f9f9f9;
 }
 
-.customer-table tr:hover {
+.customer-table tr:hover,
+.user-table tr:hover {
   background-color: #f1f1f1;
 }
 
-.add-button {
+/* Knoppen: Algemeen */
+.add-button, .edit-button, .delete-button {
   display: inline-block;
-  padding: 8px 16px;
+  padding: 6px 12px;
   font-size: 14px;
-  background-color: #1E90FF;
-  color: #ffffff;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+}
+
+.add-button {
+  background-color: #1E90FF;
+  color: #ffffff;
   margin-bottom: 15px;
 }
 
 .add-button:hover {
-  background-color: #4682B4; /* Slightly darker blue for hover */
+  background-color: #4682B4;
 }
 
 .edit-button {
-  padding: 6px 12px;
-  font-size: 14px;
   background-color: #1E90FF;
   color: #ffffff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
 }
 
 .edit-button:hover {
   background-color: #4682B4;
 }
+
 .delete-button {
-  padding: 6px 12px;
-  font-size: 14px;
   background-color: #ff4d4d;
   color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
 }
 
 .delete-button:hover {
   background-color: #ff0000;
 }
 
+/* Formulier-gebieden */
+.customer-form-container, .user-form-container {
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+}
+
+.customer-form-container h2, .user-form-container h2 {
+  margin-bottom: 20px;
+  font-size: 22px;
+  color: #333;
+  font-family: 'Roboto', sans-serif;
+  text-align: center;
+}
+
+/* Succes- en foutmeldingen */
 .success-message {
   color: white;
-  background-color: green;
+  background-color: #28a745;
   padding: 10px;
   margin-bottom: 10px;
   border-radius: 5px;
@@ -105,14 +149,16 @@
 
 .confirmation-message {
   color: black;
-  background-color: rgba(255, 255, 0, 0.45);
+  background-color: rgba(255, 255, 0, 0.29);
   padding: 15px;
   margin-bottom: 10px;
-  border: 1px solid black;
+  border: 1px solid sandybrown;
   border-radius: 5px;
   text-align: center;
+
 }
 
+/* Bevestigingsknoppen */
 .confirm-button {
   background-color: red;
   color: white;
@@ -140,14 +186,13 @@
   background-color: darkgray;
 }
 
-
-
+/* Geen data melding */
 .no-data {
   color: #888;
   font-size: 16px;
   text-align: center;
   margin-top: 20px;
-  font-family: Arial, sans-serif;
+  font-family: 'Arial', sans-serif;
 }
 
 

@@ -16,7 +16,7 @@ export class AuthInterceptor implements HttpInterceptor {
 
   constructor(private router: Router) {}
 
-  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+  intercept<T>(req: HttpRequest<T>, next: HttpHandler): Observable<HttpEvent<T>> {
     console.log('Intercepting URL:', req.url);
     // 1) Kijk of het om login/register gaat:
     //    Die wil je meestal NIET onderscheppen (want je hebt nog geen token).

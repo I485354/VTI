@@ -1,5 +1,6 @@
 package org.vti.vtibackend.BLL.Interface;
 
+import org.vti.vtibackend.DAL.Entity.User;
 import org.vti.vtibackend.model.User.UserDTO;
 import org.vti.vtibackend.model.User.UserInfo;
 
@@ -11,4 +12,5 @@ public interface IUserDAL {
     UserDTO findByUsername(String username);
     UserDTO authenticateUser(String username, String password);
     List<UserDTO> getUsernamesAndRoles();
+    UserDTO UpdateUser(int user_id, UserInfo user);
 }

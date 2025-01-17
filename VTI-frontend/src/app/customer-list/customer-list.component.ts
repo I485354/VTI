@@ -3,12 +3,14 @@ import { CommonModule } from '@angular/common';
 import { ApiService } from '../api.service';
 import { Customers } from '../model/customer.model';
 import { CustomerFormComponent } from '../customer-form/customer-form.component';
-import { User } from '../model/user.model';
+import { UserFormComponent } from '../user-form/user-form.component'
+import { UserInfo } from '../model/userInfo';
+
 
 @Component({
   selector: 'app-customer-list',
   standalone: true,
-  imports: [CommonModule, CustomerFormComponent],
+  imports: [CommonModule, CustomerFormComponent, UserFormComponent],
   templateUrl: './customer-list.component.html',
   styleUrl: './customer-list.component.css'
 })
@@ -18,12 +20,15 @@ export class CustomerListComponent implements OnInit {
   customers: Customers[] = [];
   selectedCustomer: Customers = { customer_id: 0, name: '', address: '', phone: '', email: '', company: ''};
 
-  users: User[] = [];
+  users: UserInfo[] = [];
+  selectedUser: UserInfo = { user_id: 0, username: '', role: '' };
 
+  isUserFormVisible = false;
   isFormVisible = false;
   isEditing = false;
 
   isViewingCustomers = true;
+  isViewingUser = false;
   successMessage: string | null = null;
   confirmationMessage: string | null = null;
 
@@ -34,13 +39,15 @@ export class CustomerListComponent implements OnInit {
     this.apiService.getCustomers().subscribe((data: Customers[]) => {
       this.customers = data;
     });
-    this.apiService.getUserInfo().subscribe((data: User[]) => {
+    this.apiService.getUserInfo().subscribe((data: UserInfo[]) => {
       this.users = data;
     })
   }
 
-  toggleView(viewCustomers: boolean) {
+  toggleView(viewCustomers: boolean,viewUser: boolean) {
     this.isViewingCustomers = viewCustomers;
+    this.isViewingUser = viewUser;
+
   }
 
   onAddCustomer(): void {
@@ -50,9 +57,35 @@ export class CustomerListComponent implements OnInit {
 
   onEditCustomer(customer: Customers): void {
     this.selectedCustomer = { ...customer };
-    this.isEditing = true;// Maak een kopie om ongewenste wijzigingen te voorkomen
+    this.isEditing = true;
     this.isFormVisible = true;
+    this.isViewingUser = false;
   }
+
+  onEditUser(user: UserInfo): void {
+    this.selectedUser = { ...user };
+    this.isUserFormVisible = true;
+    this.isViewingCustomers = false;
+    this.isViewingUser = false
+  }
+
+
+
+  onSaveUser(user: UserInfo): void {
+    if (user.user_id) {
+      this.apiService.updateUser(user).subscribe(() => {
+        this.successMessage = `${user.username} succesvol bijgewerkt!`;
+        setTimeout(() => {
+          this.successMessage = null;
+          this.isUserFormVisible = false;
+          this.isViewingCustomers = true; // Toon de gebruikerslijst
+        }, 2000);
+        this.loadUsers(); // Herlaad de gebruikerslijst
+      });
+    }
+  }
+
+
 
   onSaveCustomer(customer: Customers): void {
     if (customer.customer_id) {
@@ -80,10 +113,20 @@ export class CustomerListComponent implements OnInit {
   onCancel(): void {
     this.isFormVisible = false;
   }
+  onCancelUser(): void {
+    this.isUserFormVisible = false; // Verberg het formulier
+    this.isViewingCustomers = false; // Toon de gebruikerslijst weer
+  }
 
   loadCustomers(): void {
     this.apiService.getCustomers().subscribe((data: Customers[]) => {
       this.customers = data;
+    });
+  }
+
+  loadUsers(): void {
+    this.apiService.getUserInfo().subscribe((data: UserInfo[]) => {
+      this.users = data;
     });
   }
 

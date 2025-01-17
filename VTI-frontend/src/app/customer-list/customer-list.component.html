@@ -5,10 +5,11 @@
   <div class="toggle-buttons">
     <button
       [class.active]="isViewingCustomers"
-      (click)="toggleView(true)">Klanten</button>
+      (click)="toggleView(true, false)">Klanten</button>
+
     <button
       [class.active]="!isViewingCustomers"
-      (click)="toggleView(false)">Gebruikers</button>
+      (click)="toggleView(false, true)">Gebruikers</button>
   </div>
 
   <div *ngIf="isViewingCustomers">
@@ -65,24 +66,46 @@
     (customerCancel)="onCancel()">
   </app-customer-form>
 
+
   <div *ngIf="!isViewingCustomers">
-    <div *ngIf="users.length > 0; else noUsers">
-      <table class="user-table">
-        <thead>
-        <tr>
-          <th>Gebruikersnaam</th>
-          <th>Rol</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr *ngFor="let user of users">
-          <td>{{ user.username }}</td>
-          <td>{{ user.role }}</td>
-        </tr>
-        </tbody>
-      </table>
+    <!-- Gebruikerslijst -->
+    <div class="user-list-container">
+      <h2 class="title">Gebruikerslijst</h2>
+      <div class="actions">
+      </div>
+      <div *ngIf="users.length > 0; else noUserData">
+        <table class="user-table">
+          <thead>
+          <tr>
+            <th>Gebruikersnaam</th>
+            <th>Rol</th>
+            <th>Acties</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let user of users">
+            <td>{{ user.username }}</td>
+            <td>{{ user.role }}</td>
+            <td>
+              <button (click)="onEditUser(user)" class="edit-button">Bewerken</button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+      <ng-template #noUserData>
+        <p class="no-data">Geen gebruikers gevonden</p>
+      </ng-template>
     </div>
   </div>
+
+  <app-user-form
+    *ngIf="isUserFormVisible"
+    [user]="selectedUser"
+    [isEditing]="!!selectedUser.user_id"
+    (userSave)="onSaveUser($event)"
+    (userCancel)="onCancelUser()">
+  </app-user-form>
 
 
 

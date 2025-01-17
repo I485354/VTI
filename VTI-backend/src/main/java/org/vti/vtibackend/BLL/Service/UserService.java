@@ -76,4 +76,12 @@ public class UserService  {
                 .collect(Collectors.toList());
     }
 
+    public UserInfo updateUser(int user_id, UserInfo user) {
+        UserDTO updatedUser = userDAL.UpdateUser(user_id, user);
+
+        return new UserInfo(updatedUser.getUser_id(), updatedUser.getUsername(), updatedUser.getRole());
+    }
+
+
+
 }

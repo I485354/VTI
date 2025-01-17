@@ -1,0 +1,24 @@
+<div class="user-form">
+  <h2>{{ isEditing ? 'Gebruiker Bewerken' : 'Nieuwe Gebruiker Toevoegen' }}</h2>
+  <form (ngSubmit)="onSave()">
+    <div>
+      <label for="username">Gebruikersnaam</label>
+      <input
+        type="text"
+        id="username"
+        [(ngModel)]="user.username"
+        name="username"
+        [readonly]="isEditing" />
+    </div>
+    <div>
+      <label for="role">Rol</label>
+      <select id="role" [(ngModel)]="user.role" name="role">
+        <option value="ADMIN">Admin</option>
+        <option value="CUSTOMER">Customer</option>
+      </select>
+    </div>
+    <div class="form-actions">
+      <button type="submit" class="save-button">Opslaan</button>
+      <button type="button" (click)="onCancel()" class="cancel-button">Annuleren</button>
+    </div>
+  </form>

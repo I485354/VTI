@@ -2,7 +2,6 @@ package org.vti.vtibackend.Presentatie.Controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import org.vti.vtibackend.BLL.Service.InvoiceItemService;
 import org.vti.vtibackend.model.InvoiceItem.InvoiceitemDTO;
 
@@ -24,6 +23,7 @@ public class InvoiceItemController {
     public List<InvoiceitemDTO> getInvoiceItems() {
         return invoiceItemService.getAllItems();
     }
+
     @PostMapping
     public InvoiceitemDTO getInvoiceItems(@RequestBody InvoiceitemDTO invoiceitems) {
         return invoiceItemService.createItems(invoiceitems);

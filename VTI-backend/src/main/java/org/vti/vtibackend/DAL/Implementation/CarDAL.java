@@ -1,8 +1,8 @@
 package org.vti.vtibackend.DAL.Implementation;
 
 import org.springframework.stereotype.Repository;
-import org.vti.vtibackend.DAL.Entity.Car;
 import org.vti.vtibackend.BLL.Interface.ICarDAL;
+import org.vti.vtibackend.DAL.Entity.Car;
 import org.vti.vtibackend.DAL.Mapper.CarMapper;
 import org.vti.vtibackend.DAL.Repository.CarRepo;
 import org.vti.vtibackend.model.Car.CarDTO;
@@ -21,18 +21,20 @@ public class CarDAL implements ICarDAL {
         this.carMapper = carMapper;
     }
 
-    public Optional<CarDTO> findByCustomerId(int customerId){
+    public Optional<CarDTO> findByCustomerId(int customerId) {
         return carRepo.findByCustomerId(customerId)
                 .map(carMapper::ToDTO);
 
     }
-    public List<CarDTO> findAll(){
+
+    public List<CarDTO> findAll() {
         return carRepo.findAll()
                 .stream()
                 .map(carMapper::ToDTO)
                 .collect(Collectors.toList());
     }
-    public CarDTO save(CarDTO carDTO){
+
+    public CarDTO save(CarDTO carDTO) {
         Car car = carMapper.ToEntity(carDTO);
         Car savedCar = carRepo.save(car);
         return carMapper.ToDTO(savedCar);

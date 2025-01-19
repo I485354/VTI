@@ -34,7 +34,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
 
-
         if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
             response.setStatus(HttpServletResponse.SC_OK);
             return;
@@ -50,7 +49,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     username, null, List.of(new SimpleGrantedAuthority("ROLE_" + role.toUpperCase())));
             SecurityContextHolder.getContext().setAuthentication(auth);
         } else {
-           System.out.println("JWT invalid");
+            System.out.println("JWT invalid");
         }
 
         filterChain.doFilter(request, response);

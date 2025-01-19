@@ -1,9 +1,9 @@
 package org.vti.vtibackend.Presentatie.Config;
 
 
-import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.servers.Server;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +14,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
-
-
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -42,7 +40,7 @@ public class SecurityConfig {
                                 "/swagger-ui.html",
                                 "/api/user/login",
                                 "/api/user/register"
-                                ).permitAll()
+                        ).permitAll()
                         .requestMatchers("/admin/**").hasRole("admin")
                         .anyRequest().authenticated()
                 )
@@ -67,7 +65,7 @@ public class SecurityConfig {
         // Of: configuration.addAllowedOriginPattern("http://localhost:4200"); etc.
 
         // Stel overige toegestane zaken in
-        configuration.setAllowedMethods(List.of("GET","POST","PUT","DELETE","OPTIONS"));
+        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));
         configuration.setAllowCredentials(true);
         // Eventueel exposed headers
@@ -101,13 +99,13 @@ public class SecurityConfig {
                 .addServersItem(new Server().url("https://vti-production.up.railway.app"))
                 .addServersItem(new Server().url("http://localhost:8080"))
                 .components(new Components()
-                .addSecuritySchemes("bearerAuth",
-                        new SecurityScheme()
-                                .type(SecurityScheme.Type.HTTP)
-                                .scheme("bearer")
-                                .bearerFormat("JWT")
+                        .addSecuritySchemes("bearerAuth",
+                                new SecurityScheme()
+                                        .type(SecurityScheme.Type.HTTP)
+                                        .scheme("bearer")
+                                        .bearerFormat("JWT")
+                        )
                 )
-        )
                 .addSecurityItem(new SecurityRequirement().addList("bearerAuth"));
 
 

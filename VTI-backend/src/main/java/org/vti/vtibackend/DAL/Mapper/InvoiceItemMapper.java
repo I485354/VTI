@@ -9,6 +9,7 @@ import org.vti.vtibackend.model.InvoiceItem.InvoiceitemDTO;
 public interface InvoiceItemMapper {
     @Mapping(source = "invoice_item_id", target = "invoice_item_id")
     InvoiceitemDTO ToDTO(InvoiceItem item);
+
     @Mapping(source = "invoice_item_id", target = "invoice_item_id")
     InvoiceItem ToEntity(InvoiceitemDTO itemDTO);
 }

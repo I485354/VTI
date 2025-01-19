@@ -2,13 +2,12 @@ package org.vti.vtibackend.DAL.Implementation;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.vti.vtibackend.DAL.Entity.Customer;
 import org.vti.vtibackend.BLL.Interface.ICustomerDAL;
+import org.vti.vtibackend.DAL.Entity.Customer;
 import org.vti.vtibackend.DAL.Mapper.CustomerMapper;
 import org.vti.vtibackend.DAL.Repository.CustomerRepo;
 import org.vti.vtibackend.model.Customer.CustomerDTO;
 import org.vti.vtibackend.model.Customer.CustomerInfoDTO;
-
 
 import java.util.List;
 import java.util.Optional;
@@ -32,6 +31,7 @@ public class CustomerDAL implements ICustomerDAL {
         Customer savedCustomer = customerRepo.save(customer);
         return customerMapper.ToDTO(savedCustomer);
     }
+
     @Override
     public CustomerDTO createCustomer(CustomerDTO customerDTO) {
         Customer customer = customerMapper.ToEntity(customerDTO);
@@ -80,14 +80,14 @@ public class CustomerDAL implements ICustomerDAL {
     }
 
     @Override
-    public int findHighestCustomerNumber(){
+    public int findHighestCustomerNumber() {
         return customerRepo.findHighestCustomerNumber();
     }
 
-    public List<CustomerInfoDTO> findCustomerInfo(){
+    public List<CustomerInfoDTO> findCustomerInfo() {
         return customerRepo.findAll()
                 .stream()
-                .map(customerMapper:: ToInfoDTO)
+                .map(customerMapper::ToInfoDTO)
                 .collect(Collectors.toList());
     }
 

@@ -2,7 +2,6 @@ package org.vti.vtibackend.BLL.Service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import org.vti.vtibackend.BLL.Interface.ICustomerDAL;
 import org.vti.vtibackend.model.Customer.CreateCustomerDTO;
 import org.vti.vtibackend.model.Customer.CustomerDTO;
@@ -32,34 +31,32 @@ public class CustomerService {
     }
 
 
-
     public CustomerDTO createCustomer(CreateCustomerDTO createCustomerDTO) {
         if (createCustomerDTO.getName() == null || createCustomerDTO.getName().isEmpty()
                 || createCustomerDTO.getEmail() == null || createCustomerDTO.getEmail().isEmpty()
                 || createCustomerDTO.getPhone() == null || createCustomerDTO.getPhone().isEmpty()
                 || createCustomerDTO.getAddress() == null || createCustomerDTO.getAddress().isEmpty()
-                || createCustomerDTO.getCompany() == null || createCustomerDTO.getCompany().isEmpty())
-        {
+                || createCustomerDTO.getCompany() == null || createCustomerDTO.getCompany().isEmpty()) {
             throw new IllegalArgumentException("Alle velden (name, email, phone, address, company) zijn verplicht.");
         }
-            CustomerDTO customerDTO = new CustomerDTO();
-            customerDTO.setName(createCustomerDTO.getName());
-            customerDTO.setEmail(createCustomerDTO.getEmail());
-            customerDTO.setPhone(createCustomerDTO.getPhone());
-            customerDTO.setAddress(createCustomerDTO.getAddress());
-            customerDTO.setCompany(createCustomerDTO.getCompany());
+        CustomerDTO customerDTO = new CustomerDTO();
+        customerDTO.setName(createCustomerDTO.getName());
+        customerDTO.setEmail(createCustomerDTO.getEmail());
+        customerDTO.setPhone(createCustomerDTO.getPhone());
+        customerDTO.setAddress(createCustomerDTO.getAddress());
+        customerDTO.setCompany(createCustomerDTO.getCompany());
 
-            int highestCustomerNumber = 0;
-            try {
-                highestCustomerNumber = customerDAL.findHighestCustomerNumber();
-            } catch (Exception e) {
-                System.err.println("Kan het hoogste klantnummer niet ophalen: " + e.getMessage());
-            }
+        int highestCustomerNumber = 0;
+        try {
+            highestCustomerNumber = customerDAL.findHighestCustomerNumber();
+        } catch (Exception e) {
+            System.err.println("Kan het hoogste klantnummer niet ophalen: " + e.getMessage());
+        }
 
 
-            int nextCustomerNumber = (highestCustomerNumber > 0) ? highestCustomerNumber + 1 : 1;
-            customerDTO.setCustomer_number(nextCustomerNumber);
-            return customerDAL.createCustomer(customerDTO);
+        int nextCustomerNumber = (highestCustomerNumber > 0) ? highestCustomerNumber + 1 : 1;
+        customerDTO.setCustomer_number(nextCustomerNumber);
+        return customerDAL.createCustomer(customerDTO);
     }
 
     public CustomerDTO updateCustomer(int id, UpdatedCustomerDTO updatedCustomerDTO) {
@@ -80,6 +77,6 @@ public class CustomerService {
     }
 
     public List<CustomerInfoDTO> getCustomerInfo() {
-       return customerDAL.findCustomerInfo();
+        return customerDAL.findCustomerInfo();
     }
 }

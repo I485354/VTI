@@ -2,22 +2,19 @@ package org.vti.vtibackend.BLL.Service;
 
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.stereotype.Service;
-
 import org.vti.vtibackend.BLL.Interface.IInvoiceDAL;
 import org.vti.vtibackend.model.Invoice.*;
-
 
 import java.util.List;
 
 @Service
-public class InvoiceService  {
+public class InvoiceService {
 
     private final IInvoiceDAL invoiceDAL;
 
     @Autowired
-    public InvoiceService(IInvoiceDAL invoiceDAL ) {
+    public InvoiceService(IInvoiceDAL invoiceDAL) {
 
         this.invoiceDAL = invoiceDAL;
     }
@@ -59,16 +56,16 @@ public class InvoiceService  {
         if (invoiceDTO.getCar_id() == null) {
             createInvoiceDTO.setCar_id(null);
         }
-        if(invoiceDTO.getInvoice_date() == null
+        if (invoiceDTO.getInvoice_date() == null
                 || invoiceDTO.getDue_date() == null
                 || invoiceDTO.getCustomer_id() == 0
                 || invoiceDTO.getTotal_amount() == 0
                 || invoiceDTO.getTotal_btw() == 0) {
-           throw new IllegalArgumentException("some parameters are missing");
+            throw new IllegalArgumentException("some parameters are missing");
         } else {
 
             int highestInvoiceNumber = 0;
-            try{
+            try {
                 highestInvoiceNumber = invoiceDAL.findHighestInvoiceNumber();
             } catch (Exception e) {
                 System.err.println("Kan het hoogste factuurnummer niet ophalen: " + e.getMessage());

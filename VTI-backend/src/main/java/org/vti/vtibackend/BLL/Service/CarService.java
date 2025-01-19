@@ -2,7 +2,6 @@ package org.vti.vtibackend.BLL.Service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import org.vti.vtibackend.BLL.Interface.ICarDAL;
 import org.vti.vtibackend.model.Car.CarDTO;
 import org.vti.vtibackend.model.Car.CreateCarDTO;
@@ -26,12 +25,13 @@ public class CarService {
         Optional<CarDTO> cars = carDAL.findByCustomerId(customerId);
         return cars.stream().toList();
     }
+
     public List<CarDTO> findAllCars() {
         return carDAL.findAll();
     }
 
     public CarDTO createCar(CreateCarDTO createCarDTO) {
-        // Validatie van de velden
+
         if (createCarDTO.getCustomer_id() <= 0
                 || createCarDTO.getPlate_number() == null || createCarDTO.getPlate_number().isEmpty()
                 || createCarDTO.getBrand() == null || createCarDTO.getBrand().isEmpty()

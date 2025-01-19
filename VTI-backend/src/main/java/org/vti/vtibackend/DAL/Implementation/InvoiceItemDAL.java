@@ -2,8 +2,8 @@ package org.vti.vtibackend.DAL.Implementation;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.vti.vtibackend.DAL.Entity.InvoiceItem;
 import org.vti.vtibackend.BLL.Interface.IInvoiceItemDAL;
+import org.vti.vtibackend.DAL.Entity.InvoiceItem;
 import org.vti.vtibackend.DAL.Mapper.InvoiceItemMapper;
 import org.vti.vtibackend.DAL.Repository.InvoiceitemRepo;
 import org.vti.vtibackend.model.InvoiceItem.InvoiceitemDTO;
@@ -31,7 +31,7 @@ public class InvoiceItemDAL implements IInvoiceItemDAL {
     }
 
     @Override
-    public List<InvoiceitemDTO> findAll(){
+    public List<InvoiceitemDTO> findAll() {
         return invoiceitemRepo.findAll()
                 .stream()
                 .map(invoiceitemMapper::ToDTO)

@@ -4,25 +4,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import org.vti.vtibackend.BLL.Interface.IUserDAL;
 import org.vti.vtibackend.model.User.CreateUserDTO;
 import org.vti.vtibackend.model.User.UserDTO;
 import org.vti.vtibackend.model.User.UserInfo;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 
 @Service
-public class UserService  {
+public class UserService {
 
     private final IUserDAL userDAL;
 
     private final PasswordEncoder passwordEncoder;
-
-
 
 
     @Autowired
@@ -40,7 +36,7 @@ public class UserService  {
             throw new NullPointerException("User cannot be null");
         }
         UserDTO existingUser = userDAL.findByUsername(users.getUsername());
-        if(existingUser == null) {
+        if (existingUser == null) {
             return userDAL.save(makeUser(users));
         } else {
             throw new BadCredentialsException("Username already exists");
@@ -67,7 +63,7 @@ public class UserService  {
         return new UserDTO(userDTO.getUser_id(), userDTO.getUsername(), userDTO.getRole());
     }
 
-    public List<UserInfo> getUserInfo(){
+    public List<UserInfo> getUserInfo() {
         List<UserDTO> users = userDAL.getUsernamesAndRoles();
 
         // Converteer elke UserDTO naar een UserInfo
@@ -81,7 +77,6 @@ public class UserService  {
 
         return new UserInfo(updatedUser.getUser_id(), updatedUser.getUsername(), updatedUser.getRole());
     }
-
 
 
 }

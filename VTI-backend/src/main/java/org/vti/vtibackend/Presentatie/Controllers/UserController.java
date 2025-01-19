@@ -6,13 +6,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.*;
-
 import org.vti.vtibackend.BLL.JwtTokenProvider;
 import org.vti.vtibackend.BLL.Service.UserService;
 import org.vti.vtibackend.model.User.*;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
@@ -37,11 +35,13 @@ public class UserController {
         UserDTO userDTO = userService.createUser(users);
         return new ResponseEntity<>(userDTO, HttpStatus.CREATED);
     }
+
     @GetMapping("/admin/user/{username}")
     public ResponseEntity<UserDTO> getUserByUsername(@PathVariable String username) {
         UserDTO userDTO = userService.findByUsername(username);
         return ResponseEntity.ok(userDTO);
     }
+
     @PostMapping("user/login")
     public ResponseEntity<?> authenticate(@RequestBody CreateUserDTO authRequest) {
         try {
@@ -52,6 +52,7 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Ongeldige inloggegevens");
         }
     }
+
     @GetMapping("admin/user/info")
     public ResponseEntity<List<UserInfo>> getUserInfo() {
         List<UserInfo> userInfo = userService.getUserInfo();

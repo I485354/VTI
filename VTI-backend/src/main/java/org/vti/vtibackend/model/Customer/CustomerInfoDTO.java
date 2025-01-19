@@ -17,44 +17,55 @@ public class CustomerInfoDTO {
         this.phone = phone;
         this.customer_number = customer_number;
     }
+
     public CustomerInfoDTO() {
-   }
+    }
 
-   public String getName() {
+    public String getName() {
         return name;
-   }
-   public String getCompany() {
-        return company;
-   }
-   public String getAddress() {
-        return address;
-   }
-   public String getEmail() {
-        return email;
-   }
-   public String getPhone() {
-        return phone;
-   }
-   public int getCustomer_number() {
-        return customer_number;
-   }
+    }
 
-   public void setName(String name) {
+    public void setName(String name) {
         this.name = name;
-   }
-   public void setCompany(String company) {
+    }
+
+    public String getCompany() {
+        return company;
+    }
+
+    public void setCompany(String company) {
         this.company = company;
-   }
-   public void setAddress(String address) {
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
         this.address = address;
-   }
-   public void setEmail(String email) {
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
         this.email = email;
-   }
-   public void setPhone(String phone) {
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
         this.phone = phone;
-   }
-   public void setCustomer_number(int customer_number) {
+    }
+
+    public int getCustomer_number() {
+        return customer_number;
+    }
+
+    public void setCustomer_number(int customer_number) {
         this.customer_number = customer_number;
-   }
+    }
 }

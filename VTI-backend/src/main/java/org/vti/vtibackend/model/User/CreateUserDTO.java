@@ -4,7 +4,9 @@ public class CreateUserDTO {
     private String username;
     private String password;
 
-    CreateUserDTO() {}
+    CreateUserDTO() {
+    }
+
     public CreateUserDTO(String username, String password) {
         this.username = username;
         this.password = password;

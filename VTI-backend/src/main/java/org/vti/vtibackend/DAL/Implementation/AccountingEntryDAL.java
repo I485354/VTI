@@ -2,8 +2,8 @@ package org.vti.vtibackend.DAL.Implementation;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.vti.vtibackend.DAL.Entity.AccountingEntry;
 import org.vti.vtibackend.BLL.Interface.IAccountingEntryDAL;
+import org.vti.vtibackend.DAL.Entity.AccountingEntry;
 import org.vti.vtibackend.DAL.Mapper.AccountingEntryMapper;
 import org.vti.vtibackend.DAL.Repository.AccountingEntryRepo;
 import org.vti.vtibackend.model.Accounting.AccountingentryDTO;
@@ -37,7 +37,7 @@ public class AccountingEntryDAL implements IAccountingEntryDAL {
     }
 
 
-    public AccountingentryDTO save(AccountingentryDTO accountingEntryDTO){
+    public AccountingentryDTO save(AccountingentryDTO accountingEntryDTO) {
         AccountingEntry entry = accountingEntryMapper.ToEntity(accountingEntryDTO);
         AccountingEntry savedEntry = accountingEntryRepo.save(entry);
         return accountingEntryMapper.ToDTO(savedEntry);

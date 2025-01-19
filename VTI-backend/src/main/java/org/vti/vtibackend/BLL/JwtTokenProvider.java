@@ -1,5 +1,8 @@
 package org.vti.vtibackend.BLL;
-import io.jsonwebtoken.*;
+
+import io.jsonwebtoken.JwtException;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Component;
@@ -24,12 +27,10 @@ public class JwtTokenProvider {
                 .signWith(key)
                 .compact();
     }
+
     public String resolveToken(HttpServletRequest request) {
         String bearerToken = request.getHeader("Authorization");
-        if (bearerToken != null) {
-            return bearerToken;
-        }
-        return null;
+        return bearerToken;
     }
 
     // Valideer de token

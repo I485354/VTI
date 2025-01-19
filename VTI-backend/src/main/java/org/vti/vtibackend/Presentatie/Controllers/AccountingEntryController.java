@@ -2,7 +2,6 @@ package org.vti.vtibackend.Presentatie.Controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import org.vti.vtibackend.BLL.Service.AccountingEntryService;
 import org.vti.vtibackend.model.Accounting.AccountingentryDTO;
 
@@ -15,7 +14,7 @@ public class AccountingEntryController {
     private final AccountingEntryService accountingEntryService;
 
     @Autowired
-    public  AccountingEntryController(AccountingEntryService accountingEntryService) {
+    public AccountingEntryController(AccountingEntryService accountingEntryService) {
         this.accountingEntryService = accountingEntryService;
     }
 
@@ -23,6 +22,7 @@ public class AccountingEntryController {
     public List<AccountingentryDTO> getAllEntries() {
         return accountingEntryService.getAllEntries();
     }
+
     @PostMapping
     public AccountingentryDTO createEntries(@RequestBody AccountingentryDTO accountingEntries) {
         return accountingEntryService.createNewEntries(accountingEntries);

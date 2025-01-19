@@ -9,6 +9,7 @@ import org.vti.vtibackend.model.Car.CarDTO;
 import org.vti.vtibackend.model.Car.CreateCarDTO;
 
 import java.util.List;
+
 @RestController
 @RequestMapping("/api/admin/car")
 public class CarController {
@@ -26,6 +27,7 @@ public class CarController {
         System.out.println("Cars retrieved: " + cars.size());
         return ResponseEntity.ok(cars);
     }
+
     @PostMapping()
     public ResponseEntity<CarDTO> createCar(@RequestBody CreateCarDTO carDTO) {
         CarDTO createdcarDTO = carService.createCar(carDTO);

@@ -2,7 +2,6 @@ package org.vti.vtibackend.BLL.Service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import org.vti.vtibackend.BLL.Interface.IInvoiceItemDAL;
 import org.vti.vtibackend.model.InvoiceItem.InvoiceitemDTO;
 
@@ -19,13 +18,13 @@ public class InvoiceItemService {
         this.invoiceItemDAL = invoiceItemDAL;
     }
 
-    public List<InvoiceitemDTO> getAllItems(){
+    public List<InvoiceitemDTO> getAllItems() {
         List<InvoiceitemDTO> item = invoiceItemDAL.findAll();
         return item.stream().toList();
     }
 
-    public InvoiceitemDTO createItems(InvoiceitemDTO item){
-      return invoiceItemDAL.save(item);
+    public InvoiceitemDTO createItems(InvoiceitemDTO item) {
+        return invoiceItemDAL.save(item);
     }
 
 }

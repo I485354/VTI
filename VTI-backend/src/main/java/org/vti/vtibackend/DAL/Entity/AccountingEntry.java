@@ -5,8 +5,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
-
 import java.util.Date;
+
 @Entity
 
 public class AccountingEntry {
@@ -22,6 +22,7 @@ public class AccountingEntry {
     public AccountingEntry() {
 
     }
+
     public AccountingEntry(int entry_id, int invoice_id, Date entry_date, double debit_amount, double credit_amount, String descriptions) {
         this.entry_id = entry_id;
         this.invoice_id = invoice_id;
@@ -35,55 +36,45 @@ public class AccountingEntry {
         return this.entry_id;
     }
 
+    public void setEntry_id(final long entry_id) {
+        this.entry_id = entry_id;
+    }
 
     public int getInvoice_id() {
         return this.invoice_id;
     }
 
+    public void setInvoice_id(final int invoice_id) {
+        this.invoice_id = invoice_id;
+    }
 
     public Date getEntry_date() {
         return this.entry_date;
-    }
-
-
-    public double getDebit_amount() {
-        return this.debit_amount;
-    }
-
-
-    public double getCredit_amount() {
-        return this.credit_amount;
-    }
-
-
-    public String getDescriptions() {
-        return this.descriptions;
-    }
-
-
-    public void setEntry_id(final long entry_id) {
-        this.entry_id = entry_id;
-    }
-
-
-    public void setInvoice_id(final int invoice_id) {
-        this.invoice_id = invoice_id;
     }
 
     public void setEntry_date(final Date entry_date) {
         this.entry_date = entry_date;
     }
 
+    public double getDebit_amount() {
+        return this.debit_amount;
+    }
 
     public void setDebit_amount(final double debit_amount) {
         this.debit_amount = debit_amount;
     }
 
+    public double getCredit_amount() {
+        return this.credit_amount;
+    }
 
     public void setCredit_amount(final double credit_amount) {
         this.credit_amount = credit_amount;
     }
 
+    public String getDescriptions() {
+        return this.descriptions;
+    }
 
     public void setDescriptions(final String descriptions) {
         this.descriptions = descriptions;

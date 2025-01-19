@@ -4,7 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.vti.vtibackend.DAL.Entity.Invoice;
-import org.vti.vtibackend.model.Invoice.InvoiceAndCustomerDTO;
 
 import java.util.List;
 

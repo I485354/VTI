@@ -1,0 +1,3 @@
+User-agent: *
+Disallow:
+Sitemap: https://vti-frontend.vercel.app/robots.txt

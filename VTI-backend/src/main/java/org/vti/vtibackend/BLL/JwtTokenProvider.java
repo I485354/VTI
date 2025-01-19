@@ -29,8 +29,7 @@ public class JwtTokenProvider {
     }
 
     public String resolveToken(HttpServletRequest request) {
-        String bearerToken = request.getHeader("Authorization");
-        return bearerToken;
+        return request.getHeader("Authorization");
     }
 
     // Valideer de token

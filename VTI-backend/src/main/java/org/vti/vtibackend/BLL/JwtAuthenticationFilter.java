@@ -4,7 +4,6 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,8 +16,12 @@ import java.util.List;
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
-    @Autowired
-    private JwtTokenProvider jwtTokenProvider;
+
+    private final JwtTokenProvider jwtTokenProvider;
+
+    public JwtAuthenticationFilter(JwtTokenProvider jwtTokenProvider) {
+        this.jwtTokenProvider = jwtTokenProvider;
+    }
 
     @Override
     protected void doFilterInternal(
@@ -42,14 +45,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         if (token != null && jwtTokenProvider.validateToken(token)) {
             String username = jwtTokenProvider.getUsername(token);
             String role = jwtTokenProvider.getRole(token);
-
-            System.out.println("JWT valid! user=" + username + ", role=" + role);
-
             UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(
                     username, null, List.of(new SimpleGrantedAuthority("ROLE_" + role.toUpperCase())));
             SecurityContextHolder.getContext().setAuthentication(auth);
-        } else {
-            System.out.println("JWT invalid");
         }
 
         filterChain.doFilter(request, response);

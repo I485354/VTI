@@ -29,7 +29,6 @@ export class LoginComponent {
     this.apiService.login(userLogin).subscribe(
       (response: AuthResponse) => {
         localStorage.setItem('token', response.token);
-        console.log('Saved token:', response.token);
 
         const expiryTime = this.getTokenExpiry(response.token);
         this.startTokenExpiryTimer(expiryTime);
@@ -38,13 +37,17 @@ export class LoginComponent {
         if (role === 'ADMIN') {
           this.router.navigate(['/dashboard']); // Admin gebruikers
         } else if (role === 'CUSTOMER') {
-          window.location.href = 'https://andere-frontend-url.com'; // Klanten
+          window.location.href = 'https://vti-customer.vercel.app'; // Klanten
         } else {
           alert('Onbekende rol: ' + role);
         }
       },
       (error) => {
-        alert('Ongeldige inloggegevens: ' + error);
+        if (error.status === 401) {
+          alert('Ongeldige inloggegevens voor ' + this.username);
+        } else {
+          alert('Er is iets misgegaan. Probeer het later opnieuw.');
+        }
       }
     );
   }

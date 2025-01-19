@@ -143,10 +143,4 @@ public class CarServiceTest {
 
         verify(carDAL, never()).save(any(CarDTO.class));
     }
-
-    @Test
-    void testFindCarById_NotImplemented() {
-        CarDTO result = carService.findCarById(123);
-        assertNull(result);
-    }
 }

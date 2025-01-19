@@ -13,15 +13,6 @@ public class CarDTO {
     public CarDTO() {
     }
 
-    public CarDTO(int car_id, int customer_id, String plate_number, String brand, String model, int year, String chasi_number) {
-        this.car_id = car_id;
-        this.customer_id = customer_id;
-        this.plate_number = plate_number;
-        this.brand = brand;
-        this.model = model;
-        this.year = year;
-        this.chasi_number = chasi_number;
-    }
 
     public int getCar_id() {
         return car_id;

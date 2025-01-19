@@ -11,19 +11,6 @@ public class InvoiceYearSummaryDTO {
     public InvoiceYearSummaryDTO() {
     }
 
-    public InvoiceYearSummaryDTO(int year, int quarter, double total_amount, int invoice_count) {
-        this.year = year;
-        this.quarter = quarter;
-        this.total_amount = total_amount;
-        this.invoice_count = invoice_count;
-    }
-
-    public InvoiceYearSummaryDTO(int quarter, double total_amount, int invoice_count) {
-        this.quarter = quarter;
-        this.total_amount = total_amount;
-        this.invoice_count = invoice_count;
-    }
-
     public int getYear() {
         return year;
     }

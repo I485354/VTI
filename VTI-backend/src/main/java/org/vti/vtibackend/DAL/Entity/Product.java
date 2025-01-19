@@ -19,14 +19,6 @@ public class Product {
     public Product() {
     }
 
-    public Product(int product_id, String name, String description, double price, int quantity, int btw) {
-        this.product_id = product_id;
-        this.name = name;
-        this.description = description;
-        this.price = price;
-        this.quantity = quantity;
-        this.btw = btw;
-    }
 
     public int getProduct_id() {
         return this.product_id;

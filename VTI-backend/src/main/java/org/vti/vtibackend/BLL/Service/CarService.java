@@ -54,8 +54,4 @@ public class CarService {
         return carDAL.save(carDTO);
     }
 
-    public CarDTO findCarById(int carId) {
-        return null;
-    }
-
 }

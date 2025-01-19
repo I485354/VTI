@@ -21,13 +21,6 @@ public class Payment {
     public Payment() {
     }
 
-    public Payment(int payment_id, int invoice_id, Date payment_date, double amount, String payment_method) {
-        this.payment_id = payment_id;
-        this.invoice_id = invoice_id;
-        this.payment_date = payment_date;
-        this.amount = amount;
-        this.payment_method = payment_method;
-    }
 
     public int getPayment_id() {
         return this.payment_id;

@@ -23,14 +23,6 @@ public class AccountingEntry {
 
     }
 
-    public AccountingEntry(int entry_id, int invoice_id, Date entry_date, double debit_amount, double credit_amount, String descriptions) {
-        this.entry_id = entry_id;
-        this.invoice_id = invoice_id;
-        this.entry_date = entry_date;
-        this.debit_amount = debit_amount;
-        this.credit_amount = credit_amount;
-        this.descriptions = descriptions;
-    }
 
     public long getEntry_id() {
         return this.entry_id;

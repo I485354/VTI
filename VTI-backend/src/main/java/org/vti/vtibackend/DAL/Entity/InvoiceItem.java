@@ -22,15 +22,6 @@ public class InvoiceItem {
     public InvoiceItem() {
     }
 
-    public InvoiceItem(int invoice_item_id, int invoice_id, int product_id, int quantity, double unit_price, double btw, double total) {
-        this.invoice_item_id = invoice_item_id;
-        this.invoice_id = invoice_id;
-        this.product_id = product_id;
-        this.quantity = quantity;
-        this.unit_price = unit_price;
-        this.btw = btw;
-        this.total = total;
-    }
 
     public int getInvoice_item_id() {
         return this.invoice_item_id;

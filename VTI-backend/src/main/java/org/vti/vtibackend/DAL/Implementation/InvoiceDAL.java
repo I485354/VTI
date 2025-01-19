@@ -11,7 +11,6 @@ import org.vti.vtibackend.model.Invoice.InvoiceAndCustomerDTO;
 import org.vti.vtibackend.model.Invoice.InvoiceDTO;
 import org.vti.vtibackend.model.Invoice.InvoiceYearSummaryDTO;
 
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -65,10 +64,6 @@ public class InvoiceDAL implements IInvoiceDAL {
 
     public List<InvoiceYearSummaryDTO> findInvoicesByYear(int year) {
         List<Object[]> rawResults = invoiceRepo.findInvoicesByYear(year);
-
-        rawResults.forEach(result -> {
-            System.out.println("Raw Result: " + Arrays.toString(result));
-        });
 
         return rawResults.stream()
                 .map(result -> {

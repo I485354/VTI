@@ -19,19 +19,6 @@ public class InvoiceDTO {
     public InvoiceDTO() {
     }
 
-    public InvoiceDTO(long invoice_id, long customer_id, Integer car_id, Date invoice_date, Date due_date, double total_amount, double total_btw, String status, int invoice_number, String deleted) {
-        this.invoice_id = invoice_id;
-        this.customer_id = customer_id;
-        this.car_id = car_id;
-        this.invoice_date = invoice_date;
-        this.due_date = due_date;
-        this.total_amount = total_amount;
-        this.total_btw = total_btw;
-        this.status = status;
-        this.invoice_number = invoice_number;
-        this.deleted = deleted;
-    }
-
     public long getInvoice_id() {
         return this.invoice_id;
     }

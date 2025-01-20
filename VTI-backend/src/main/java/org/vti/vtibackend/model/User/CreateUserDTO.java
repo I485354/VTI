@@ -3,11 +3,20 @@ package org.vti.vtibackend.model.User;
 public class CreateUserDTO {
     private String username;
     private String password;
-    private int customer_id;
+    private  String role;
 
-    public CreateUserDTO(String username, String password, int customer_id) {
+    public CreateUserDTO() {
+    }
+
+    public CreateUserDTO(String username, String password) {
         this.username = username;
         this.password = password;
+
+    }
+    public CreateUserDTO(String username, String password, String role) {
+        this.username = username;
+        this.password = password;
+        this.role = role;
     }
 
     public String getUsername() {
@@ -25,5 +34,13 @@ public class CreateUserDTO {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public String getRole() {
+        return role;
+    }
+    public void setRole(String role) {
+        this.role = role;
+    }
+
 
 }

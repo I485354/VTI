@@ -35,7 +35,7 @@ class UserControllerTest {
     void setUp() {
         MockitoAnnotations.openMocks(this);
 
-        createUserDTO = new CreateUserDTO("john_doe", "password123", 1);
+        createUserDTO = new CreateUserDTO("john_doe", "password123");
         userDTO = new UserDTO(1L, "john_doe", "ADMIN");
         userInfo = new UserInfo(1, "john_doe", "ADMIN");
     }

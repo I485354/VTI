@@ -7,7 +7,7 @@ public class UserDTO {
     private String username;
     private String password;
     private String role;
-    private int customer_id;
+    private Integer customer_id;
 
     public UserDTO() {
     }
@@ -19,7 +19,7 @@ public class UserDTO {
         this.role = role;
     }
 
-    public UserDTO(long user_id, String username, String role, int customer_id) {
+    public UserDTO(long user_id, String username, String role, Integer customer_id) {
         this.user_id = user_id;
         this.username = username;
         this.role = role;
@@ -67,10 +67,10 @@ public class UserDTO {
         this.role = role;
     }
 
-    public int getCustomer_id() {
+    public Integer getCustomer_id() {
         return this.customer_id;
     }
-    public void setCustomer_id(final int customer_id) {
+    public void setCustomer_id(final Integer customer_id) {
         this.customer_id = customer_id;
     }
 

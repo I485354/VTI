@@ -4,12 +4,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.vti.vtibackend.BLL.Interface.ICustomerDAL;
 import org.vti.vtibackend.BLL.Interface.IUserDAL;
+import org.vti.vtibackend.DAL.Entity.Customer;
+import org.vti.vtibackend.model.Customer.CustomerDTO;
 import org.vti.vtibackend.model.User.CreateUserDTO;
 import org.vti.vtibackend.model.User.UserDTO;
 import org.vti.vtibackend.model.User.UserInfo;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -17,13 +21,15 @@ import java.util.stream.Collectors;
 public class UserService {
 
     private final IUserDAL userDAL;
+    private final ICustomerDAL customerDAL;
 
     private final PasswordEncoder passwordEncoder;
 
 
     @Autowired
-    public UserService(IUserDAL userDAL, PasswordEncoder passwordEncoder) {
+    public UserService(IUserDAL userDAL, ICustomerDAL customerDAL ,PasswordEncoder passwordEncoder) {
         this.userDAL = userDAL;
+        this.customerDAL = customerDAL;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -47,7 +53,16 @@ public class UserService {
         UserDTO userDTO = new UserDTO();
         userDTO.setUsername(users.getUsername());
         userDTO.setPassword(passwordEncoder.encode(users.getPassword()));
-        userDTO.setRole("CUSTOMER");
+        userDTO.setRole(users.getRole());
+        if ("CUSTOMER".equalsIgnoreCase(users.getRole())) {
+            List<CustomerDTO> customers = customerDAL.findAll();
+            if (customers.isEmpty()) {
+                throw new IllegalArgumentException("Geen klanten gevonden. Kan geen klant-ID instellen.");
+            }
+            userDTO.setCustomer_id(customers.get(0).getCustomer_id());
+        }
+        System.out.println("Ingevoegde Customer ID: " + userDTO.getCustomer_id());
+
         return userDTO;
     }
 

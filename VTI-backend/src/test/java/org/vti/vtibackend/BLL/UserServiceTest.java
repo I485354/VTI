@@ -43,7 +43,7 @@ public class UserServiceTest {
 
         user1 = new UserDTO(1, "john_doe", "password123", "admin");
         userInfo = new UserInfo(1, "john_doe", "admin");
-        createUser = new CreateUserDTO("jane_doe", "securePass", 1);
+        createUser = new CreateUserDTO("jane_doe", "securePass");
     }
 
     @Test

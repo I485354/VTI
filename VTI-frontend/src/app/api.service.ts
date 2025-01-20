@@ -13,6 +13,7 @@ import { UserLogin } from './model/userLogin.model';
 import { AuthResponse } from './model/authResponse.model';
 import { environment } from 'src/environments/environment';
 import { UserInfo } from './model/userInfo';
+import { UserRegister } from './model/UserRegister';
 
 @Injectable({
   providedIn: 'root'
@@ -79,7 +80,7 @@ export class ApiService {
   login(userLogin: UserLogin): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(`${this.apiUrl}/user/login`, userLogin);
   }
-  register(userDetails: UserLogin): Observable<User> {
+  register(userDetails: UserRegister): Observable<User> {
     return this.http.post<User>(`${this.apiUrl}/user/register`, userDetails);
   }
 }

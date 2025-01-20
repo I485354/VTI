@@ -1,1 +1,48 @@
-<p>customer-page works!</p>
+<div class="container">
+  <header class="header">
+    <h1>Welkom, {{ customer?.name }}</h1>
+    <button class="logout-button" (click)="logout()">Uitloggen</button>
+  </header>
+  <div *ngIf="notLinkedToCustomer" class="not-linked">
+    <p>Uw account is nog niet gekoppeld aan een klant. Neem contact op met de beheerder voor ondersteuning.</p>
+  </div>
+  <div *ngIf="!notLinkedToCustomer">
+    <section class="customer-info" *ngIf="customer">
+      <h2>Klantinformatie</h2>
+      <p><strong>Naam:</strong> {{ customer.name }}</p>
+      <p><strong>Email:</strong> {{ customer.email }}</p>
+      <p><strong>Telefoon:</strong> {{ customer.phone }}</p>
+      <p><strong>Adres:</strong> {{ customer.address }}</p>
+    </section>
+
+    <section class="invoices" *ngIf="invoices.length > 0">
+      <h2>Uw Facturen</h2>
+      <table class="invoice-table">
+        <thead>
+        <tr>
+          <th>Factuurnummer</th>
+          <th>Datum</th>
+          <th>Bedrag</th>
+          <th>Status</th>
+          <th>Actie</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let invoice of invoices">
+          <td>{{ invoice.invoice_number }}</td>
+          <td>{{ invoice.invoice_date | date: 'dd-MM-yyyy' }}</td>
+          <td>€ {{ invoice.total_amount | number: '1.2-2' }}</td>
+          <td>{{ invoice.status }}</td>
+          <td>
+            <button class="action-button view" (click)="viewInvoice(invoice)">Bekijk</button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+  </div>
+
+  <footer class="footer">
+    &copy; 2025 Klantenportaal. Alle rechten voorbehouden.
+  </footer>
+</div>

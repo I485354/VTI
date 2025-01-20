@@ -47,8 +47,8 @@ export class LoginComponent {
           this.router.navigate(['/dashboard']);
         } else if (role === 'CUSTOMER') {
           const customerId = response.user.customer_id;
-          //window.location.href = `http://localhost:62403?customerId=${customerId}`;
-         window.location.href = `https://vti-customer.vercel.app?customerId=${customerId}`; // Klanten
+          window.location.href = `http://localhost:64404?customerId=${customerId}`;
+         //window.location.href = `https://vti-customer.vercel.app?customerId=${customerId}`; // Klanten
         } else {
           this.showNotification('Onbekende rol: ' + role, 'error');
         }
@@ -64,10 +64,9 @@ export class LoginComponent {
   }
 
   private getTokenExpiry(token: string): number {
-    // JWT is "header.payload.signature"
+
     const payload = token.split('.')[1];
     const decoded = JSON.parse(atob(payload));
-    // exp is in seconden sinds 1970, dus naar milliseconden omrekenen
     return decoded.exp * 1000;
   }
   private startTokenExpiryTimer(expiryTime: number) {

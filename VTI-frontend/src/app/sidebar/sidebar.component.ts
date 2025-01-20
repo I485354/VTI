@@ -1,9 +1,9 @@
-import {Component, EventEmitter, Output} from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faTachometerAlt, faFileInvoice, faFileAlt, faUsers, faMoneyCheckAlt, faCog, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
-import {FormsModule} from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-sidebar',

@@ -19,7 +19,7 @@ public class InvoiceController {
         this.invoiceService = invoiceService;
     }
 
-    @GetMapping
+    @GetMapping("admin/invoice")
     public List<InvoiceDTO> getAllInvoices() {
         return invoiceService.getAllInvoices();
     }

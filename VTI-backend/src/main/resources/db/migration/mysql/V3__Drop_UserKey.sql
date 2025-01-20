@@ -1,0 +1,1 @@
+ALTER TABLE `user` DROP FOREIGN KEY `FK_UserCustomer`;

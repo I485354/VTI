@@ -15,4 +15,5 @@ public interface UserRepo extends JpaRepository<User, Integer> {
     @Query("SELECT u.user_id, u.username, u.role, u.customer_id FROM User u")
     List<Object[]> getUsernamesAndRoles();
 
+
 }

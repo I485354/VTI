@@ -232,17 +232,22 @@ public class UserServiceTest {
 
     @Test
     void updateUser_Success() {
-        UserInfo inputUser = new UserInfo(2, "new_username", "USER");
-        UserDTO updatedDTO = new UserDTO(2L, "new_username", null, "USER");
+
+        UserInfo inputUser = new UserInfo(2, "new_username", "USER", 1);
+        UserDTO updatedDTO = new UserDTO(2L, "new_username", "USER", 1);
 
 
         when(userDAL.UpdateUser(2, inputUser)).thenReturn(updatedDTO);
 
+
         UserInfo result = userService.updateUser(2, inputUser);
+
 
         assertThat(result.getUser_id()).isEqualTo(2);
         assertThat(result.getUsername()).isEqualTo("new_username");
         assertThat(result.getRole()).isEqualTo("USER");
+        assertThat(result.getCustomer_id()).isEqualTo(1);
+
 
         verify(userDAL).UpdateUser(2, inputUser);
     }

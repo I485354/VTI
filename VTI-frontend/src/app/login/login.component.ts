@@ -17,10 +17,19 @@ import { AuthResponse } from '../model/authResponse.model';
 export class LoginComponent {
   username = '';
   password = '';
+  notificationMessage: string | null = null;
+  notificationType: 'success' | 'error' | null = null;
 
   constructor(private apiService: ApiService, private router: Router) {}
 
   login() {
+    if (!this.username.trim()) {
+      this.showNotification('Gebruikersnaam is verplicht.', 'error');
+      return;
+    } else if(!this.password.trim()) {
+      this.showNotification('wachtwoord is verplicht.', 'error');
+      return;
+    }
     const userLogin: UserLogin = {
       username: this.username,
       password: this.password,
@@ -35,24 +44,25 @@ export class LoginComponent {
 
         const role = response.user.role;
         if (role === 'ADMIN') {
-          this.router.navigate(['/dashboard']); // Admin gebruikers
+          this.router.navigate(['/dashboard']);
         } else if (role === 'CUSTOMER') {
           const customerId = response.user.customer_id;
           //window.location.href = `http://localhost:62403?customerId=${customerId}`;
          window.location.href = `https://vti-customer.vercel.app?customerId=${customerId}`; // Klanten
         } else {
-          alert('Onbekende rol: ' + role);
+          this.showNotification('Onbekende rol: ' + role, 'error');
         }
       },
       (error) => {
         if (error.status === 401) {
-          alert('Ongeldige inloggegevens voor ' + this.username);
+          this.showNotification(`Ongeldige inloggegevens voor ${this.username}`, 'error');
         } else {
-          alert('Er is iets misgegaan. Probeer het later opnieuw.');
+          this.showNotification('Er is iets misgegaan. Probeer het later opnieuw.', 'error');
         }
       }
     );
   }
+
   private getTokenExpiry(token: string): number {
     // JWT is "header.payload.signature"
     const payload = token.split('.')[1];
@@ -67,10 +77,18 @@ export class LoginComponent {
       setTimeout(() => {
         // Token is nu verlopen
         localStorage.removeItem('token');
-        alert('Je sessie is verlopen, log opnieuw in.');
+        this.showNotification('Je sessie is verlopen, log opnieuw in.', 'error');
         this.router.navigate(['/login']);
       }, msUntilExpiry);
     }
+  }
+  private showNotification(message: string, type: 'success' | 'error'): void {
+    this.notificationMessage = message;
+    this.notificationType = type;
+    setTimeout(() => {
+      this.notificationMessage = null;
+      this.notificationType = null;
+    }, 5000);
   }
 }
 

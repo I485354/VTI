@@ -79,8 +79,9 @@ public class UserDAL implements IUserDAL {
             User userToUpdate = optionalUser.get();
             userToUpdate.setUsername(user.getUsername());
             userToUpdate.setRole(user.getRole());
+            userToUpdate.setCustomer_id(user.getCustomer_id());
             User updatedUser = userRepo.save(userToUpdate);
-            return new UserDTO(updatedUser.getUser_id(), updatedUser.getUsername(), updatedUser.getRole());
+            return new UserDTO(updatedUser.getUser_id(), updatedUser.getUsername(), updatedUser.getRole(), updatedUser.getCustomer_id());
         } else {
             throw new EntityNotFoundException("Gebruiker met ID " + user_id + " niet gevonden");
         }

@@ -17,8 +17,19 @@
         <option value="CUSTOMER">Customer</option>
       </select>
     </div>
+    <div *ngIf="user.role === 'CUSTOMER'">
+      <label for="customer">Koppel Klant</label>
+      <select id="customer" [(ngModel)]="user.customer_id" name="customer_id">
+        <option *ngFor="let customer of customers" [value]="customer.customer_id">
+          {{ customer.name }} ({{ customer.customer_id }})
+        </option>
+      </select>
+    </div>
     <div class="form-actions">
       <button type="submit" class="save-button">Opslaan</button>
       <button type="button" (click)="onCancel()" class="cancel-button">Annuleren</button>
     </div>
   </form>
+</div>
+
+

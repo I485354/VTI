@@ -59,10 +59,7 @@ public class UserService {
             if (customers.isEmpty()) {
                 throw new IllegalArgumentException("Geen klanten gevonden. Kan geen klant-ID instellen.");
             }
-            userDTO.setCustomer_id(customers.get(0).getCustomer_id());
         }
-        System.out.println("Ingevoegde Customer ID: " + userDTO.getCustomer_id());
-
         return userDTO;
     }
 
@@ -90,7 +87,7 @@ public class UserService {
     public UserInfo updateUser(int user_id, UserInfo user) {
         UserDTO updatedUser = userDAL.UpdateUser(user_id, user);
 
-        return new UserInfo(updatedUser.getUser_id(), updatedUser.getUsername(), updatedUser.getRole());
+        return new UserInfo(updatedUser.getUser_id(), updatedUser.getUsername(), updatedUser.getRole(), updatedUser.getCustomer_id());
     }
 
 

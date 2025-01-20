@@ -14,7 +14,8 @@ import { ActivatedRoute } from '@angular/router';
 export class AppComponent implements OnInit {
   customer: CustomerInfo | null = null;
   invoices: Invoice[] = [];
-  customerId: number = 1; // Vervang dit met de ingelogde klant-ID
+  customerId: number = 1;
+  notLinkedToCustomer: boolean = false;
 
   constructor(private apiService: ApiService, private route: ActivatedRoute) {}
 
@@ -23,6 +24,7 @@ export class AppComponent implements OnInit {
       this.customerId = +params['customerId']; // Haal de customerId uit de URL
       if (isNaN(this.customerId) || this.customerId <= 0) {
         console.error('Ongeldige customerId:', this.customerId);
+        this.notLinkedToCustomer = true;
         return;
       }
       console.log('Customer ID:', this.customerId);

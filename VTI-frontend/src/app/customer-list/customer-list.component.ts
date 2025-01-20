@@ -21,7 +21,7 @@ export class CustomerListComponent implements OnInit {
   selectedCustomer: Customers = { customer_id: 0, name: '', address: '', phone: '', email: '', company: ''};
 
   users: UserInfo[] = [];
-  selectedUser: UserInfo = { user_id: 0, username: '', role: '' };
+  selectedUser: UserInfo = { user_id: 0, username: '', role: '', customer_id: 0 };
 
   isUserFormVisible = false;
   isFormVisible = false;

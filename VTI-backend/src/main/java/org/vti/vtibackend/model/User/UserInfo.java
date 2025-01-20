@@ -14,6 +14,12 @@ public class UserInfo {
         this.username = username;
         this.role = role;
     }
+    public UserInfo(long user_id, String username, String role, int customer_id) {
+        this.user_id = user_id;
+        this.username = username;
+        this.role = role;
+        this.customer_id = customer_id;
+    }
 
     // Getters
     public long getUser_id() {
@@ -44,6 +50,7 @@ public class UserInfo {
     public int getCustomer_id() {
         return customer_id;
     }
+
     public void setCustomer_id(int customer_id) {
         this.customer_id = customer_id;
     }

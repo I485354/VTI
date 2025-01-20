@@ -74,7 +74,7 @@ export class ApiService {
   }
 
   updateUser(user: UserInfo): Observable<UserInfo> {
-    return this.http.put<UserInfo>(`${this.apiUrl}/admin/users/${user.user_id}`, user);
+    return this.http.put<UserInfo>(`${this.apiUrl}/admin/user/${user.user_id}`, user);
   }
 
   login(userLogin: UserLogin): Observable<AuthResponse> {

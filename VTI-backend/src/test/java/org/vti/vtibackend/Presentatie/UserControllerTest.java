@@ -144,7 +144,7 @@ class UserControllerTest {
     @Test
     void testUpdateUser_Success() {
         // Arrange
-        UpdatedUser updatedUser = new UpdatedUser("new_username", "USER");
+        UpdatedUser updatedUser = new UpdatedUser("new_username", "USER", 1);
         UserInfo updatedUserInfo = new UserInfo(1, "new_username", "USER");
 
         when(userService.updateUser(eq(1), any(UserInfo.class))).thenReturn(updatedUserInfo);
@@ -163,7 +163,7 @@ class UserControllerTest {
     @Test
     void testUpdateUser_NotFound() {
         // Arrange
-        UpdatedUser updatedUser = new UpdatedUser("new_username", "USER");
+        UpdatedUser updatedUser = new UpdatedUser("new_username", "USER", 1);
         when(userService.updateUser(eq(999), any(UserInfo.class)))
                 .thenThrow(new jakarta.persistence.EntityNotFoundException("User not found"));
 

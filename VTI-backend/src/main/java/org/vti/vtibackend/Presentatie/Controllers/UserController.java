@@ -25,7 +25,7 @@ public class UserController {
         this.jwtTokenProvider = jwtTokenProvider;
     }
 
-    @GetMapping
+    @GetMapping("/admin/user")
     public List<UserInfo> getAllUsers() {
         return userService.getAllUsers();
     }
@@ -59,12 +59,12 @@ public class UserController {
         return ResponseEntity.ok(userInfo);
     }
 
-    @PutMapping("/{userId}")
+    @PutMapping("admin/user/{userId}")
     public ResponseEntity<UserInfo> updateUser(
             @PathVariable int userId,
             @RequestBody UpdatedUser user) {
         try {
-            UserInfo userInfo = new UserInfo(userId, user.getUsername(), user.getRole());
+            UserInfo userInfo = new UserInfo(userId, user.getUsername(), user.getRole(), user.getCustomer_id());
             UserInfo updatedUser = userService.updateUser(userId, userInfo);
             return ResponseEntity.ok(updatedUser);
         } catch (EntityNotFoundException e) {

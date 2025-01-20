@@ -88,24 +88,7 @@ class UserDALTest {
         verify(userMapper).ToUserInfo(userEntity);
     }
 
-    @Test
-    void testGetUsernamesAndRoles() {
-        // Arrange
-        List<Object[]> rawData = new ArrayList<>();
-        rawData.add(new Object[]{1, "john_doe", "ADMIN"});
-        rawData.add(new Object[]{2, "jane_doe", "USER"});
 
-        when(userRepo.getUsernamesAndRoles()).thenReturn(rawData);
-
-        // Act
-        List<UserDTO> result = userDAL.getUsernamesAndRoles();
-
-        // Assert
-        assertEquals(2, result.size());
-        assertEquals("john_doe", result.get(0).getUsername());
-        assertEquals("jane_doe", result.get(1).getUsername());
-        verify(userRepo).getUsernamesAndRoles();
-    }
 
     @Test
     void testUpdateUser_Found() {

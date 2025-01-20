@@ -57,8 +57,8 @@ public class CustomerController {
         List<CustomerInfoDTO> customerInfo = customerService.getCustomerInfo();
         return ResponseEntity.ok(customerInfo);
     }
-    @GetMapping("customer/info")
-    public ResponseEntity<CustomerInfoDTO> getCustomerInfoById(@RequestParam int id) {
+    @GetMapping("customer/info/{id}")
+    public ResponseEntity<CustomerInfoDTO> getCustomerInfoById(@PathVariable int id) {
         return ResponseEntity.ok(customerService.getCustomerInfoById(id));
     }
 }

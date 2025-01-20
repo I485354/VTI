@@ -10,13 +10,13 @@ import { Invoice } from "./model/Invoice.model"
 })
 export class ApiService {
 
-  //private apiUrl = environment.apiUrl;
-  private apiUrl = 'http://localhost:8080/api';
+  private apiUrl = environment.apiUrl;
 
 
   constructor(private http: HttpClient) {
   }
   getCustomer(id: number): Observable<CustomerInfo> {
+    console.log('API Call:', `${this.apiUrl}/customer/info/${id}`);
     return this.http.get<CustomerInfo>(`${this.apiUrl}/customer/info/${id}`);
   }
 

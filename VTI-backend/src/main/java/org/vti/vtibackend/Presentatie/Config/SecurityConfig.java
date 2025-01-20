@@ -65,6 +65,7 @@ public class SecurityConfig {
         // Stel toegestane origins in (eventueel patterns)
         configuration.setAllowedOriginPatterns(List.of(
                 "http://localhost:4200",
+                "http://localhost:*",
                 "https://vti-customer.vercel.app",
                 "https://vti-frontend.vercel.app",
                 "https://vti-production.up.railway.app"
@@ -91,6 +92,8 @@ public class SecurityConfig {
                 registry.addMapping("/api/**")
                         .allowedOriginPatterns("http://localhost:4200",
                                 "https://vti-frontend.vercel.app",
+                                "https://vti-customer.vercel.app",
+                                "http://localhost:*",
                                 "https://vti-frontend-*-i485354s-projects.vercel.app",
                                 "https://vti-production.up.railway.app")
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")

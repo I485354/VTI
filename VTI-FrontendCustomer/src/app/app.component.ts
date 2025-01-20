@@ -21,10 +21,15 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
       this.customerId = +params['customerId']; // Haal de customerId uit de URL
+      if (isNaN(this.customerId) || this.customerId <= 0) {
+        console.error('Ongeldige customerId:', this.customerId);
+        return;
+      }
       console.log('Customer ID:', this.customerId);
+
+      this.fetchCustomerInfo();
+      this.fetchInvoices();
     });
-    this.fetchCustomerInfo();
-    this.fetchInvoices();
   }
 
   fetchCustomerInfo(): void {
@@ -59,6 +64,6 @@ export class AppComponent implements OnInit {
 
   logout(): void {
     localStorage.removeItem('token');
-    window.location.href = 'https//vti-frontend.vercel.appy/login'; // Stuur gebruiker terug naar de loginpagina
+    window.location.href = 'https://vti-frontend.vercel.app/login'; // Stuur gebruiker terug naar de loginpagina
   }
 }

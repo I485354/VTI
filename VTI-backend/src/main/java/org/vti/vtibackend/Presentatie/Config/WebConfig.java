@@ -11,6 +11,8 @@ public class WebConfig implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/api/**")
                 .allowedOriginPatterns("http://localhost:4200",
+                        "http://localhost:*",
+                        "https://vti-customer.vercel.app",
                         "https://vti-frontend.vercel.app",
                         "https://vti-frontend-*-i485354s-projects.vercel.app",
                         "https://vti-production.up.railway.app")

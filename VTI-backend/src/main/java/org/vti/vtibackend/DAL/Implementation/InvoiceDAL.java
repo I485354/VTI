@@ -105,4 +105,28 @@ public class InvoiceDAL implements IInvoiceDAL {
             return dto;
         }).collect(Collectors.toList());
     }
+
+    public List<InvoiceDTO> findInvoiceByCustomerId(int id){
+        List<Object[]> result = invoiceRepo.findInvoicesByCustomerId(id);
+
+
+        return result.stream().map(results -> {
+            InvoiceDTO dto = new InvoiceDTO();
+            dto.setInvoice_id(((Number) results[0]).intValue());
+            dto.setCustomer_id(((Number) results[1]).intValue());
+            if(results[2] == null){
+                dto.setCar_id(null);
+            } else {
+                dto.setCar_id(((Number) results[2]).intValue());
+            }
+            dto.setInvoice_date((Date) results[3]);
+            dto.setDue_date((Date) results[4]);
+            dto.setTotal_amount(((Number) results[5]).doubleValue());
+            dto.setTotal_btw(((Number) results[6]).doubleValue());
+            dto.setStatus((String) results[7]);
+            dto.setInvoice_number(((Number) results[8]).intValue());
+            dto.setDeleted((String) results[9]);
+            return dto;
+        }).collect(Collectors.toList());
+    }
 }

@@ -9,7 +9,7 @@ import org.vti.vtibackend.model.Invoice.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/admin/invoice")
+@RequestMapping("/api/")
 public class InvoiceController {
 
     private final InvoiceService invoiceService;
@@ -24,33 +24,39 @@ public class InvoiceController {
         return invoiceService.getAllInvoices();
     }
 
-    @PostMapping("/create_invoice")
+    @PostMapping("admin/invoice/create_invoice")
     public InvoiceDTO createInvoice(@RequestBody CreateInvoiceDTO invoices) {
         return invoiceService.createInvoice(invoices);
     }
 
-    @PutMapping("/{id}/status")
+    @PutMapping("admin/invoice/{id}/status")
     public ResponseEntity<InvoiceDTO> updateInvoiceStatus(@PathVariable Long id, @RequestBody UpdateInvoiceStatusDTO updateInvoiceStatusDTO) {
         InvoiceDTO updatedInvoice = invoiceService.updateStatus(id, updateInvoiceStatusDTO);
         return ResponseEntity.ok(updatedInvoice);
     }
 
-    @GetMapping("/open-invoices")
+    @GetMapping("admin/invoice/open-invoices")
     public ResponseEntity<Integer> getOpenInvoices() {
         int count = invoiceService.getOpenInvoicesCount();
         return ResponseEntity.ok(count);
     }
 
-    @GetMapping("/revenue")
+    @GetMapping("admin/invoice/revenue")
     public ResponseEntity<List<InvoiceYearSummaryDTO>> getInvoicesByYear(@RequestParam int year) {
         List<InvoiceYearSummaryDTO> invoices = invoiceService.getInvoicesByYear(year);
         return ResponseEntity.ok(invoices);
     }
 
-    @GetMapping("/invoices-with-customers")
+    @GetMapping("admin/invoice/invoices-with-customers")
     public ResponseEntity<List<InvoiceAndCustomerDTO>> getInvoicesWithCustomers() {
         List<InvoiceAndCustomerDTO> invoiceAndCustomers = invoiceService.findInvoicesWithCustomer();
         return ResponseEntity.ok(invoiceAndCustomers);
+    }
+
+    @GetMapping("customer/invoice/{customer_id}")
+    public ResponseEntity<List<InvoiceDTO>> getInvoicesByCustomer(@PathVariable int customer_id) {
+        List<InvoiceDTO> invoices = invoiceService.findInvoicesByCustomer(customer_id);
+        return ResponseEntity.ok(invoices);
     }
 
 }

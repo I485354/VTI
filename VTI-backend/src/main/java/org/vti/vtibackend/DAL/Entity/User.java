@@ -13,6 +13,7 @@ public class User {
     private String username;
     private String password;
     private String role;
+    private int customer_id;
 
     public User() {
     }
@@ -55,4 +56,12 @@ public class User {
     public void setRole(final String role) {
         this.role = role;
     }
+
+    public int getCustomer_id() {
+        return this.customer_id;
+    }
+    public void setCustomer_id(final int customer_id) {
+        this.customer_id = customer_id;
+    }
+
 }

@@ -4,6 +4,7 @@ public class UserInfo {
     private long user_id;
     private String username;
     private String role;
+    private int customer_id;
 
     public UserInfo() {
     }
@@ -39,4 +40,12 @@ public class UserInfo {
     public void setRole(String role) {
         this.role = role;
     }
+
+    public int getCustomer_id() {
+        return customer_id;
+    }
+    public void setCustomer_id(int customer_id) {
+        this.customer_id = customer_id;
+    }
+
 }

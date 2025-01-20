@@ -3,8 +3,9 @@ package org.vti.vtibackend.model.User;
 public class CreateUserDTO {
     private String username;
     private String password;
+    private int customer_id;
 
-    public CreateUserDTO(String username, String password) {
+    public CreateUserDTO(String username, String password, int customer_id) {
         this.username = username;
         this.password = password;
     }

@@ -37,7 +37,9 @@ export class LoginComponent {
         if (role === 'ADMIN') {
           this.router.navigate(['/dashboard']); // Admin gebruikers
         } else if (role === 'CUSTOMER') {
-          window.location.href = 'https://vti-customer.vercel.app'; // Klanten
+          const customerId = response.user.customer_id;
+          //window.location.href = `http://localhost:62403?customerId=${customerId}`;
+         window.location.href = `https://vti-customer.vercel.app?customerId=${customerId}`; // Klanten
         } else {
           alert('Onbekende rol: ' + role);
         }

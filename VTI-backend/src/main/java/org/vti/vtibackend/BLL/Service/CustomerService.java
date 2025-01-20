@@ -79,4 +79,8 @@ public class CustomerService {
     public List<CustomerInfoDTO> getCustomerInfo() {
         return customerDAL.findCustomerInfo();
     }
+
+    public CustomerInfoDTO getCustomerInfoById(int id) {
+        return customerDAL.findCustomerInfoById(id);
+    }
 }

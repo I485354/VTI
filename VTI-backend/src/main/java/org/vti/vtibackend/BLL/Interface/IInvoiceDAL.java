@@ -18,4 +18,5 @@ public interface IInvoiceDAL {
     int countOpenInvoices();
     List<InvoiceYearSummaryDTO> findInvoicesByYear(int year);
     List<InvoiceAndCustomerDTO> findInvoices();
+    List<InvoiceDTO> findInvoiceByCustomerId(int id);
 }

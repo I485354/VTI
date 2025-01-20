@@ -15,5 +15,6 @@ public interface ICustomerDAL {
     void deleteById(int id);
     int findHighestCustomerNumber();
     List<CustomerInfoDTO> findCustomerInfo();
+    CustomerInfoDTO findCustomerInfoById(int id);
 
 }

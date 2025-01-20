@@ -13,7 +13,7 @@ import org.vti.vtibackend.model.Customer.UpdatedCustomerDTO;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/admin/customer")
+@RequestMapping("/api/")
 public class CustomerController {
 
     private final CustomerService customerService;
@@ -23,38 +23,42 @@ public class CustomerController {
         this.customerService = customerService;
     }
 
-    @GetMapping
+    @GetMapping("admin/customer")
     public ResponseEntity<List<CustomerDTO>> getAllCustomers() {
         List<CustomerDTO> newCustomer = customerService.getAllCustomers();
         return new ResponseEntity<>(newCustomer, HttpStatus.OK);
     }
 
-    @GetMapping("/customerById/{id}")
+    @GetMapping("admin/customer/customerById/{id}")
     public ResponseEntity<CustomerDTO> getCustomerById(@PathVariable int id) {
         CustomerDTO newCustomer = customerService.getCustomerById(id);
         return new ResponseEntity<>(newCustomer, HttpStatus.OK);
     }
 
-    @PostMapping
+    @PostMapping("admin/customer")
     public ResponseEntity<CustomerDTO> createCustomer(@RequestBody CreateCustomerDTO customers) {
         CustomerDTO createdCustomer = customerService.createCustomer(customers);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdCustomer);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("admin/customer/{id}")
     public ResponseEntity<CustomerDTO> updateCustomer(@PathVariable int id, @RequestBody UpdatedCustomerDTO updatedCustomers) {
         CustomerDTO customerDTO = customerService.updateCustomer(id, updatedCustomers);
         return ResponseEntity.status(HttpStatus.CREATED).body(customerDTO);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("admin/customer/{id}")
     public void deleteCustomer(@PathVariable int id) {
         customerService.deleteCustomer(id);
     }
 
-    @GetMapping("/info")
+    @GetMapping("admin/customer/info")
     public ResponseEntity<List<CustomerInfoDTO>> getCustomerInfo() {
         List<CustomerInfoDTO> customerInfo = customerService.getCustomerInfo();
         return ResponseEntity.ok(customerInfo);
+    }
+    @GetMapping("customer/info")
+    public ResponseEntity<CustomerInfoDTO> getCustomerInfoById(@RequestParam int id) {
+        return ResponseEntity.ok(customerService.getCustomerInfoById(id));
     }
 }

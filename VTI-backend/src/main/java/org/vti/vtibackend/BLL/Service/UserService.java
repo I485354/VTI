@@ -47,7 +47,7 @@ public class UserService {
         UserDTO userDTO = new UserDTO();
         userDTO.setUsername(users.getUsername());
         userDTO.setPassword(passwordEncoder.encode(users.getPassword()));
-        userDTO.setRole("ADMIN");
+        userDTO.setRole("CUSTOMER");
         return userDTO;
     }
 
@@ -60,7 +60,7 @@ public class UserService {
         if (!passwordEncoder.matches(password, userDTO.getPassword())) {
             throw new BadCredentialsException("Ongeldige inloggegevens");
         }
-        return new UserDTO(userDTO.getUser_id(), userDTO.getUsername(), userDTO.getRole());
+        return new UserDTO(userDTO.getUser_id(), userDTO.getUsername(), userDTO.getRole(), userDTO.getCustomer_id());
     }
 
     public List<UserInfo> getUserInfo() {

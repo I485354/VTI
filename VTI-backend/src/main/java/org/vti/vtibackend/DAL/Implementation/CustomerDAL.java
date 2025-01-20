@@ -1,5 +1,6 @@
 package org.vti.vtibackend.DAL.Implementation;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.vti.vtibackend.BLL.Interface.ICustomerDAL;
@@ -91,4 +92,21 @@ public class CustomerDAL implements ICustomerDAL {
                 .collect(Collectors.toList());
     }
 
+    public CustomerInfoDTO findCustomerInfoById(int id) {
+        Optional<Customer> customer = customerRepo.findById(id);
+
+        if (customer.isEmpty()) {
+            throw new EntityNotFoundException("Customer not found for ID: " + id);
+        }
+
+        Customer c = customer.get();
+        return new CustomerInfoDTO(
+                c.getName(),
+                c.getCompany(),
+                c.getAddress(),
+                c.getEmail(),
+                c.getPhone(),
+                c.getCustomer_number()
+        );
+    }
 }

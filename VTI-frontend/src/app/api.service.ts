@@ -5,7 +5,7 @@ import { Customers } from './model/customer.model';
 import { Invoice } from './model/invoices.model';
 import { Products } from './model/products.model';
 import { Car } from './model/car.model';
-import {Revenue} from './model/Revenue.model';
+import { Revenue } from './model/Revenue.model';
 import { UpdateInvoiceStatus } from './model/UpdateInvoiceStatus.model';
 import { createCar } from './model/createCar.model';
 import { User } from './model/user.model';

@@ -66,7 +66,8 @@ public class UserDAL implements IUserDAL {
                 .map(row -> new UserDTO(
                         ((Number) row[0]).longValue(), // user_id
                         (String) row[1],              // username
-                        (String) row[2]               // role
+                        (String) row[2],
+                        ((Number) row[3]).intValue()
                 ))
                 .collect(Collectors.toList());
     }

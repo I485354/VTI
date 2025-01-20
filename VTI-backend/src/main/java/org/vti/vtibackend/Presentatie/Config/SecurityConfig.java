@@ -44,7 +44,8 @@ public class SecurityConfig {
                                 "/swagger-ui/**",
                                 "/swagger-ui.html",
                                 "/api/user/login",
-                                "/api/user/register"
+                                "/api/user/register",
+                                "/api/customer/**"
                         ).permitAll()
                         .requestMatchers("/admin/**").hasRole("admin")
                         .anyRequest().authenticated()
@@ -64,6 +65,7 @@ public class SecurityConfig {
         // Stel toegestane origins in (eventueel patterns)
         configuration.setAllowedOriginPatterns(List.of(
                 "http://localhost:4200",
+                "https://vti-customer.vercel.app",
                 "https://vti-frontend.vercel.app",
                 "https://vti-production.up.railway.app"
         ));

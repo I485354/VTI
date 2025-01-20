@@ -23,4 +23,7 @@ public interface InvoiceRepo extends JpaRepository<Invoice, Long> {
     @Query("SELECT i.customer_id, i.invoice_date, i.due_date, i.total_amount, i.total_btw, i.status, i.invoice_number, i.deleted, c.name, c.company, c.address, c.email,c.phone,c.customer_number FROM Invoice i inner join Customer c on i.customer_id = c.customer_id")
     List<Object[]> findInvoices();
 
+    @Query("SELECT i.invoice_id, i.customer_id, i.car_id, i.invoice_date, i.due_date, i.total_amount, i.total_btw, i.status, i.invoice_number, i.deleted FROM Invoice i WHERE i.customer_id = :customerId")
+    List<Object[]> findInvoicesByCustomerId(@Param("customerId") int customerId);
+
 }

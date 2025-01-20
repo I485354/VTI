@@ -96,4 +96,7 @@ public class InvoiceService {
     public List<InvoiceAndCustomerDTO> findInvoicesWithCustomer() {
         return invoiceDAL.findInvoices();
     }
+    public List<InvoiceDTO> findInvoicesByCustomer(int id) {
+        return invoiceDAL.findInvoiceByCustomerId(id);
+    }
 }
